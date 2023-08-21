@@ -69,5 +69,12 @@ group :test do
   # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
   gem "capybara"
   gem "selenium-webdriver"
-
 end
+
+gem "devise", "~> 4.9"
+# gem "mail"
+# gem "net-imap"
+gem "google-api-client", "~> 0.9", require: "google/apis/gmail_v1"
+# Config & ENV vars
+gem "figaro"
+gem "bootstrap", "~> 5.3.1"

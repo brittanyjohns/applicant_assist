@@ -1,0 +1,7 @@
+<h1>Main#index</h1>
+<%= link_to "Authenticate", main_redirect_path, class: 'btn btn-success' %>
+<ul>
+  <% @messages.each do |message| %>
+    <li><%= message.subject %></li>
+  <% end %>
+</ul>
