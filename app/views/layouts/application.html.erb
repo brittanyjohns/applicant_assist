@@ -9,6 +9,10 @@
     <%= javascript_importmap_tags %>
   </head>
   <body>
+    <%= link_to 'home', root_url %>
+    <%= link_to 'redirect', main_redirect_url %>
+    <%= link_to 'callback', callback_url %>
+    <%= render 'forms/search_gmail' %>
     <%= yield %>
   </body>
 </html>

@@ -19,7 +19,6 @@ class MainController < ApplicationController
   end
 
   def callback
-    puts "callback: #{ENV.fetch("GOOGLE_API_CLIENT_ID")}"
     client = Signet::OAuth2::Client.new({
       client_id: ENV.fetch("GOOGLE_API_CLIENT_ID"),
       client_secret: ENV.fetch("GOOGLE_API_CLIENT_SECRET"),
@@ -31,20 +30,11 @@ class MainController < ApplicationController
     response = client.fetch_access_token!
 
     session[:access_token] = response["access_token"]
+    puts "session[:access_token]: #{session[:access_token]}"
 
-    redirect_to url_for(:action => :labels)
-  end
-
-  def labels
-    search_term = "ConvertKit"
-    # messages = Message.list_emails(@gmail)
-    results = Message.search_and_save(@gmail, search_term)
-
-    @labels_list = results
-    # messages.each do |message|
-    #   Message.save_email_message(@gmail, message.id)
-    # end
-
-    puts "Found #{results.size} messages matching #{search_term}"
+    respond_to do |format|
+      format.html { redirect_to root_url, notice: "Success! => #{session[:access_token]}" }
+      format.json { head :no_content }
+    end
   end
 end

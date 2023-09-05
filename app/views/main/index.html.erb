@@ -2,6 +2,6 @@
 <%= link_to "Authenticate", main_redirect_path, class: 'btn btn-success' %>
 <ul>
   <% @messages.each do |message| %>
-    <li><%= message.subject %></li>
+    <li><%= link_to message.subject, message %></li>
   <% end %>
 </ul>
