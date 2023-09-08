@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :checkouts, only: [:new, :create, :show]
   devise_for :users
   root "main#index"
   get "gmail_redirect" => "gmail#redirect", as: "gmail_redirect"

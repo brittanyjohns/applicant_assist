@@ -13,12 +13,16 @@
               +
             </a>
             <ul class="dropdown-menu">
+              <%= link_to "Checkout", new_checkout_path, class: "dropdown-item" %>
               <%= link_to "New Message", new_message_path, class: "dropdown-item" %>
             </ul>
           </li>
         <% end %>
       </ul>
       <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <%= link_to "Checkout", new_checkout_path, class: "nav-link" %>
+        </li>
         <%= render 'devise/menu/registration_items' %>
         <%= render 'devise/menu/login_items' %>
       </ul>
