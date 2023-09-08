@@ -1,7 +1,8 @@
 Rails.application.routes.draw do
+  devise_for :users
   root "main#index"
-  get "main/redirect"
-  get "callback" => "main#callback", as: "callback"
+  get "gmail_redirect" => "gmail#redirect", as: "gmail_redirect"
+  get "callback" => "gmail#callback", as: "callback"
   get "search_gmail" => "gmail#search", as: "search_gmail"
   resources :messages
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html

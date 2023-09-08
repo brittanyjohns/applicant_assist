@@ -1,7 +1,6 @@
 <p style="color: green"><%= notice %></p>
-
 <h1>Messages</h1>
-
+USER: <%= current_user.inspect %>
 <div id="messages">
   <% @messages.each do |message| %>
     <%= render message %>
@@ -10,5 +9,4 @@
     </p>
   <% end %>
 </div>
-
 <%= link_to "New message", new_message_path %>
