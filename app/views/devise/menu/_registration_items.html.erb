@@ -1,0 +1,7 @@
+<% if user_signed_in? %>
+  <%= current_user.name %>
+<% else %>
+  <li class="nav-item">
+    <%= link_to('Register', new_user_registration_path, class: "nav-link" ) %>
+  </li>
+<% end %>

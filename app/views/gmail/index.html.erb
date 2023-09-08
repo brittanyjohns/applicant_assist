@@ -1,0 +1,6 @@
+<h1> Authenticate GMAIL </h1>
+<%= link_to "Authenticate", gmail_redirect_path, class: 'btn btn-success' if user_signed_in? %>
+<hr>
+<%= link_to 'redirect', gmail_redirect_url %>
+<%= link_to 'callback', callback_url %>
+<%= render 'search_gmail' if user_signed_in? %>

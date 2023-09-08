@@ -1,0 +1,7 @@
+<%= form_with url: "/search_gmail", method: :get, remote: true do |form| %>
+  <%= form.label :query, "Company Domain:" %>
+  <%= form.text_field :query %>
+  <%= form.label :unread, "Unread Only?" %>
+  <%= form.check_box :unread %>
+  <%= form.submit "Search" %>
+<% end %>
