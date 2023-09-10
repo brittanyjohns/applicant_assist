@@ -1,9 +1,18 @@
-# This file should ensure the existence of records required to run the application in every environment (production,
-# development, test). The code here should be idempotent so that it can be executed at any point in every environment.
-# The data can then be loaded with the bin/rails db:seed command (or created alongside the database with db:setup).
-#
-# Example:
-#
-#   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
-#     MovieGenre.find_or_create_by!(name: genre_name)
-#   end
+ProductCategory.delete_all
+bikes = ProductCategory.create! name: "bikes"
+ebikes = ProductCategory.create! name: "e-bikes"
+ProductCategory.create! name: "kids bikes & accessories"
+ProductCategory.create! name: "parts"
+ProductCategory.create! name: "bikes accessories"
+ProductCategory.create! name: "clothing & shoes"
+
+Product.delete_all
+Product.create! id: 1, name: "Gazelle Paris C7 HMB", price: 1999, active: true, product_category: bikes
+Product.create! id: 2, name: "Gazelle Espirit HFB", price: 1200, active: true, product_category: ebikes
+Product.create! id: 3, name: "Simplex Amsterdam Heren fiets", price: 900, active: true, product_category: ebikes
+
+OrderStatus.delete_all
+OrderStatus.create! id: 1, name: "In Progress"
+OrderStatus.create! id: 2, name: "Placed"
+OrderStatus.create! id: 3, name: "Shipped"
+OrderStatus.create! id: 4, name: "Cancelled"

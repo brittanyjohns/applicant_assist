@@ -11,6 +11,7 @@ class CheckoutsController < ApplicationController
 
   def new
     @client_token = gateway.client_token.generate
+    @amount = current_order.subtotal
   end
 
   def show
@@ -19,11 +20,12 @@ class CheckoutsController < ApplicationController
   end
 
   def create
-    amount = params["amount"] # In production you should not take amounts directly from clients
+    @amount = current_order.subtotal
+    # amount = params["amount"] # In production you should not take amounts directly from clients
     nonce = params["payment_method_nonce"]
 
     result = gateway.transaction.sale(
-      amount: amount,
+      amount: @amount,
       payment_method_nonce: nonce,
       :options => {
         :submit_for_settlement => true,
@@ -31,6 +33,7 @@ class CheckoutsController < ApplicationController
     )
 
     if result.success? || result.transaction
+      current_order.mark_as_placed!
       redirect_to checkout_path(result.transaction.id)
     else
       error_messages = result.errors.map { |error| "Error: #{error.code}: #{error.message}" }
