@@ -5,16 +5,16 @@
         <h1>Checkout</h1>
       </header>
       <%= form_tag("/checkouts", method: "post", id: "payment-form") do %>
-        <div class='row'>
+        <div class='row clearfix'>
           <div class="order-content col-md-4">
             <%= render 'orders/order', order: @current_order %>
           </div>
           <div class="bt-drop-in-wrapper col">
             <div id="bt-dropin"></div>
+            <input type="hidden" id="nonce" name="payment_method_nonce" />
+            <button class="btn btn-success btn-lg float-end" type="submit"><span>Pay Now</span></button>
           </div>
         </div>
-        <input type="hidden" id="nonce" name="payment_method_nonce" />
-        <button class="btn btn-success" type="submit"><span>Pay Now</span></button>
       <% end %>
     </div>
   </div>

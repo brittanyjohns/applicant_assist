@@ -24,7 +24,7 @@
             <h2>Total: <%= number_to_currency(@current_order.total || @current_order.subtotal) %></h2>
             <h2>Coins: <%= @current_order.total_coin_value.to_i %></h2>
           </div>
-          <%= link_to "Pay Now", new_checkout_path, class: "btn btn-success btn-block", data: { turbolinks: 'false'} %>
+          <%= link_to "Checkout", new_checkout_path, class: "btn btn-success btn-lg", data: { turbolinks: 'false'} %>
         </div>
       </div>
     </div>

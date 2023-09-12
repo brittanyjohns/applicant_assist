@@ -11,10 +11,7 @@ class OrderItemsController < ApplicationController
     else
       @order_item = current_order.order_items.new(order_item_params)
     end
-    puts "order_item: #{@order_item.inspect}"
-    puts "\nORDER ID: #{@order_item.order_id}"
-    puts "SESSION: #{session[:order_id]}"
-    puts "current_order: ===> #{current_order.inspect}"
+
     if @order_item.save
       flash[:notice] = "You've added #{(number_to_add * @order_item.coin_value).to_i} coins to your cart!"
       redirect_to product_url(@order_item.product)
