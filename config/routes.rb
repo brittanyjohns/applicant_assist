@@ -1,4 +1,11 @@
 Rails.application.routes.draw do
+  get "charges/new"
+  get "charges/create"
+  get "carts/show"
+  resources :order_items
+  resources :products
+  resources :checkouts, only: [:new, :create, :show]
+  resources :orders, only: [:index, :show]
   devise_for :users
   root "main#index"
   get "gmail_redirect" => "gmail#redirect", as: "gmail_redirect"

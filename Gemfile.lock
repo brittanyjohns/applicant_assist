@@ -117,6 +117,9 @@ GEM
       autoprefixer-rails (>= 9.1.0)
       popper_js (>= 2.11.8, < 3)
       sassc-rails (>= 2.0.0)
+    braintree (4.13.0)
+      builder (>= 3.2.4)
+      rexml (>= 3.1.9)
     builder (3.2.4)
     capybara (3.39.2)
       addressable
@@ -330,6 +333,7 @@ DEPENDENCIES
   annotate
   bootsnap
   bootstrap (~> 5.3.1)
+  braintree (~> 4.5)
   capybara
   cssbundling-rails
   debug

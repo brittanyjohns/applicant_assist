@@ -1,0 +1,32 @@
+<% if !@order_item.nil? && @order_item.errors.any? %>
+  <div class="alert alert-danger">
+    <ul>
+      <% @order_item.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
+<% if @order_items.size == 0 %>
+  <p class="text-center">
+    There are no items in your shopping cart. Please <%= link_to "go back",
+                                                                 products_path %> and add some items to your cart.
+  </p>
+<% else %>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8 offset-md-2">
+        <div class="card shopping-cart">
+          <% @order_items.each do |order_item| %>
+            <%= render 'carts/cart_row', product: order_item.product, order_item: order_item, show_total: true %>
+          <% end %>
+          <div class="cart-total text-center">
+            <h2>Total: <%= number_to_currency(@current_order.total || @current_order.subtotal) %></h2>
+            <h2>Coins: <%= @current_order.total_coin_value.to_i %></h2>
+          </div>
+          <%= link_to "Pay Now", new_checkout_path, class: "btn btn-success btn-block", data: { turbolinks: 'false'} %>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>
