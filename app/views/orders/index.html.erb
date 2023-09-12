@@ -1,6 +1,7 @@
-<h1>Orders#index</h1>
+<h1>All Orders</h1>
+<hr>
 <ul>
   <% @orders.each do |order| %>
-    <li><%= link_to order.id, order %></li>
+    <li><%= render order %></li>
   <% end %>
 </ul>

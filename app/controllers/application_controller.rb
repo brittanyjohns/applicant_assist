@@ -6,14 +6,16 @@ class ApplicationController < ActionController::Base
 
   def current_order
     if session[:order_id].nil?
-      current_user.orders.new
+      order = current_user.orders.in_progress.last || current_user.orders.create!
     else
       begin
-        current_user.orders.find(session[:order_id])
+        order = current_user.orders.in_progress.find(session[:order_id])
       rescue ActiveRecord::RecordNotFound => e
-        current_user.orders.new
+        order = current_user.orders.create!
       end
     end
+    session[:order_id] = order.id
+    order
   end
 
   private

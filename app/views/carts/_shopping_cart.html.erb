@@ -10,17 +10,21 @@
 <% if @order_items.size == 0 %>
   <p class="text-center">
     There are no items in your shopping cart. Please <%= link_to "go back",
-                                                                 root_path %> and add some items to your cart.
+                                                                 products_path %> and add some items to your cart.
   </p>
 <% else %>
   <div class="container">
     <div class="row">
       <div class="col-md-8 offset-md-2">
-        <div class="card">
+        <div class="card shopping-cart">
           <% @order_items.each do |order_item| %>
             <%= render 'carts/cart_row', product: order_item.product, order_item: order_item, show_total: true %>
           <% end %>
-          <%= link_to "Pay", new_checkout_path, class: "btn btn-info", data: { turbolinks: 'false'} %>
+          <div class="cart-total text-center">
+            <h2>Total: <%= number_to_currency(@current_order.total || @current_order.subtotal) %></h2>
+            <h2>Coins: <%= @current_order.total_coin_value.to_i %></h2>
+          </div>
+          <%= link_to "Pay Now", new_checkout_path, class: "btn btn-success btn-block", data: { turbolinks: 'false'} %>
         </div>
       </div>
     </div>

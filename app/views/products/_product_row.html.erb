@@ -1,9 +1,9 @@
 <div class="container">
   <div class="row">
     <% @products.each do |product| %>
-      <div class="col-md-6 mb-4">
+      <div class="col">
         <%= link_to product, class: "card" do %>
-          <%= image_tag(product.image.variant(resize_to_fill: [192, 192]), class: "card-img-top") if product.image.attached? %>
+          <%= image_tag(product.image.attached? ? product.image.variant(resize_to_fill: [192, 192]) : asset_path("coins.jpg"), class: "product-img-top") %>
           <div class="card-body">
             <p class="card-text"><%= product.name %></p>
           </div>

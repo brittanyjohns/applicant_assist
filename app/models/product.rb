@@ -1,11 +1,30 @@
+# == Schema Information
+#
+# Table name: products
+#
+#  id                  :bigint           not null, primary key
+#  active              :boolean
+#  coin_value          :integer          default(0)
+#  description         :text
+#  name                :string
+#  price               :decimal(, )
+#  created_at          :datetime         not null
+#  updated_at          :datetime         not null
+#  product_category_id :bigint           not null
+#
+# Indexes
+#
+#  index_products_on_product_category_id  (product_category_id)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (product_category_id => product_categories.id)
+#
 class Product < ApplicationRecord
   belongs_to :product_category
   has_many :order_items
   has_one_attached :image
-
-  default_scope { where(active: true) }
-
-  after_commit :add_default_image, on: %i[create update]
+  # after_commit :add_default_image, on: %i[create update]
 
   def image_header_variant
     variation =

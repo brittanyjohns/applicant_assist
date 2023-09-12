@@ -5,7 +5,7 @@ class CreateOrders < ActiveRecord::Migration[7.1]
       t.decimal :tax
       t.decimal :shipping
       t.decimal :total
-      t.integer :order_status_id
+      t.integer :status, default: 0
       t.belongs_to :user, null: false, foreign_key: true
 
       t.timestamps

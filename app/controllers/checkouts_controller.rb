@@ -10,17 +10,20 @@ class CheckoutsController < ApplicationController
   ]
 
   def new
+    @current_order = current_order
     @client_token = gateway.client_token.generate
-    @amount = current_order.subtotal
+    @amount = @current_order.total
   end
 
   def show
     @transaction = gateway.transaction.find(params[:id])
     @result = _create_result_hash(@transaction)
+    @order = current_user.orders.placed.last
   end
 
   def create
-    @amount = current_order.subtotal
+    @current_order = current_order
+    @amount = @current_order.total
     # amount = params["amount"] # In production you should not take amounts directly from clients
     nonce = params["payment_method_nonce"]
 
@@ -33,7 +36,12 @@ class CheckoutsController < ApplicationController
     )
 
     if result.success? || result.transaction
-      current_order.mark_as_placed!
+      @current_order.placed!
+      current_user.coins ||= 0
+      current_user.coins += @current_order.total_coin_value
+      current_user.save!
+      flash[:notice] = "Nice! You just bought #{@current_order.total_coin_value} coins!"
+      session[:order_id] = nil
       redirect_to checkout_path(result.transaction.id)
     else
       error_messages = result.errors.map { |error| "Error: #{error.code}: #{error.message}" }
@@ -49,13 +57,15 @@ class CheckoutsController < ApplicationController
       result_hash = {
         :header => "Sweet Success!",
         :icon => "success",
-        :message => "Your test transaction has been successfully processed. See the Braintree API response and try again.",
+        :message => "Your transaction has been successfully processed.",
       }
     else
+      @order = current_user.orders.placed.last
+      @order.failed!
       result_hash = {
         :header => "Transaction Failed",
         :icon => "fail",
-        :message => "Your test transaction has a status of #{status}. See the Braintree API response and try again.",
+        :message => "Your transaction has failed with a status of #{status}. Please contact support.",
       }
     end
   end
