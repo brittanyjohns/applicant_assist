@@ -1,9 +1,9 @@
 <% if user_signed_in? %>
-  <li class="nav-item">
+  <li class="nav-item <%= dropdown %>">
     <%= button_to "Logout", destroy_user_session_path, method: :delete, class: "nav-link me-auto" %>
   </li>
 <% else %>
-  <li class="nav-item">
+  <li class="nav-item <%= dropdown %>">
     <%= link_to('Login', new_user_session_path, class: "nav-link" ) %>
   </li>
 <% end %>
