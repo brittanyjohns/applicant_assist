@@ -2,10 +2,11 @@
   <div class="response container">
     <div class="content">
       <% if @result %>
-        <div class="icon">
-          <img src=<%= asset_path("#{@result[:icon]}.svg") %> alt="">
-        </div>
-        <h1><%= @result[:header] %></h1>
+        <h1>
+          <div class="icon">
+            <img src=<%= asset_path("#{@result[:icon]}.svg") %> alt="">
+          </div>
+          <%= @result[:header] %></h1>
         <section>
           <p><%= @result[:message] %></p>
         </section>

@@ -22,14 +22,14 @@
                 <span class="badge rounded-pill badge-notification bg-success"> <%= current_user.coins %> COINS</span>
               </li>
               <li class="nav-item dropdown-item"><%= link_to "Orders", orders_path, class: "nav-link" %></li>
-              <%= render 'devise/menu/login_items', dropdown: 'dropdown-item' %>
+              <%= render 'devise/menu/login_items', class_to_add: 'dropdown-item' %>
             </ul>
           </li>
         </ul>
       <% else %>
         <ul class="navbar-nav ms-auto">
-          <%= render 'devise/menu/registration_items' %>
-          <%= render 'devise/menu/login_items' %>
+          <%= render 'devise/menu/registration_items', class_to_add: '' %>
+          <%= render 'devise/menu/login_items', class_to_add: '' %>
         </ul>
       <% end %>
     </div>

@@ -42,6 +42,7 @@ class OrderItemsController < ApplicationController
     @order = current_order
     @order_item = @order.order_items.find(params[:id])
     @order_item.destroy
+    @order.save! # Updating totals - might be better to use a callback here ???
     @order_items = @order.order_items
     redirect_to carts_show_path
   end

@@ -53,9 +53,13 @@ a {
   .welcome-headline {
     // font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-
+    font-size: 3.5rem;
     color: darkslategray;
   }
   .headline {
     padding-bottom: 10px;
+  }
+  .icon {
+    margin-right: 10px;
+    display: inline;
   }
