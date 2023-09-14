@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  resources :posts
+
+  resources :conversations
+  resources :contacts
   get "charges/new"
   get "charges/create"
   get "carts/show"

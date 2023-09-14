@@ -10,9 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2023_09_11_175614) do
+ActiveRecord::Schema[7.1].define(version: 2023_09_13_190626) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "action_mailbox_inbound_emails", force: :cascade do |t|
+    t.integer "status", default: 0, null: false
+    t.string "message_id", null: false
+    t.string "message_checksum", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["message_id", "message_checksum"], name: "index_action_mailbox_inbound_emails_uniqueness", unique: true
+  end
 
   create_table "action_text_rich_texts", force: :cascade do |t|
     t.string "name", null: false
@@ -50,6 +59,23 @@ ActiveRecord::Schema[7.1].define(version: 2023_09_11_175614) do
     t.bigint "blob_id", null: false
     t.string "variation_digest", null: false
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
+  end
+
+  create_table "contacts", force: :cascade do |t|
+    t.string "name"
+    t.string "email"
+    t.string "company_name"
+    t.string "job_title"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "conversations", force: :cascade do |t|
+    t.string "subject"
+    t.bigint "contact_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["contact_id"], name: "index_conversations_on_contact_id"
   end
 
   create_table "messages", force: :cascade do |t|
@@ -91,6 +117,17 @@ ActiveRecord::Schema[7.1].define(version: 2023_09_11_175614) do
     t.index ["user_id"], name: "index_orders_on_user_id"
   end
 
+  create_table "posts", force: :cascade do |t|
+    t.bigint "conversation_id", null: false
+    t.string "author_type", null: false
+    t.bigint "author_id", null: false
+    t.string "message_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["author_type", "author_id"], name: "index_posts_on_author"
+    t.index ["conversation_id"], name: "index_posts_on_conversation_id"
+  end
+
   create_table "product_categories", force: :cascade do |t|
     t.string "name"
     t.string "description"
@@ -126,8 +163,10 @@ ActiveRecord::Schema[7.1].define(version: 2023_09_11_175614) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "conversations", "contacts"
   add_foreign_key "order_items", "orders"
   add_foreign_key "order_items", "products"
   add_foreign_key "orders", "users"
+  add_foreign_key "posts", "conversations"
   add_foreign_key "products", "product_categories"
 end

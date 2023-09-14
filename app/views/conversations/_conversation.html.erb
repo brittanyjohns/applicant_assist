@@ -1,0 +1,11 @@
+<%= tag.div id: dom_id(conversation) do %>
+  <div id="<%= dom_id conversation %>">
+    <h4>
+      <strong>Subject:</strong>
+      <%= link_to conversation.subject, conversation %>
+    </h4>
+    <p>
+      <strong>Contact:</strong>
+      <%= link_to conversation.contact.name, conversation.contact %>
+    </p>
+  <% end %>
