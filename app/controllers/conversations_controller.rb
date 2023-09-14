@@ -8,6 +8,7 @@ class ConversationsController < ApplicationController
 
   # GET /conversations/1 or /conversations/1.json
   def show
+    @posts = @conversation.posts
   end
 
   # GET /conversations/new
@@ -58,13 +59,14 @@ class ConversationsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_conversation
-      @conversation = Conversation.find(params[:id])
-    end
 
-    # Only allow a list of trusted parameters through.
-    def conversation_params
-      params.require(:conversation).permit(:subject, :contact_id)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_conversation
+    @conversation = Conversation.find(params[:id])
+  end
+
+  # Only allow a list of trusted parameters through.
+  def conversation_params
+    params.require(:conversation).permit(:subject, :contact_id)
+  end
 end
