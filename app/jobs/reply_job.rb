@@ -1,8 +1,11 @@
 class ReplyJob < ApplicationJob
+  queue_as :default
   attr_reader :post
-  def perform(post)
+  def perform(*args)
+    puts "args #{args}"
+    @post = args[0]
+    # @post = args[:post]
     return if post.message_id?
-    @post = post
 
     mail = ConversationMailer.with(
       to: "noreply@example.com",
