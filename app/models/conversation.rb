@@ -21,4 +21,8 @@ class Conversation < ApplicationRecord
   has_many :posts
 
   after_create_commit { broadcast_append_to("conversations") }
+
+  def authors
+    posts.includes(:author).map(&:author).uniq
+  end
 end
