@@ -1,0 +1,14 @@
+<h1>New application</h1>
+
+<% unless @jobs.blank? %>
+<%= render "form", application: @application %>
+<% else %>
+  <%= render partial: "jobs/form", locals: { job: Job.new } %>
+
+<% end %>
+
+<br>
+
+<div>
+  <%= link_to "Back to applications", applications_path %>
+</div>

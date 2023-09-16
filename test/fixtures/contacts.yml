@@ -1,0 +1,24 @@
+# == Schema Information
+#
+# Table name: contacts
+#
+#  id           :bigint           not null, primary key
+#  company_name :string
+#  email        :string
+#  job_title    :string
+#  name         :string
+#  created_at   :datetime         not null
+#  updated_at   :datetime         not null
+#
+
+one:
+  name: MyString
+  email: MyString
+  company_name: MyString
+  job_title: MyString
+
+two:
+  name: MyString
+  email: MyString
+  company_name: MyString
+  job_title: MyString

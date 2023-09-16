@@ -1,0 +1,61 @@
+# == Schema Information
+#
+# Table name: applications
+#
+#  id           :bigint           not null, primary key
+#  applied_at   :datetime
+#  archived_at  :datetime
+#  company_link :string
+#  details      :text
+#  favorite     :boolean
+#  job_link     :string
+#  job_source   :string
+#  notes        :text
+#  rating       :integer
+#  stage        :integer
+#  status       :integer
+#  created_at   :datetime         not null
+#  updated_at   :datetime         not null
+#  job_id       :bigint           not null
+#  user_id      :bigint           not null
+#
+# Indexes
+#
+#  index_applications_on_job_id   (job_id)
+#  index_applications_on_user_id  (user_id)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (job_id => jobs.id)
+#  fk_rails_...  (user_id => users.id)
+#
+
+one:
+  user: one
+  job: one
+  status: 1
+  stage: 1
+  applied_at: 2023-09-15 14:27:27
+  archived_at: 2023-09-15 14:27:27
+  job_source: MyString
+  job_link: MyString
+  company_link: MyString
+  favorite: false
+  rating: 1
+  details: MyText
+  notes: MyText
+
+two:
+  user: two
+  job: two
+  status: 1
+  stage: 1
+  applied_at: 2023-09-15 14:27:27
+  archived_at: 2023-09-15 14:27:27
+  job_source: MyString
+  job_link: MyString
+  company_link: MyString
+  favorite: false
+  rating: 1
+  details: MyText
+  notes: MyText

@@ -1,0 +1,14 @@
+<%= render @conversation %>
+<hr>
+<%= turbo_stream_from @conversation %>
+<div id="posts" class="scrolling-chatbox">
+  <%= render @posts %>
+</div>
+<div class="col-md-12">
+  <%= render partial: "posts/form", locals: { conversation: @conversation, post: Post.new } %>
+</div>
+<div>
+  <%= link_to "Edit this conversation", edit_conversation_path(@conversation) %> |
+  <%= link_to "Back to conversations", conversations_path %>
+  <%= button_to "Destroy this conversation", @conversation, method: :delete %>
+</div>
