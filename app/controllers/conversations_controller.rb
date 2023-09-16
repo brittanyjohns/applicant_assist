@@ -14,6 +14,7 @@ class ConversationsController < ApplicationController
   # GET /conversations/new
   def new
     @conversation = Conversation.new
+    @conversation.contact = current_user
   end
 
   # GET /conversations/1/edit
@@ -23,6 +24,7 @@ class ConversationsController < ApplicationController
   # POST /conversations or /conversations.json
   def create
     @conversation = Conversation.new(conversation_params)
+    @conversation.contact = current_user
 
     respond_to do |format|
       if @conversation.save

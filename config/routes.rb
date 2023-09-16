@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  resources :applications
+  resources :jobs
+  resources :companies
   resources :posts
 
   resources :conversations do

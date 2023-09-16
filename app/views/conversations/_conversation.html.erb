@@ -6,6 +6,6 @@
     </h4>
     <p>
       <strong>Contact:</strong>
-      <%= link_to conversation.contact.name, conversation.contact %>
+      <%= link_to conversation.contact&.name, conversation.contact if conversation.contact %>
     </p>
   <% end %>

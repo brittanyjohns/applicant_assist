@@ -22,6 +22,9 @@ class User < ApplicationRecord
   has_many :messages
   has_many :orders
   has_many :posts, as: :author
+  has_many :applications
+  has_many :jobs, through: :applications
+  has_many :companies, through: :jobs
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable, :recoverable, :rememberable, :validatable

@@ -6,7 +6,7 @@
 #  subject    :string
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
-#  contact_id :bigint           not null
+#  contact_id :bigint
 #
 # Indexes
 #

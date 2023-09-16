@@ -1,0 +1,88 @@
+Delivered-To: bhannajohns@gmail.com
+Received: by 2002:a05:6520:260a:b0:273:4f81:a400 with SMTP id bg10csp3589301lkb;
+        Thu, 7 Sep 2023 15:05:02 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGes3Whmc56qpDUYCNzIFyp4IrcEdZ7Uw9TXcb24x68iGItJgrJyZyrNHARl5qe+QvYdAw5
+X-Received: by 2002:a05:6871:b2c:b0:1d4:d005:8cef with SMTP id fq44-20020a0568710b2c00b001d4d0058cefmr986129oab.55.1694124302729;
+        Thu, 07 Sep 2023 15:05:02 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1694124302; cv=none;
+        d=google.com; s=arc-20160816;
+        b=qLJ7E7JgUh5jJ6UXWRCvxWBWJXJfrzfMmBgj7+xnJmevfmY+iheUujIAYkW7CpTnWI
+         eNaP/+wXXtC497puadM19XrWp5TCNYxeR3fKjqFB2Z2arD4oOYmlB/wMp04VWk2r7Sca
+         h3Qk3Nee90t7QuCiq7KW85hJ/gy+XJQNlJ3s7Qhar7SneTAlK6ZSBDrFeau0TfqGMIaT
+         iULznuhogf/Tfd1ApYJmB1PyuQw9q27zatgQbmj97++EOeZ82470GZEWPY2q8+266suI
+         5P+9amd8AfxVr1nx3PAe9Ms3t2x9nvXLX3cJUTfiswwOSCPqjgbrN1cECPwSLmPc8dHp
+         58tw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=message-id:list-unsubscribe:to:from:subject:mime-version:date
+         :sender:dkim-signature:dkim-signature;
+        bh=esfo9xsxH7Bs2PmKShkNfafYgSRGF7L1cYA6HpSO9V0=;
+        fh=0ey4hf9pJICb2vTGRNO4snLgWAoqLQlZJ2c1Gw4dmOw=;
+        b=hsbUmN8DQDlc6LxZxuK8ZMSTzxvf7dW1/lYJU8ArLAb4tHFv81XuARxaY62Ogrl+2u
+         +f4Kn1f/UuOwwS2DC1JbQOHT/6a4n5jgwCvsNwptBpq1rE7PTqm5+skr7VgQKx5lNkfF
+         n3mBrFh3tfGkZCppognOiTdowfBlDW7UEkk2pm9I9dYr/WFx7nMGrTWxcZk4hRgQUnZ1
+         z5iWZkwqoGzL84tM0EVSVL3kFKXSAbj6JV0Npi73xEK84SggKI456T/fX+/rdfx6c4G+
+         r3Ej05+/W60POuUEAzTRIso8YHaqL6u4T9wGaxpjLH2RPSGitD0Cqb/zCMxbQSONbNPt
+         1mOQ==
+ARC-Authentication-Results: i=1; mx.google.com;
+       dkim=pass header.i=@us.greenhouse-mail.io header.s=mailgun header.b="J/NYDK5C";
+       dkim=pass header.i=@mailgun.org header.s=mg header.b=TYONsebg;
+       spf=pass (google.com: domain of bounce+bd7bef.eb6b8a-bhannajohns=gmail.com@us.greenhouse-mail.io designates 69.72.47.205 as permitted sender) smtp.mailfrom="bounce+bd7bef.eb6b8a-bhannajohns=gmail.com@us.greenhouse-mail.io";
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=us.greenhouse-mail.io
+Return-Path: <bounce+bd7bef.eb6b8a-bhannajohns=gmail.com@us.greenhouse-mail.io>
+Received: from mail-47-205.greenhouse.io (mail-47-205.greenhouse.io. [69.72.47.205])
+        by mx.google.com with UTF8SMTPS id x4-20020a636304000000b00573f8677539si226746pgb.163.2023.09.07.15.05.02
+        for <bhannajohns@gmail.com>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 07 Sep 2023 15:05:02 -0700 (PDT)
+Received-SPF: pass (google.com: domain of bounce+bd7bef.eb6b8a-bhannajohns=gmail.com@us.greenhouse-mail.io designates 69.72.47.205 as permitted sender) client-ip=69.72.47.205;
+Authentication-Results: mx.google.com;
+       dkim=pass header.i=@us.greenhouse-mail.io header.s=mailgun header.b="J/NYDK5C";
+       dkim=pass header.i=@mailgun.org header.s=mg header.b=TYONsebg;
+       spf=pass (google.com: domain of bounce+bd7bef.eb6b8a-bhannajohns=gmail.com@us.greenhouse-mail.io designates 69.72.47.205 as permitted sender) smtp.mailfrom="bounce+bd7bef.eb6b8a-bhannajohns=gmail.com@us.greenhouse-mail.io";
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=us.greenhouse-mail.io
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=us.greenhouse-mail.io;
+ q=dns/txt; s=mailgun; t=1694124302; x=1694131502; h=Message-Id:
+ List-Unsubscribe: To: To: From: From: Subject: Subject: Content-Type:
+ Mime-Version: Date: Sender: Sender: X-Feedback-Id;
+ bh=esfo9xsxH7Bs2PmKShkNfafYgSRGF7L1cYA6HpSO9V0=;
+ b=J/NYDK5CFeFdUVHQHDF0SYlMlnt6Kh/ae1M2jXDL3y0bltzsrsV+EZJfw3hGNbEaK8GU16z/K3uHiLxMfXbgofJAX7dlU9tGJS4vTDFK3VczN6t/WwofLy25vdBMF/2d2EHy3YrxDqZL+ZW1ojsn1G6ZTK3M3Obg54iDNk4RMqM=
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mailgun.org;
+ q=dns/txt; s=mg; t=1694124302; x=1694131502; h=Message-Id: List-Unsubscribe:
+ To: To: From: From: Subject: Subject: Content-Type: Mime-Version: Date:
+ Sender: Sender: X-Feedback-Id;
+ bh=esfo9xsxH7Bs2PmKShkNfafYgSRGF7L1cYA6HpSO9V0=;
+ b=TYONsebg+ig69zRqkI2OhBZAUROzCFn4MjSnTzBCAlcsrr5DusepN3T7b04L/16GS9xMv4TIQFl0di+S3uI0EZFZVtB+VaRh5MEVX4q4m4MoKJMhp8fLER/CBWPBTum7JPpexxJgUC2iRKqu5y0ZwBbcCUNrCh3aeOxjfGxr/8s=
+X-Feedback-Id: no-reply@us.greenhouse-mail.io:CandidateAutoReply:5ff5c19deab70c1acacf09a2:mailgun
+X-Mailgun-Sending-Ip: 69.72.47.205
+X-Mailgun-Sid: WyI1Zjc0ZCIsImJoYW5uYWpvaG5zQGdtYWlsLmNvbSIsImViNmI4YSJd
+Received: from <unknown> (<unknown> []) by 64b1fb31881b with HTTP id
+ 64fa490d281270dcbef31598; Thu, 07 Sep 2023 22:05:01 GMT
+Sender: no-reply@us.greenhouse-mail.io
+Date: Thu, 07 Sep 2023 22:05:01 +0000
+Mime-Version: 1.0
+Content-Type: multipart/alternative;
+ boundary="545b113554d1ae4d19d396fa0eeda847dc244900846e079cf926e0799f1c"
+Subject: Thank you for applying!
+From: no-reply@us.greenhouse-mail.io
+To: bhannajohns@gmail.com
+X-Mailgun-Tag: CandidateAutoReply
+List-Unsubscribe: 
+X-Mailgun-Variables: {"org_id": "4000435003", "silo_id": "3"}
+Message-Id: <20230907220501.7dd3c378a9dfe41c@us.greenhouse-mail.io>
+
+--545b113554d1ae4d19d396fa0eeda847dc244900846e079cf926e0799f1c
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=ascii
+
+Thank you for your application and interest in Oddball!
+
+We have received your submission, and our team will review your information shortly. If there is an interest in moving forward, we will reach out to schedule an interview!
+
+Thank you,
+The recruiting team at Oddball
+--545b113554d1ae4d19d396fa0eeda847dc244900846e079cf926e0799f1c
+Content-Transfer-Encoding: 7bit
+Content-Type: text/html; charset=ascii
+
+<p>Thank you for your application and interest in Oddball!<br /> <br />We have received your submission, and our team will review your information shortly. If there is an interest in moving forward, we will reach out to schedule an interview!<br /> <br />Thank you,<br />The recruiting team at <span data-trix-cursor-target="left" data-trix-serialize="false">Oddball</span></p>
+--545b113554d1ae4d19d396fa0eeda847dc244900846e079cf926e0799f1c--

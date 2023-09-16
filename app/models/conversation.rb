@@ -6,7 +6,7 @@
 #  subject    :string
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
-#  contact_id :bigint           not null
+#  contact_id :bigint
 #
 # Indexes
 #
@@ -17,7 +17,7 @@
 #  fk_rails_...  (contact_id => contacts.id)
 #
 class Conversation < ApplicationRecord
-  belongs_to :contact
+  belongs_to :contact, optional: true
   has_many :posts
 
   after_create_commit { broadcast_append_to("conversations") }

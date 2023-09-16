@@ -1,9 +1,17 @@
-<%= simple_form_for @conversation, defaults: { input_html: { class: "form-control" } } do |f| %>
+
+<%= simple_form_for @application, defaults: { input_html: { class: 'form-control' } } do |f| %>
   <%= f.error_notification %>
   <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
+
   <div class="form-inputs">
-    <%= f.input :subject %>
+    <%= f.association :job %>
+
+    <%= f.input :favorite %>
+    <%= f.input :rating %>
+    <%= f.input :details %>
+    <%= f.input :notes %>
   </div>
+
   <div class="form-actions">
     <%= f.button :submit %>
   </div>

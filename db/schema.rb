@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2023_09_13_190626) do
+ActiveRecord::Schema[7.1].define(version: 2023_09_15_182727) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -61,6 +61,34 @@ ActiveRecord::Schema[7.1].define(version: 2023_09_13_190626) do
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
+  create_table "applications", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "job_id", null: false
+    t.integer "status"
+    t.integer "stage"
+    t.datetime "applied_at"
+    t.datetime "archived_at"
+    t.string "job_source"
+    t.string "job_link"
+    t.string "company_link"
+    t.boolean "favorite"
+    t.integer "rating"
+    t.text "details"
+    t.text "notes"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["job_id"], name: "index_applications_on_job_id"
+    t.index ["user_id"], name: "index_applications_on_user_id"
+  end
+
+  create_table "companies", force: :cascade do |t|
+    t.string "name"
+    t.string "website"
+    t.string "industry"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "contacts", force: :cascade do |t|
     t.string "name"
     t.string "email"
@@ -72,10 +100,24 @@ ActiveRecord::Schema[7.1].define(version: 2023_09_13_190626) do
 
   create_table "conversations", force: :cascade do |t|
     t.string "subject"
-    t.bigint "contact_id", null: false
+    t.bigint "contact_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["contact_id"], name: "index_conversations_on_contact_id"
+  end
+
+  create_table "jobs", force: :cascade do |t|
+    t.bigint "company_id", null: false
+    t.string "title"
+    t.text "description"
+    t.string "location"
+    t.string "salary"
+    t.string "job_type"
+    t.text "experience"
+    t.integer "status"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["company_id"], name: "index_jobs_on_company_id"
   end
 
   create_table "messages", force: :cascade do |t|
@@ -163,7 +205,10 @@ ActiveRecord::Schema[7.1].define(version: 2023_09_13_190626) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "applications", "jobs"
+  add_foreign_key "applications", "users"
   add_foreign_key "conversations", "contacts"
+  add_foreign_key "jobs", "companies"
   add_foreign_key "order_items", "orders"
   add_foreign_key "order_items", "products"
   add_foreign_key "orders", "users"
