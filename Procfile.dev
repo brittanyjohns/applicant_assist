@@ -3,3 +3,4 @@ css: yarn watch:css
 redis: redis-server
 sidekiq: bundle exec sidekiq
 
+js: yarn build --watch
