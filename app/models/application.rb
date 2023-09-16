@@ -7,13 +7,13 @@
 #  archived_at  :datetime
 #  company_link :string
 #  details      :text
-#  favorite     :boolean
+#  favorite     :boolean          default(FALSE)
 #  job_link     :string
 #  job_source   :string
 #  notes        :text
-#  rating       :integer
-#  stage        :integer
-#  status       :integer
+#  rating       :integer          default(0)
+#  stage        :integer          default(0)
+#  status       :integer          default(0)
 #  created_at   :datetime         not null
 #  updated_at   :datetime         not null
 #  job_id       :bigint           not null
@@ -33,5 +33,13 @@ class Application < ApplicationRecord
   belongs_to :user
   belongs_to :job
   has_many :posts, as: :author
+  scope :with_active_job, -> { joins(:job).merge(Job.active)}
+
+  enum :status, { draft: 0, applied: 1, in_progress: 2, accepted: 3, rejected: 4, on_hold: 5 }
+  enum :stage, { initial: 0, screening: 1, interviewing: 2, negotiating: 3, passing: 4, starting: 5 }
+
+  def company_name
+    job.company_name
+  end
 
 end

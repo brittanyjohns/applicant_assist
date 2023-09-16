@@ -8,7 +8,7 @@
 #  job_type    :string
 #  location    :string
 #  salary      :string
-#  status      :integer
+#  status      :integer          default("active")
 #  title       :string
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
@@ -24,5 +24,9 @@
 #
 class Job < ApplicationRecord
   belongs_to :company
+  has_many :applications
+  has_many :users, through: :applications
   attr_accessor :company_name
+
+  enum :status, { active: 0, inactive: 1 }
 end

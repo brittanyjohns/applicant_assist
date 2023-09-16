@@ -12,6 +12,7 @@ class ApplicationsController < ApplicationController
 
   # GET /applications/new
   def new
+    @jobs = Job.active
     @application = Application.new
     @application.user = current_user
   end
@@ -23,6 +24,7 @@ class ApplicationsController < ApplicationController
   # POST /applications or /applications.json
   def create
     @application = Application.new(application_params)
+    @application.user = current_user
 
     respond_to do |format|
       if @application.save

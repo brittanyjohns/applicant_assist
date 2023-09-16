@@ -2,13 +2,14 @@
 #
 # Table name: contacts
 #
-#  id           :bigint           not null, primary key
-#  company_name :string
-#  email        :string
-#  job_title    :string
-#  name         :string
-#  created_at   :datetime         not null
-#  updated_at   :datetime         not null
+#  id             :bigint           not null, primary key
+#  company_name   :string
+#  email          :string
+#  job_title      :string
+#  name           :string
+#  created_at     :datetime         not null
+#  updated_at     :datetime         not null
+#  application_id :integer
 #
 require "test_helper"
 

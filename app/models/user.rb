@@ -25,7 +25,12 @@ class User < ApplicationRecord
   has_many :applications
   has_many :jobs, through: :applications
   has_many :companies, through: :jobs
+  has_many :contacts, through: :applications
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable, :recoverable, :rememberable, :validatable
+
+  def current_contacts
+
+  end
 end

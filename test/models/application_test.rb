@@ -7,13 +7,13 @@
 #  archived_at  :datetime
 #  company_link :string
 #  details      :text
-#  favorite     :boolean
+#  favorite     :boolean          default(FALSE)
 #  job_link     :string
 #  job_source   :string
 #  notes        :text
-#  rating       :integer
-#  stage        :integer
-#  status       :integer
+#  rating       :integer          default(0)
+#  stage        :integer          default(0)
+#  status       :integer          default(0)
 #  created_at   :datetime         not null
 #  updated_at   :datetime         not null
 #  job_id       :bigint           not null

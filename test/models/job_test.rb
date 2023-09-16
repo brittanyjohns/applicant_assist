@@ -8,7 +8,7 @@
 #  job_type    :string
 #  location    :string
 #  salary      :string
-#  status      :integer
+#  status      :integer          default("active")
 #  title       :string
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null

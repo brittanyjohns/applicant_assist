@@ -1,67 +1,11 @@
 <div id="<%= dom_id application %>">
   <p>
-    <strong>User:</strong>
-    <%= application.user_id %>
-  </p>
-
-  <p>
     <strong>Job:</strong>
-    <%= application.job_id %>
+    <%= link_to application.job.title, application.job %> 
   </p>
-
   <p>
-    <strong>Status:</strong>
-    <%= application.status %>
-  </p>
-
-  <p>
-    <strong>Stage:</strong>
-    <%= application.stage %>
-  </p>
-
-  <p>
-    <strong>Applied at:</strong>
-    <%= application.applied_at %>
-  </p>
-
-  <p>
-    <strong>Archived at:</strong>
-    <%= application.archived_at %>
-  </p>
-
-  <p>
-    <strong>Job source:</strong>
-    <%= application.job_source %>
-  </p>
-
-  <p>
-    <strong>Job link:</strong>
-    <%= application.job_link %>
-  </p>
-
-  <p>
-    <strong>Company link:</strong>
-    <%= application.company_link %>
-  </p>
-
-  <p>
-    <strong>Favorite:</strong>
-    <%= application.favorite %>
-  </p>
-
-  <p>
-    <strong>Rating:</strong>
-    <%= application.rating %>
-  </p>
-
-  <p>
-    <strong>Details:</strong>
-    <%= application.details %>
-  </p>
-
-  <p>
-    <strong>Notes:</strong>
-    <%= application.notes %>
+     <strong>Company:</strong>
+     <%= link_to application.job.company.name, application.job.company %>
   </p>
 
 </div>

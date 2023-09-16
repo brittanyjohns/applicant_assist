@@ -22,10 +22,10 @@ class JobsController < ApplicationController
   # POST /jobs or /jobs.json
   def create
     @job = Job.new(job_params)
-    if !params[:company_id]
-      @job.company = Company.find_or_create_by(name: params[:company_name])
+    if !job_params[:company_id]
+      @job.company = Company.find_or_create_by(name: job_params[:company_name])
     else
-      @job.company = Company.find(params[:company_id])
+      @job.company = Company.find(job_params[:company_id])
     end
 
     respond_to do |format|

@@ -8,3 +8,6 @@
 
   <%= button_to "Destroy this job", @job, method: :delete %>
 </div>
+<% @job.applications.each do |application| %>
+<%= render application %>
+<% end %>

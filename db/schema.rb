@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2023_09_15_182727) do
+ActiveRecord::Schema[7.1].define(version: 2023_09_16_164512) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -64,15 +64,15 @@ ActiveRecord::Schema[7.1].define(version: 2023_09_15_182727) do
   create_table "applications", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.bigint "job_id", null: false
-    t.integer "status"
-    t.integer "stage"
+    t.integer "status", default: 0
+    t.integer "stage", default: 0
     t.datetime "applied_at"
     t.datetime "archived_at"
     t.string "job_source"
     t.string "job_link"
     t.string "company_link"
-    t.boolean "favorite"
-    t.integer "rating"
+    t.boolean "favorite", default: false
+    t.integer "rating", default: 0
     t.text "details"
     t.text "notes"
     t.datetime "created_at", null: false
@@ -96,6 +96,7 @@ ActiveRecord::Schema[7.1].define(version: 2023_09_15_182727) do
     t.string "job_title"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "application_id"
   end
 
   create_table "conversations", force: :cascade do |t|
@@ -114,7 +115,7 @@ ActiveRecord::Schema[7.1].define(version: 2023_09_15_182727) do
     t.string "salary"
     t.string "job_type"
     t.text "experience"
-    t.integer "status"
+    t.integer "status", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["company_id"], name: "index_jobs_on_company_id"

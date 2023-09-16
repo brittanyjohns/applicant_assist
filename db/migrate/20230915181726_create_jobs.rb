@@ -8,7 +8,7 @@ class CreateJobs < ActiveRecord::Migration[7.1]
       t.string :salary
       t.string :job_type
       t.text :experience
-      t.integer :status
+      t.integer :status, default: 0
 
       t.timestamps
     end

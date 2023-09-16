@@ -10,4 +10,7 @@
 #  updated_at :datetime         not null
 #
 class Company < ApplicationRecord
+    has_many :jobs
+    has_many :applications, through: :jobs
+    has_many :contacts, through: :applications
 end
