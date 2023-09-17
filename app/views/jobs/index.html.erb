@@ -1,16 +1,11 @@
 <p style="color: green"><%= notice %></p>
 
-<h1>Jobs</h1>
+<h1>Jobs <small><%= @jobs.count %> total jobs</h1>
 
 <div id="jobs">
   <% @jobs.each do |job| %>
   <p class='lead'>
-    <%= job.title %>
-  </p>
-  <p>
-    <%= link_to job.title, job %>
+    <strong><%= link_to job.title, job %> </strong> - <small><%= link_to job.company.name, job.company %></small>
   </p>
   <% end %>
 </div>
-
-<%= link_to "New job", new_job_path %>

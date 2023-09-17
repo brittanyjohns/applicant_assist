@@ -7,19 +7,21 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto">
       <li class="nav-item">
-        <%= link_to "Convos", conversations_path, class: "nav-link" %>
-      </li>
-      <li class="nav-item">
-        <%= link_to "Apps", applications_path, class: "nav-link" %>
+        <%= link_to "Companies", companies_path, class: "nav-link" %>
       </li>
       <li class="nav-item">
         <%= link_to "Jobs", jobs_path, class: "nav-link" %>
+      </li>
+      <li class="nav-item">
+        <%= link_to "Apps", applications_path, class: "nav-link" %>
       </li>
       <li class="nav-item">
         <%= link_to "Contacts", contacts_path, class: "nav-link" %>
       </li>
       </ul>
       <% if user_signed_in? %>
+              <%= render "jobs/navbar_search" %>
+
         <ul class="navbar-nav ms-auto">
           <li class="nav-item">
             <%= link_to shopping_cart_nav, carts_show_path, class: "nav-link" %>
@@ -40,6 +42,7 @@
             </ul>
           </li>
         </ul>
+
       <% else %>
         <ul class="navbar-nav ms-auto">
           <%= render "devise/menu/registration_items", class_to_add: "" %>

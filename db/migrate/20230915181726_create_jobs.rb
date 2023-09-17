@@ -3,6 +3,9 @@ class CreateJobs < ActiveRecord::Migration[7.1]
     create_table :jobs do |t|
       t.belongs_to :company, null: false, foreign_key: true
       t.string :title
+      t.string :web_id
+      t.string :job_source
+      t.string :web_link
       t.text :description
       t.string :location
       t.string :salary

@@ -85,6 +85,7 @@ ActiveRecord::Schema[7.1].define(version: 2023_09_16_164512) do
     t.string "name"
     t.string "website"
     t.string "industry"
+    t.string "location"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -110,6 +111,9 @@ ActiveRecord::Schema[7.1].define(version: 2023_09_16_164512) do
   create_table "jobs", force: :cascade do |t|
     t.bigint "company_id", null: false
     t.string "title"
+    t.string "web_id"
+    t.string "job_source"
+    t.string "web_link"
     t.text "description"
     t.string "location"
     t.string "salary"

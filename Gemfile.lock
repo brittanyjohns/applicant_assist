@@ -194,6 +194,9 @@ GEM
       rails (>= 6.0.0)
       stimulus-rails
       turbo-rails
+    httparty (0.21.0)
+      mini_mime (>= 1.0.0)
+      multi_xml (>= 0.5.2)
     httpclient (2.8.3)
     i18n (1.14.1)
       concurrent-ruby (~> 1.0)
@@ -230,6 +233,7 @@ GEM
     minitest (5.20.0)
     msgpack (1.7.2)
     multi_json (1.15.0)
+    multi_xml (0.6.0)
     mutex_m (0.1.2)
     net-imap (0.3.7)
       date
@@ -386,6 +390,7 @@ DEPENDENCIES
   figaro
   google-api-client (~> 0.9)
   hotwire-rails
+  httparty (~> 0.21.0)
   image_processing (~> 1.2)
   importmap-rails
   jbuilder

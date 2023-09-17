@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   resources :jobs
+  post "job_search" => "jobs#search", as: "job_search"
   resources :conversations
   resources :companies
   resources :posts

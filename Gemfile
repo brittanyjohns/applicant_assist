@@ -87,3 +87,5 @@ gem "braintree", "~> 4.5"
 gem "sidekiq", "~> 7.1"
 
 gem "jsbundling-rails", "~> 1.2"
+
+gem "httparty", "~> 0.21.0"

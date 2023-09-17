@@ -12,8 +12,8 @@
 #  job_source   :string
 #  notes        :text
 #  rating       :integer          default(0)
-#  stage        :integer          default(0)
-#  status       :integer          default(0)
+#  stage        :integer          default("initial")
+#  status       :integer          default("draft")
 #  created_at   :datetime         not null
 #  updated_at   :datetime         not null
 #  job_id       :bigint           not null

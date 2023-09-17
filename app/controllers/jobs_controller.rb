@@ -3,7 +3,7 @@ class JobsController < ApplicationController
 
   # GET /jobs or /jobs.json
   def index
-    @jobs = Job.all
+    @jobs = Job.includes(:company).all
   end
 
   # GET /jobs/1 or /jobs/1.json
@@ -62,14 +62,24 @@ class JobsController < ApplicationController
     end
   end
 
-  private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_job
-      @job = Job.find(params[:id])
+  def search
+    search_term = params[:job_search][:q]
+    respond_to do |format|
+      JobSearchJob.perform_now(search_term)
+      format.html { redirect_to jobs_url, notice: "Jobs were successfully loaded." }
+      format.json { head :no_content }
     end
+  end
 
-    # Only allow a list of trusted parameters through.
-    def job_params
-      params.require(:job).permit(:company_id, :company_name, :title, :description, :location, :salary, :job_type, :experience, :favorite, :rating, :status)
-    end
+  private
+
+  # Use callbacks to share common setup or constraints between actions.
+  def set_job
+    @job = Job.includes(:company).find(params[:id])
+  end
+
+  # Only allow a list of trusted parameters through.
+  def job_params
+    params.require(:job).permit(:company_id, :company_name, :title, :description, :location, :salary, :job_type, :experience, :favorite, :rating, :status)
+  end
 end

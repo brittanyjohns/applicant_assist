@@ -4,9 +4,8 @@
 
 <div id="companies">
   <% @companies.each do |company| %>
-    <%= render company %>
-    <p>
-      <%= link_to "Show this company", company %>
+    <p class='clearfix'>
+      <%= link_to company.name, company %> <span class='float-end'><%= company.jobs.count %></span>
     </p>
   <% end %>
 </div>
