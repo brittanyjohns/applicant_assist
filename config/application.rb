@@ -10,6 +10,8 @@ module ApplicantAssist
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 7.1
+    config.autoload_paths << "#{config.root}/lib"
+    config.eager_load_paths << "#{config.root}/lib"
     # config.active_job.queue_adapter = :sidekiq
 
     # Configuration for the application, engines, and railties goes here.
