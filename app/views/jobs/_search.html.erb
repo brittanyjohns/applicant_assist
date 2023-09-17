@@ -1,0 +1,7 @@
+<%= simple_form_for :job_search, url: "/job_search", method: :post do |form| %>
+  <div class="col-md-12">
+    <h2>Job Search</h2>
+    <%= form.text_field :q, class: "form-control inline", placeholder: "Senior Software Engineer" %>
+    <%= form.submit "Send", class: "btn btn-primary" %>
+  </div>
+<% end %>
