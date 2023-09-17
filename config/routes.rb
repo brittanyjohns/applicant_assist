@@ -1,11 +1,12 @@
 Rails.application.routes.draw do
-  resources :applications
   resources :jobs
+  resources :conversations
   resources :companies
   resources :posts
-
-  resources :conversations do
-    resources :posts
+  resources :applications do
+    resources :conversations do
+      resources :posts
+    end
   end
   resources :contacts
   get "charges/new"
