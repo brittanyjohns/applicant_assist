@@ -5,14 +5,17 @@
 #  id          :bigint           not null, primary key
 #  description :text
 #  experience  :text
+#  job_source  :string
 #  job_type    :string
 #  location    :string
 #  salary      :string
 #  status      :integer          default("active")
 #  title       :string
+#  web_link    :string
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
 #  company_id  :bigint           not null
+#  web_id      :string
 #
 # Indexes
 #
