@@ -1,5 +1,9 @@
 Rails.application.routes.draw do
-  resources :jobs
+  resources :jobs do
+    member do
+      get "get_details"
+    end
+  end
   post "job_search" => "jobs#search", as: "job_search"
   resources :conversations
   resources :companies

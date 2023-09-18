@@ -1,5 +1,6 @@
 class JobsController < ApplicationController
-  before_action :set_job, only: %i[ show edit update destroy ]
+  before_action :set_job, only: %i[ show edit update destroy get_details ]
+  before_action :ensure_details, only: %i[ show ]
 
   # GET /jobs or /jobs.json
   def index
@@ -71,6 +72,14 @@ class JobsController < ApplicationController
     end
   end
 
+  def get_details
+    Indeed.new(nil, nil, nil, @job.web_id).get_details
+    respond_to do |format|
+      format.html { redirect_to job_url(@job), notice: "Job was successfully loaded." }
+      format.json { head :no_content }
+    end
+  end
+
   private
 
   # Use callbacks to share common setup or constraints between actions.
@@ -81,5 +90,8 @@ class JobsController < ApplicationController
   # Only allow a list of trusted parameters through.
   def job_params
     params.require(:job).permit(:company_id, :company_name, :title, :description, :location, :salary, :job_type, :experience, :favorite, :rating, :status)
+  end
+
+  def ensure_details
   end
 end

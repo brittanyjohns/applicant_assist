@@ -4,11 +4,12 @@ require "rails"
 require "httparty"
 
 class Indeed
-  attr_accessor :search_term
+  attr_accessor :request_type
   include HTTParty
 
-  def initialize(search_term, location = "Remote", radius = nil)
-    @options = { query: { q: search_term, l: location, radius: radius } }
+  def initialize(search_term, location = "Remote", radius = nil, job_web_id = nil)
+    @options = { query: { q: search_term, l: location, radius: radius }, job_web_id: job_web_id }
+    @request_type = job_web_id ? :view : :search
   end
 
   def build_url
@@ -78,14 +79,63 @@ class Indeed
       snippet = job_info["snippet"]
       company_name = job_info["company_name"]
       company_location = job_info["company_location"]
-      job = Job.find_by(web_id: web_id)
+      company = Company.find_or_create_by(name: company_name)
+      job = company.jobs.find_by(web_id: web_id)
       if job
         puts "Job already exists - skipping"
       else
-        company = Company.find_or_create_by(name: company_name)
         job = company.jobs.new(title: title, web_link: link, web_id: web_id, salary: salary, description: snippet, location: company_location)
         job.save!
       end
     end
+  end
+
+  def build_view_url(job_web_id)
+    stripped_job_web_id = job_web_id.split("_")[1]
+    puts "stripped_job_web_id: #{stripped_job_web_id}"
+    "https://www.indeed.com/viewjob?jk=#{stripped_job_web_id}"
+  end
+
+  def view_payload
+    {
+      "api_key": ENV.fetch("PAGE2API_API_KEY"),
+      "url": build_view_url(@options[:job_web_id]),
+      "real_browser": true,
+      "merge_loops": true,
+      "scenario": [
+        {
+          "loop": [
+            {
+              "wait_for": "div.jobsearch-JobComponent",
+            },
+            {
+              "execute": "parse",
+            },
+            {
+              "execute_js": "var next = document.querySelector('[data-testid=pagination-page-next]'); if(next) { next.click() }",
+            },
+          ],
+          "iterations": 1,
+        },
+      ],
+      "parse": {
+        "description": "#jobDescriptionText",
+      },
+    }
+  end
+
+  def get_details
+    response = HTTParty.post(api_url, body: view_payload.to_json, headers: { "Content-Type" => "application/json" }).body
+
+    result = JSON.parse(response)
+    puts result
+
+    job_details = result["result"]
+    description = job_details["description"] if job_details
+    job = Job.find_by(web_id: @options[:job_web_id])
+    job.update!(description: description)
+    puts "job_details: #{job_details}\n\n"
+    File.open("job_details.txt", "w") { |f| f.write "#{Time.now} - #{job.id} job_details\n#{job_details}\n" }
+    job_details
   end
 end
