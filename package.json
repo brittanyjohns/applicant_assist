@@ -2,6 +2,7 @@
   "name": "app",
   "private": "true",
   "dependencies": {
+    "@hotwired/turbo-rails": "^7.3.0",
     "@popperjs/core": "^2.11.8",
     "@rails/actiontext": "^7.0.8",
     "autoprefixer": "^10.4.15",
@@ -12,6 +13,7 @@
     "postcss": "^8.4.29",
     "postcss-cli": "^10.1.0",
     "sass": "^1.66.1",
+    "stimulus": "^3.2.2",
     "trix": "^2.0.5"
   },
   "scripts": {

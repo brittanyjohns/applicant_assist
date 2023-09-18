@@ -12,8 +12,10 @@ class PostsController < ApplicationController
       if @post.save
         # Send an email
         ReplyJob.perform_now(@post)
+        # render partial: "posts/form", locals: { conversation: @conversation, post: Post.new }
         format.turbo_stream { render turbo_stream: turbo_stream.replace("form", partial: "posts/form", locals: { conversation: @conversation, post: Post.new }) }
       else
+        # render partial: "posts/form", locals: { conversation: @conversation, post: @post }
         format.turbo_stream { render turbo_stream: turbo_stream.replace("form", partial: "posts/form", locals: { conversation: @conversation, post: @post }) }
       end
     end

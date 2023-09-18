@@ -5,14 +5,12 @@ Rails.application.routes.draw do
     end
   end
   post "job_search" => "jobs#search", as: "job_search"
-  resources :conversations
+  resources :conversations do
+    resources :posts
+  end
   resources :companies
   resources :posts
-  resources :applications do
-    resources :conversations do
-      resources :posts
-    end
-  end
+  resources :applications
   resources :contacts
   get "charges/new"
   get "charges/create"
