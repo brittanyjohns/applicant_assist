@@ -5,8 +5,7 @@
 <div>
   <%= link_to "Edit this job", edit_job_path(@job) %> |
   <%= link_to "Back to jobs", jobs_path %>
-  <%= link_to "MORE INFO", get_details_job_path(@job) %>
-
+  <%= link_to "MORE INFO", get_details_job_path(@job), class: "btn btn-info" unless @job.description.length > 1000 %>
   <%= button_to "Destroy this job", @job, method: :delete %>
 </div>
 <% @job.applications.each do |application| %>

@@ -63,3 +63,14 @@ a {
     margin-right: 10px;
     display: inline;
   }
+
+  .job-list-item {
+    background-color: seashell;
+    padding: 10px;
+    // margin-bottom: 15px;
+    border-bottom: 1px solid black;
+  }
+  .job-list-item:hover {
+    background-color: rgba(246, 227, 213, 0.915);
+    font-weight: bolder;
+  }
