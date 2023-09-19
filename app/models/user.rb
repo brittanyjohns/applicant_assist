@@ -10,6 +10,7 @@
 #  remember_created_at    :datetime
 #  reset_password_sent_at :datetime
 #  reset_password_token   :string
+#  username               :string
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
 #
@@ -19,18 +20,32 @@
 #  index_users_on_reset_password_token  (reset_password_token) UNIQUE
 #
 class User < ApplicationRecord
+  MATCHER = /^(\S+)@/i
   has_many :messages
   has_many :orders
   has_many :posts, as: :author
   has_many :applications
+  has_many :conversations
   has_many :jobs, through: :applications
   has_many :companies, through: :jobs
-  has_many :contacts, through: :applications
+  # has_many :contacts, through: :applications
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable, :recoverable, :rememberable, :validatable
 
-  def current_contacts
+  # validates :username, uniqueness: true
 
+  before_save :set_username
+
+  def set_username
+    t = email[User::MATCHER, 1]
+    puts "email[User::MATCHER, 1]: #{t}"
+    if User::MATCHER.match?(email)
+      self.username = email[User::MATCHER, 1]
+    end
+  end
+
+  def internal_email
+    "#{username}@applicant-assist.com"
   end
 end

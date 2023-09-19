@@ -1,6 +1,7 @@
 class ReplyJob < ApplicationJob
   queue_as :default
   attr_reader :post
+
   def perform(*args)
     puts "args #{args}"
     @post = args[0]
@@ -8,13 +9,13 @@ class ReplyJob < ApplicationJob
     return if post.message_id?
 
     mail = ConversationMailer.with(
-      to: "noreply@example.com",
+      to: "bhannajohns@gmail.com",
       reply_to: " conversation-#{post.conversation_id}@example.com",
-      bcc: recipients.map {|r| "#{r.name} <#{r.email}>"},
+      bcc: recipients.map { |r| "#{r.name} <#{r.email}>" },
       post: post,
       conversation: conversation,
       in_reply_to: previous_message_ids.last,
-      references: previous_message_ids
+      references: previous_message_ids,
     ).new_post.deliver_now
 
     post.update!(message_id: mail.message_id)

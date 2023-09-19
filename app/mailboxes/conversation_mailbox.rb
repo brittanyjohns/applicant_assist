@@ -4,7 +4,7 @@ class ConversationMailbox < ApplicationMailbox
     conversation.posts.create!(
       author: contact,
       body: body,
-      message_id: mail.message_id
+      message_id: mail.message_id,
     )
   end
 end

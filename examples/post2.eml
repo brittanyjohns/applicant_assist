@@ -1,0 +1,182 @@
+Delivered-To: bhannajohns@gmail.com
+Received: by 2002:a05:6520:3815:b0:273:4f81:a400 with SMTP id b21csp2782040lkx;
+        Tue, 19 Sep 2023 12:03:58 -0700 (PDT)
+X-Received: by 2002:a25:2304:0:b0:d77:c0b9:b182 with SMTP id j4-20020a252304000000b00d77c0b9b182mr446020ybj.46.1695150238148;
+        Tue, 19 Sep 2023 12:03:58 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1695150238; cv=none;
+        d=google.com; s=arc-20160816;
+        b=VlKTB+uFjY4UJ2zxDLRka65vT7gWUZgtczNWINWXrEUevXnwWPyBr/JMypZBi5MWk0
+         lxvL2YqTC8SeCruB92gkvuO3jYqS1G1pihnFFEqvwInRkv39ikZtLWVvZg/CsyDgFPA2
+         OTj6caXlNBBRXkarFOr/1pRi3UgwfxkU72Qg4IEaODXjqrkSDScvVmK/GuLbTK6evs6v
+         WRQc7KhpYHZt92N9tpS+1ompPtu4CRPcVZSjcp6FOBWizmf/XxFMbwyUwa+Nzg6Ij+5p
+         7QSw1xyvkusMH1CZeL98wofZn4MXxDouRf2KXJ5ogCvlwhOp214VZQKYkg/2j495vG1r
+         f4IA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
+         :dkim-signature;
+        bh=6joOOelS5jMa2xR+JfVY99Z2tDmhKS3piQdOJPwij3c=;
+        fh=0ey4hf9pJICb2vTGRNO4snLgWAoqLQlZJ2c1Gw4dmOw=;
+        b=DHBWCNfGvEFdf6CfKxYfKj/4fxA9JalEsin+Q39qsQfXy20MsAIoTnNwORxJ909mIW
+         Q0bROY31FkEI7PTa5JxRNzpVM1/G9hQQYYHnrnyQiYA/+/rjK9f2BA3TSLlDOmp4Vxrp
+         Ui2jfrYIusEOJxFlr9yOv5Do5RhdeQkO3Tz0SWb5ucn/3rC4XxL/mdWbOpMDY5+Rr2BC
+         wfyfsAaE3DLguvkP3RN8LfmxKjPDvyCVKyaf7FcHHI3PRrT+5yxzeuqUfVAf3IDWU112
+         xqfgUMLzq8xT2H9BqeR9gju4ZLFXELCeFCECUQ4DLlTqlIpfpV2AeyqDGSHF1NAZ1tao
+         953w==
+ARC-Authentication-Results: i=1; mx.google.com;
+       dkim=pass header.i=@gmail.com header.s=20230601 header.b=KtQwIUbK;
+       spf=pass (google.com: domain of bhicks8364@gmail.com designates 209.85.220.41 as permitted sender) smtp.mailfrom=bhicks8364@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+Return-Path: <bhicks8364@gmail.com>
+Received: from mail-sor-f41.google.com (mail-sor-f41.google.com. [209.85.220.41])
+        by mx.google.com with SMTPS id j142-20020a25d294000000b00d81b28e4acasor3076035ybg.1.2023.09.19.12.03.57
+        for <bhannajohns@gmail.com>
+        (Google Transport Security);
+        Tue, 19 Sep 2023 12:03:58 -0700 (PDT)
+Received-SPF: pass (google.com: domain of bhicks8364@gmail.com designates 209.85.220.41 as permitted sender) client-ip=209.85.220.41;
+Authentication-Results: mx.google.com;
+       dkim=pass header.i=@gmail.com header.s=20230601 header.b=KtQwIUbK;
+       spf=pass (google.com: domain of bhicks8364@gmail.com designates 209.85.220.41 as permitted sender) smtp.mailfrom=bhicks8364@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1695150237; x=1695755037; dara=google.com;
+        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=6joOOelS5jMa2xR+JfVY99Z2tDmhKS3piQdOJPwij3c=;
+        b=KtQwIUbKzjNgRTsMT2tG15wlFslaM3CLi7XvmHbLWY3mU/++MqSX3bolM7oRGDYW+D
+         q26lv8QAorkXzK8R4hDLmGBjuXYzMzqra8N2mmG/zBKC8veY6dXTgnobwkT+nLW3HDt5
+         xe5UfOKUuDG/9NcStaxLw4IJU4hr7TebEr+UfqVooaqS3W0rfzSBcVoJjDvxH6nh9dRT
+         mDhJux0gDjOe4j6jCwYQpLxOQAGxda4jzlVL3ROPsblwDHwPKZZCHPfnK8b0cFsgSqrW
+         X1Yr8179kZk+C/ZxziJutfpYSsPJnJOSuWlUPZwjBgiEwLsVRoDufOtpGOFoVopixKTP
+         pWlQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1695150237; x=1695755037;
+        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=6joOOelS5jMa2xR+JfVY99Z2tDmhKS3piQdOJPwij3c=;
+        b=OnRqdk7tL92hnKgEfgvWB7xPzwDgDAOnQVcJ5Gs81fg9EUXewhGTGWiepyU48uQw3v
+         D2WOA88UW1epN0fa7G2syD0e2k6PLGPMixc/pq8BX8kss0efwMKSvT93ndtRlxm8TUec
+         FkxDbnES1po/eU9VDc3VSeApAyJlBugISkSRA6D9zlhVRNDGnCE4kBsy6hghLelo/rSC
+         Y12fvI7a0XEJlbDekmetsQQWjFYyBpqWZyULp1SSaK9OBmXRYw3t1v43Kodd6zWONZpN
+         9F6k+c26lpAe06Ll0TntVKKWvcYlyANh2EJqSHbAsv9LSG1HguhEffkc6o0sSYtx7z+T
+         jqiw==
+X-Gm-Message-State: AOJu0YwHlUW6e64h0Ua/qHb7he6/9hxasvkH2lazGpdQP8thN1C2GGF+
+	kmWl7AhzxVFMPn09GH2EzhHErgNVKi9vv/cRdLjARuR6
+X-Google-Smtp-Source: AGHT+IHd2wsX37g+EbI6Hs3cBhG5ZR/ECv1ac2/qpgFCYnSNVi6LJrHKttDfddbNBUa+NhMJjYR11Pk/w5FAvycj23M=
+X-Received: by 2002:a25:dfd2:0:b0:d80:9ed:5038 with SMTP id
+ w201-20020a25dfd2000000b00d8009ed5038mr497318ybg.21.1695150237560; Tue, 19
+ Sep 2023 12:03:57 -0700 (PDT)
+MIME-Version: 1.0
+References: <6509ef331aec8_6f6a571c785b4@Brittanys-MacBook-Air.local.mail> <6509efc7a654b_6f6a5708787f1@Brittanys-MacBook-Air.local.mail>
+In-Reply-To: <6509efc7a654b_6f6a5708787f1@Brittanys-MacBook-Air.local.mail>
+From: Bhanna <bhicks8364@gmail.com>
+Date: Tue, 19 Sep 2023 15:03:46 -0400
+Message-ID: <CAB24jFDOK1nOYN4vsJWXJS7dNwGwrcHm5uCSS=CNyGiHYysa=g@mail.gmail.com>
+Subject: Re: New post
+To: bhannajohns@gmail.com
+Content-Type: multipart/alternative; boundary="000000000000c034cf0605baeb19"
+
+--000000000000c034cf0605baeb19
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+You applied for the super cool software dev position.
+We'll pay you ALL the monies. :)
+
+See ya later alligator.
+Rhonda @ hiring company
+
+On Tue, Sep 19, 2023 at 3:00=E2=80=AFPM <bhannajohns@gmail.com> wrote:
+
+> Sending to: bhannajohns@gmail.com
+> bhannajohns@gmail.com replied to Thank you for applying!!
+>
+> {:to=3D>"bhannajohns@gmail.com", :reply_to=3D>" conversation-15@example.c=
+om",
+> :bcc=3D>["Rhonda Recruiter <bhicks8364@gmail.com>"], :post=3D>#<Post id: =
+39,
+> conversation_id: 15, author_type: "User", author_id: 1, message_id: nil,
+> created_at: "2023-09-19 19:00:23.565501000 +0000", updated_at: "2023-09-1=
+9
+> 19:00:23.572578000 +0000">, :conversation=3D>#<Conversation id: 15, subje=
+ct:
+> "Thank you for applying!!", contact_id: 8, created_at: "2023-09-19
+> 18:57:56.141399000 +0000", updated_at: "2023-09-19 18:57:56.141399000
+> +0000", user_id: 1>,
+> :in_reply_to=3D>"6509ef331aec8_6f6a571c785b4@Brittanys-MacBook-Air.local.=
+mail",
+> :references=3D>["6509ef331aec8_6f6a571c785b4@Brittanys-MacBook-Air.local.=
+mail
+> "]}
+>
+> BODY:
+> Cool cool. What job did I apply to again?
+> Read Message <http://localhost:3000/conversations/15#post_39>
+>
+> Thanks for joining and have a great day!
+>
+
+--000000000000c034cf0605baeb19
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">You applied for the super cool software dev position.=C2=
+=A0<div>We&#39;ll pay you ALL the monies. :)=C2=A0<div><br></div></div><div=
+>See ya later alligator.</div><div>Rhonda=C2=A0@ hiring company</div></div>=
+<br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Tue=
+, Sep 19, 2023 at 3:00=E2=80=AFPM &lt;<a href=3D"mailto:bhannajohns@gmail.c=
+om">bhannajohns@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"gmai=
+l_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,20=
+4,204);padding-left:1ex"><u></u>
+
+ =20
+   =20
+   =20
+ =20
+
+  <div>
+   =20
+<u></u>
+
+ =20
+   =20
+ =20
+  <div>
+    <h1>Sending to: <a href=3D"mailto:bhannajohns@gmail.com" target=3D"_bla=
+nk">bhannajohns@gmail.com</a></h1>
+    <div>
+  <a href=3D"mailto:bhannajohns@gmail.com" target=3D"_blank">bhannajohns@gm=
+ail.com</a> replied to Thank you for applying!!
+
+  <p>
+    {:to=3D&gt;&quot;<a href=3D"mailto:bhannajohns@gmail.com" target=3D"_bl=
+ank">bhannajohns@gmail.com</a>&quot;, :reply_to=3D&gt;&quot; <a href=3D"mai=
+lto:conversation-15@example.com" target=3D"_blank">conversation-15@example.=
+com</a>&quot;, :bcc=3D&gt;[&quot;Rhonda Recruiter &lt;<a href=3D"mailto:bhi=
+cks8364@gmail.com" target=3D"_blank">bhicks8364@gmail.com</a>&gt;&quot;], :=
+post=3D&gt;#&lt;Post id: 39, conversation_id: 15, author_type: &quot;User&q=
+uot;, author_id: 1, message_id: nil, created_at: &quot;2023-09-19 19:00:23.=
+565501000 +0000&quot;, updated_at: &quot;2023-09-19 19:00:23.572578000 +000=
+0&quot;&gt;, :conversation=3D&gt;#&lt;Conversation id: 15, subject: &quot;T=
+hank you for applying!!&quot;, contact_id: 8, created_at: &quot;2023-09-19 =
+18:57:56.141399000 +0000&quot;, updated_at: &quot;2023-09-19 18:57:56.14139=
+9000 +0000&quot;, user_id: 1&gt;, :in_reply_to=3D&gt;&quot;6509ef331aec8_6f=
+6a571c785b4@Brittanys-MacBook-Air.local.mail&quot;, :references=3D&gt;[&quo=
+t;6509ef331aec8_6f6a571c785b4@Brittanys-MacBook-Air.local.mail&quot;]}</p>
+
+  <p> BODY:</p>
+    <div>
+  <div>Cool cool. What job did I apply to again?</div>
+</div>
+
+</div>
+<a href=3D"http://localhost:3000/conversations/15#post_39" target=3D"_blank=
+">Read Message</a>
+    <p>Thanks for joining and have a great day!</p>
+  </div>
+
+
+  </div>
+
+</blockquote></div>
+
+--000000000000c034cf0605baeb19--

@@ -24,10 +24,4 @@ class Post < ApplicationRecord
   belongs_to :author, polymorphic: true
   has_rich_text :body
   broadcasts_to :conversation, target: "posts"
-
-  # before_create :ensure_conversation
-
-  def ensure_conversation(user_id)
-    self.conversation = Conversation.create!(subject: "Auto Generated")
-  end
 end

@@ -7,6 +7,7 @@
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #  contact_id :bigint
+#  user_id    :integer
 #
 # Indexes
 #
@@ -18,7 +19,8 @@
 #
 class Conversation < ApplicationRecord
   belongs_to :contact, optional: true
-  has_many :posts
+  belongs_to :user, optional: true
+  has_many :posts, dependent: :destroy
 
   after_create_commit { broadcast_append_to("conversations") }
 

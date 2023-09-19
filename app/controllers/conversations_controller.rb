@@ -3,7 +3,7 @@ class ConversationsController < ApplicationController
 
   # GET /conversations or /conversations.json
   def index
-    @conversations = Conversation.all
+    @conversations = current_user.conversations.all
   end
 
   # GET /conversations/1 or /conversations/1.json
@@ -13,8 +13,7 @@ class ConversationsController < ApplicationController
 
   # GET /conversations/new
   def new
-    @conversation = Conversation.new
-    @conversation.contact = Contact.create()
+    @conversation = current_user.conversations.new
   end
 
   # GET /conversations/1/edit
@@ -23,7 +22,7 @@ class ConversationsController < ApplicationController
 
   # POST /conversations or /conversations.json
   def create
-    @conversation = Conversation.new(conversation_params)
+    @conversation = current_user.conversations.new(conversation_params)
     @conversation.contact = current_user
 
     respond_to do |format|
@@ -64,7 +63,7 @@ class ConversationsController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_conversation
-    @conversation = Conversation.find(params[:id])
+    @conversation = current_user.conversations.find(params[:id])
   end
 
   # Only allow a list of trusted parameters through.
