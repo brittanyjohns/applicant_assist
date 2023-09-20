@@ -1,4 +1,21 @@
-<div>
-  <%= params[:post].author.name %> replied to <%= params[:conversation].subject %>
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <h1>Sending to: <%= @sending_to %></h1>
+    <div>
+  <%= params[:post].author.name %><%= params[:post].author.email %> replied to <%= params[:conversation].subject %>
+
+  <p>
+    <%= params.inspect %></p>
+
+  <p> BODY:</p>
+    <%= params[:post].body %>
 </div>
-<%= link_to "Read Message", conversation_url(params[:conversation], anchor: dom_id(params[:post]))%>
+<%= link_to "Read Message", conversation_url(params[:conversation], anchor: dom_id(params[:post])) %>
+    <p>Thanks for joining and have a great day!</p>
+  </body>
+</html>

@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  get "users/index"
+  get "users/show"
+  get "welcome_email", to: "users#welcome_email"
   resources :jobs do
     member do
       get "get_details"
