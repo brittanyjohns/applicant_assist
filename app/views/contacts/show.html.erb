@@ -1,4 +1,6 @@
 <%= turbo_stream_from dom_id(@contact) %>
+<%= image_tag @contact.avatar if @contact.avatar %>
+
 <%= render @contact %>
 <div>
   <%= link_to "Edit this contact", edit_contact_path(@contact) %> |

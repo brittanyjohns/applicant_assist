@@ -12,9 +12,11 @@
 #  application_id :integer
 #
 class Contact < ApplicationRecord
+  has_one_attached :avatar
+
   has_many :conversations
   has_many :posts, as: :author
   belongs_to :application, optional: true
   after_create_commit { broadcast_append_to("contacts") }
-  scope :active_contacts, -> { joins(:application).merge(Application.with_active_job)}
+  scope :active_contacts, -> { joins(:application).merge(Application.with_active_job) }
 end
