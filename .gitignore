@@ -39,3 +39,4 @@
 /config/application.yml
 /*.log
 dump.rdb
+/config/credentials/production.key

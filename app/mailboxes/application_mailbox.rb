@@ -61,6 +61,5 @@ class ApplicationMailbox < ActionMailbox::Base
     else
       puts "USER NOT FOUND"
     end
-    puts "@convo: #{conversation.inspect}"
   end
 end
