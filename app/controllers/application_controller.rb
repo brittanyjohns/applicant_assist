@@ -1,6 +1,6 @@
 class ApplicationController < ActionController::Base
+  protect_from_forgery with: :null_session
   before_action :authenticate_user!
-  # protect_from_forgery with: :exception
   skip_before_action :verify_authenticity_token
   helper_method :current_order
   before_action :set_categories
