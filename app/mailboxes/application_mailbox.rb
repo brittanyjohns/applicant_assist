@@ -1,4 +1,5 @@
 class ApplicationMailbox < ActionMailbox::Base
+  skip_before_action :verify_authenticity_token
   before_processing :ensure_sender_is_a_user
 
   # conversation-12345@example.com -> ReplyMailbox
