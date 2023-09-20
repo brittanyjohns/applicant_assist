@@ -12,7 +12,9 @@
 #  application_id :integer
 #
 class Contact < ApplicationRecord
-  has_one_attached :avatar
+  has_one_attached :avatar do |attachable|
+    attachable.variant :thumb, resize_to_limit: [100, 100]
+  end
 
   has_many :conversations
   has_many :posts, as: :author

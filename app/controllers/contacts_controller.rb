@@ -22,14 +22,6 @@ class ContactsController < ApplicationController
   # POST /contacts or /contacts.json
   def create
     @contact = Contact.new(contact_params)
-    @application = Application.new
-    @user = current_user
-    @job = Job.find(params[:job_id])
-    @application.job = @job
-    @application.user = @user
-    @application.save
-
-    @contact.application = @application if @application
 
     respond_to do |format|
       if @contact.save
