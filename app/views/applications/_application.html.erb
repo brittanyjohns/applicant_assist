@@ -1,4 +1,5 @@
 <div id="<%= dom_id application %>">
+<%= link_to application do %>
   <p>
     <strong>Job:</strong>
     <%= link_to application.job.title, application.job %> 
@@ -7,5 +8,5 @@
      <strong>Company:</strong>
      <%= link_to application.job.company.name, application.job.company %>
   </p>
-
+<% end %>
 </div>

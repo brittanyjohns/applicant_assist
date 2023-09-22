@@ -1,5 +1,5 @@
 <p style="color: green"><%= notice %></p>
-
+<%= render 'chat_form', application: @application %>
 <%= render @application %>
 
 <div>
@@ -8,4 +8,6 @@
 
   <%= button_to "Destroy this application", @application, method: :delete %>
 </div>
-<%= render @application.job %>
+<%= link_to "VIEW JOB", @application.job %>
+<h2>Chats</h2>
+<%= render @application.chats %>

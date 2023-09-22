@@ -8,7 +8,6 @@
 #  updated_at      :datetime         not null
 #  author_id       :bigint           not null
 #  conversation_id :bigint           not null
-#  message_id      :string
 #
 # Indexes
 #

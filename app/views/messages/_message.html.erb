@@ -1,3 +1,6 @@
-<div id="<%= dom_id message %>">
-  <p><%= message.subject %></p>
+<div id="<%=message.id %>" class="p2">
+  <div class="message-content">
+    <strong><%= message.role&.upcase %>:</strong>
+    <%= message.displayed_content %>
+  </div>
 </div>

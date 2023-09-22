@@ -8,6 +8,7 @@ class ApplicationsController < ApplicationController
 
   # GET /applications/1 or /applications/1.json
   def show
+    @chat = Chat.new(source: @application, user: current_user)
   end
 
   # GET /applications/new
@@ -19,6 +20,20 @@ class ApplicationsController < ApplicationController
 
   # GET /applications/1/edit
   def edit
+  end
+
+  def create_chat
+    @chat = Chat.new(source: @application, user: current_user)
+
+    respond_to do |format|
+      if @chat.save
+        format.html { redirect_to chat_url(@chat), notice: "Chat was successfully created." }
+        format.json { render :show, status: :created, location: @chat }
+      else
+        format.html { render :new, status: :unprocessable_entity }
+        format.json { render json: @chat.errors, status: :unprocessable_entity }
+      end
+    end
   end
 
   # POST /applications or /applications.json
@@ -61,13 +76,14 @@ class ApplicationsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_application
-      @application = Application.find(params[:id])
-    end
 
-    # Only allow a list of trusted parameters through.
-    def application_params
-      params.require(:application).permit(:user_id, :job_id, :status, :stage, :applied_at, :archived_at, :job_source, :job_link, :company_link, :favorite, :rating, :details, :notes)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_application
+    @application = Application.find(params[:id])
+  end
+
+  # Only allow a list of trusted parameters through.
+  def application_params
+    params.require(:application).permit(:user_id, :job_id, :status, :stage, :applied_at, :archived_at, :job_source, :job_link, :company_link, :favorite, :rating, :details, :notes)
+  end
 end

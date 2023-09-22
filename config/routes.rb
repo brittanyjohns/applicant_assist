@@ -11,9 +11,16 @@ Rails.application.routes.draw do
   resources :conversations do
     resources :posts
   end
+  
   resources :companies
   resources :posts
-  resources :applications
+  resources :applications do
+    resources :chats
+  end
+
+  resources :chats do
+    resources :messages
+  end
   resources :contacts
   get "charges/new"
   get "charges/create"
@@ -27,7 +34,6 @@ Rails.application.routes.draw do
   get "gmail_redirect" => "gmail#redirect", as: "gmail_redirect"
   get "callback" => "gmail#callback", as: "callback"
   get "search_gmail" => "gmail#search", as: "search_gmail"
-  resources :messages
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.

@@ -33,7 +33,8 @@ class Application < ApplicationRecord
   belongs_to :user
   belongs_to :job
   has_many :posts, as: :author
-  scope :with_active_job, -> { joins(:job).merge(Job.active)}
+  has_many :chats, as: :source
+  scope :with_active_job, -> { joins(:job).merge(Job.active) }
 
   enum :status, { draft: 0, applied: 1, in_progress: 2, accepted: 3, rejected: 4, on_hold: 5 }
   enum :stage, { initial: 0, screening: 1, interviewing: 2, negotiating: 3, passing: 4, starting: 5 }
@@ -41,5 +42,4 @@ class Application < ApplicationRecord
   def company_name
     job.company_name
   end
-
 end

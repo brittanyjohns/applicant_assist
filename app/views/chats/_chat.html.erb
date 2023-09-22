@@ -1,0 +1,17 @@
+<div id="<%= dom_id chat %>">
+  <p>
+    <strong>User:</strong>
+    <%= chat.user.email %>
+  </p>
+
+  <p>
+    <strong>Source:</strong>
+    <%= chat.source.inspect %>
+  </p>
+
+  <p>
+    <strong>Title:</strong>
+    <%= link_to chat.title, chat %>
+  </p>
+
+</div>

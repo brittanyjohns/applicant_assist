@@ -3,28 +3,41 @@
 # Table name: messages
 #
 #  id            :bigint           not null, primary key
-#  body          :text
+#  content       :text
 #  date_received :string
 #  from          :string
+#  role          :string
 #  subject       :string
 #  to            :string
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
-#  message_id    :string
-#  user_id       :integer
+#  chat_id       :integer
 #
 class Message < ApplicationRecord
-  belongs_to :user
-  has_rich_text :content
-  after_save :save_content
+  has_rich_text :displayed_content
+  belongs_to :chat
+  validates :role, presence: true
+  before_save :save_rich_content, if: :missing_content
+  before_save :ensure_role
+  broadcasts_to :chat, target: "messages"
 
-  def self.email_id_exists?(id)
-    self.where(message_id: id).exists?
+  def ensure_role
+    self.role ||= 'user'
   end
 
-  def save_content
-    return unless body && id
-    rich_text_content = ActionText::RichText.find_or_initialize_by(record_type: "Message", record_id: id, name: "content", body: body)
-    rich_text_content.save!
+  def save_rich_content
+    if content
+      puts "setting display text"
+      new_line_regex = /\n/
+      replaced_text = content.gsub(new_line_regex, "<br>")
+
+      puts replaced_text
+      self.displayed_content.body = replaced_text
+    end
+  end
+
+  def missing_content
+    displayed_content.nil? || displayed_content.body.blank?
+    true
   end
 end

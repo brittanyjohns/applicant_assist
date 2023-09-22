@@ -1,5 +1,6 @@
 class MessagesController < ApplicationController
   before_action :set_message, only: %i[ show edit update destroy ]
+  before_action :set_chat, only: %i[ create ]
 
   # GET /messages or /messages.json
   def index
@@ -21,13 +22,16 @@ class MessagesController < ApplicationController
 
   # POST /messages or /messages.json
   def create
-    @message = Message.new(message_params)
+    @message = @chat.messages.new(message_params)
 
     respond_to do |format|
       if @message.save
-        format.html { redirect_to message_url(@message), notice: "Message was successfully created." }
+        ChatWithAiJob.perform_now(@chat)
+        format.turbo_stream { render turbo_stream: turbo_stream.replace("form", partial: "messages/form", locals: { chat: @chat, message: Message.new }) }
+        format.html { redirect_to chat_url(@chat), notice: "Message was successfully created." }
         format.json { render :show, status: :created, location: @message }
       else
+        puts "ERROR: #{@message.errors.inspect}"
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @message.errors, status: :unprocessable_entity }
       end
@@ -63,8 +67,12 @@ class MessagesController < ApplicationController
       @message = Message.find(params[:id])
     end
 
+    def set_chat
+      @chat = Chat.find(params[:chat_id])
+    end
+
     # Only allow a list of trusted parameters through.
     def message_params
-      params.fetch(:message, {})
+      params.require(:message).permit(:role, :content, :chat_id)
     end
 end
