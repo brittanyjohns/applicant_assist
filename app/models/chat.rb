@@ -60,11 +60,11 @@ class Chat < ApplicationRecord
   end
 
   def interview_tips
-    messages.where(subject: "Interview Tips").t&.html_safe || "<p>No Interview Tips yet</p>"
+    messages.where(subject: "Interview Tips", role: "assistant").last&.content&.html_safe || "<p>No Interview Tips yet</p>"
   end
 
   def company_info
-    messages.where(subject: "Company Info").last&.content&.html_safe || "<p>No Company Info yet</p>"
+    messages.where(subject: "Company Info", role: "assistant").last&.content&.html_safe || "<p>No Company Info yet</p>"
   end
 
   def open_ai_opts
@@ -90,10 +90,11 @@ class Chat < ApplicationRecord
   end
 
   def chat_with_ai!
+    puts "Chatting with AI with parmas: #{open_ai_opts}"
     response = OpenAiClient.new(open_ai_opts).create_chat
     puts "Totals response: #{response.inspect}\n\n"
-    if response
-      role = response[:role]
+    if response && response[:role]
+      role = response[:role] || "assistant"
       content = response[:content]
 
       # self.save!

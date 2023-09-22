@@ -41,12 +41,13 @@ class ChatsController < ApplicationController
 
   def message_prompt
     prompt_type = params["commit"]
-    message = @chat.messages.new
+    message = @chat.messages.new(role: "user", subject: prompt_type)
     message.setup_prompt(prompt_type)
+    puts "Saving MESAGE: #{message.inspect}"
     respond_to do |format|
       if message.save
         ChatWithAiJob.perform_now(@chat)
-        format.html { redirect_to chat_url(@chat), notice: "Chat was successfully updated." }
+        format.html { redirect_to application_url(@chat.source.id) }
         format.json { render :show, status: :ok, location: @chat }
       else
         format.html { render :edit, status: :unprocessable_entity }

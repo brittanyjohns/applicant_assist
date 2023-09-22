@@ -81,15 +81,23 @@ class Message < ApplicationRecord
     " Provide as much detail as possible. I understand you are an AI language model with limitations, so any company information you have available will work."
   end
 
+  def bootstrap_styling
+    "styled using Bootstrap css helpers"
+  end
+
   def company_info_table_id
     "company_#{chat.source.job.company.id}"
   end
 
+  def interview_tips_table_id
+    "interview_tips_for_job_#{chat.source.job.id}"
+  end
+
   def build_interview_tips_prompt
-    "Give me 3 interview tips for applying to a job with the following job posting:\n#{job_posting}\nPlease format the response as a HTML table. Only include html in the response. "
+    "Give me 3 interview tips for applying to a job with the following job posting:\n#{job_posting}\n #{detailed_response} Please format the response as a HTML table. Only include html table with the id of #{interview_tips_table_id} , class name of interview_tips_table, and #{bootstrap_styling} in the response. "
   end
 
   def build_company_info_prompt
-    "Tell me 3 things that would be helpful for someone applying to #{company_name} as a #{job_title} to know about the company. #{detailed_response} Please format the response as a HTML table. Only include html table with the id of #{company_info_table_id} , class name of company_info_table, and styled using Bootstrap css helpers in the response."
+    "Tell me 3 things that would be helpful for someone applying to #{company_name} as a #{job_title} to know about the company. #{detailed_response} Please format the response as a HTML table. Only include html table with the id of #{company_info_table_id} , class name of company_info_table, and #{bootstrap_styling} in the response."
   end
 end

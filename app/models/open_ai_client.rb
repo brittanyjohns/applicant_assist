@@ -55,8 +55,9 @@ class OpenAiClient
     response = openai_client.chat(
       parameters: opts,
     )
-    puts response.dig("choices", 0, "message", "content")
+
     if response
+      puts "AI Response: #{response.inspect}"
       @role = response.dig("choices", 0, "message", "role")
       @content = response.dig("choices", 0, "message", "content")
     else
