@@ -41,11 +41,14 @@ class ChatsController < ApplicationController
 
   def message_prompt
     prompt_type = params["commit"]
-    message = @chat.messages.new(role: "user", subject: prompt_type)
+    message = @chat.messages.find_or_initialize_by(role: "user", subject: prompt_type)
     message.setup_prompt(prompt_type)
     puts "Saving MESAGE: #{message.inspect}"
     respond_to do |format|
       if message.save
+        puts "Before: #{@chat.messages.count}"
+        @chat.messages.reload
+        puts "After: #{@chat.messages.count}"
         ChatWithAiJob.perform_now(@chat)
         format.html { redirect_to application_url(@chat.source.id) }
         format.json { render :show, status: :ok, location: @chat }
@@ -71,10 +74,11 @@ class ChatsController < ApplicationController
 
   # DELETE /chats/1 or /chats/1.json
   def destroy
+    application = @chat.application
     @chat.destroy!
 
     respond_to do |format|
-      format.html { redirect_to chats_url, notice: "Chat was successfully destroyed." }
+      format.html { redirect_to application, notice: "Chat was successfully destroyed." }
       format.json { head :no_content }
     end
   end

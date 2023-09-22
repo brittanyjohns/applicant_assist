@@ -25,16 +25,24 @@ class Chat < ApplicationRecord
   has_many :messages, dependent: :destroy
   after_create_commit { broadcast_append_to("chats") }
 
+  MAX_TOKEN_LENGTH = 4000 # its actually 4097 but  - round numbers :)
+
   def application
     self.source if source.class.name == "Application"
   end
 
   def messages_to_display
-    messages.where(subject: nil)
+    subjects_to_filter = message_types << "System Setup"
+    messages.where.not(subject: subjects_to_filter)
   end
 
   def message_types
     ["Interview Tips", "Company Info"]
+  end
+
+  def remaining_prompt_types
+    completed_prompts = messages.where(subject: message_types).pluck(:subject)
+    message_types - completed_prompts
   end
 
   def text_format
@@ -68,7 +76,7 @@ class Chat < ApplicationRecord
   end
 
   def open_ai_opts
-    { prompt: prompt, messages: format_messages }
+    { prompt: prompt[0...MAX_TOKEN_LENGTH], messages: format_messages }
   end
 
   def job_posting
@@ -91,6 +99,7 @@ class Chat < ApplicationRecord
 
   def chat_with_ai!
     puts "Chatting with AI with parmas: #{open_ai_opts}"
+
     response = OpenAiClient.new(open_ai_opts).create_chat
     puts "Totals response: #{response.inspect}\n\n"
     if response && response[:role]
@@ -100,9 +109,11 @@ class Chat < ApplicationRecord
       # self.save!
 
       # new_line_regex = /\n/
-      last_user_msg = messages.where(role: "user").last&.subject
-      puts "last_user_msg: #{last_user_msg}"
-      msg = messages.new(role: role, content: content, subject: last_user_msg)
+      last_user_msg = messages.where(role: "user").last
+      subject = last_user_msg ? last_user_msg.subject : "Hello Human"
+
+      msg = messages.find_or_initialize_by(role: role, subject: subject)
+      msg.content = content
       # new_line_regex = /\n/
       # replaced_text = content.gsub(new_line_regex, "<br>") if content
 
