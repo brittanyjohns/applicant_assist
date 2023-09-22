@@ -1,10 +1,16 @@
-<%= render @chat %>
+  <div class='col'>
+  <h2>Application</h2>
+  <%= link_to @chat.job_title, @chat.application %> |
+  </div>
+  
+  <%= render partial: "prompt_form", locals: { chat: @chat } %>
+
 <hr>
 <%= turbo_stream_from @chat %>
 <div id="messages" class="scrolling-chatbox">
-  <%= render @chat.messages %>
+  <%= render @chat.messages_to_display %>
 </div>
-<div class="col-md-12">
+<div class="col-md-6">
   <%= render partial: "messages/form", locals: { chat: @chat, message: Message.new } %>
 </div>
 <div>

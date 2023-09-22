@@ -11,7 +11,7 @@ Rails.application.routes.draw do
   resources :conversations do
     resources :posts
   end
-  
+
   resources :companies
   resources :posts
   resources :applications do
@@ -20,6 +20,9 @@ Rails.application.routes.draw do
 
   resources :chats do
     resources :messages
+    member do
+      post "message_prompt" => "chats#message_prompt", as: "message_prompt"
+    end
   end
   resources :contacts
   get "charges/new"

@@ -8,6 +8,8 @@
   <%= link_to "MORE INFO", get_details_job_path(@job), class: "btn btn-info" unless @job.description.length > 1000 %>
   <%= button_to "Destroy this job", @job, method: :delete %>
 </div>
-<% @job.applications.each do |application| %>
-<%= render application %>
-<% end %>
+<div class='col'>
+  <% @job.applications.each do |application| %>
+    <%= render application %>
+  <% end %>
+</div>

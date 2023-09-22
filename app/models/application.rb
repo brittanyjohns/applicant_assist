@@ -32,8 +32,8 @@
 class Application < ApplicationRecord
   belongs_to :user
   belongs_to :job
-  has_many :posts, as: :author
-  has_many :chats, as: :source
+  has_many :posts, as: :author, dependent: :destroy
+  has_many :chats, as: :source, dependent: :destroy
   scope :with_active_job, -> { joins(:job).merge(Job.active) }
 
   enum :status, { draft: 0, applied: 1, in_progress: 2, accepted: 3, rejected: 4, on_hold: 5 }

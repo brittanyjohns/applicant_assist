@@ -41,6 +41,6 @@
     <%= job.status %>
   </p>
       <a href="<%= job.web_link %>" target="_blank" class="btn btn-success"> Apply Now</a>
-
+  <%= render partial: "applications/form", locals: { application: Application.new(job_id: job.id) } %>
 
 </div>
