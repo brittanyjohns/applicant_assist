@@ -25,7 +25,6 @@
 #
 #  fk_rails_...  (company_id => companies.id)
 #
-
 one:
   company: one
   title: MyString

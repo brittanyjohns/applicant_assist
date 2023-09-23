@@ -9,6 +9,16 @@
     border: 1px solid black;
     padding-left: 25px;
     padding-top: 10px;
-    background-color: bisque;
+    background-color: rgb(255, 255, 255);
+    margin-bottom: 15px;
+}
+
+.scrolling-job-details {
+    max-height: 800px;
+    overflow: scroll;
+    border: 1px solid black;
+    padding-left: 25px;
+    padding-top: 10px;
+    background-color: rgb(255, 255, 255);
     margin-bottom: 15px;
 }

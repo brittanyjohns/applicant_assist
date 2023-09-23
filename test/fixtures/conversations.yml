@@ -17,7 +17,6 @@
 #
 #  fk_rails_...  (contact_id => contacts.id)
 #
-
 one:
   subject: MyString
   contact: one

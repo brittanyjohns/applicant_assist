@@ -27,7 +27,7 @@
 #
 class Job < ApplicationRecord
   belongs_to :company
-  has_many :applications
+  has_many :applications, dependent: :destroy
   has_many :users, through: :applications
   attr_accessor :company_name
 

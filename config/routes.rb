@@ -1,3 +1,6 @@
+# == Route Map
+#
+
 Rails.application.routes.draw do
   get "users/index"
   get "users/show"
@@ -5,15 +8,26 @@ Rails.application.routes.draw do
   resources :jobs do
     member do
       get "get_details"
+      get "create_application"
     end
   end
   post "job_search" => "jobs#search", as: "job_search"
   resources :conversations do
     resources :posts
   end
+
   resources :companies
   resources :posts
-  resources :applications
+  resources :applications do
+    resources :chats
+  end
+
+  resources :chats do
+    resources :messages
+    member do
+      post "message_prompt" => "chats#message_prompt", as: "message_prompt"
+    end
+  end
   resources :contacts
   get "charges/new"
   get "charges/create"
@@ -27,7 +41,6 @@ Rails.application.routes.draw do
   get "gmail_redirect" => "gmail#redirect", as: "gmail_redirect"
   get "callback" => "gmail#callback", as: "callback"
   get "search_gmail" => "gmail#search", as: "search_gmail"
-  resources :messages
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.

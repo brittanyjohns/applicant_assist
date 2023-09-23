@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2023_09_18_201714) do
+ActiveRecord::Schema[7.1].define(version: 2023_09_21_203759) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -81,6 +81,17 @@ ActiveRecord::Schema[7.1].define(version: 2023_09_18_201714) do
     t.index ["user_id"], name: "index_applications_on_user_id"
   end
 
+  create_table "chats", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "source_type", null: false
+    t.bigint "source_id", null: false
+    t.string "title"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["source_type", "source_id"], name: "index_chats_on_source"
+    t.index ["user_id"], name: "index_chats_on_user_id"
+  end
+
   create_table "companies", force: :cascade do |t|
     t.string "name"
     t.string "website"
@@ -129,13 +140,13 @@ ActiveRecord::Schema[7.1].define(version: 2023_09_18_201714) do
   create_table "messages", force: :cascade do |t|
     t.string "date_received"
     t.string "from"
-    t.string "message_id"
     t.string "to"
     t.string "subject"
-    t.text "body"
-    t.integer "user_id"
+    t.text "content"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "chat_id"
+    t.string "role"
   end
 
   create_table "order_items", force: :cascade do |t|
@@ -169,7 +180,6 @@ ActiveRecord::Schema[7.1].define(version: 2023_09_18_201714) do
     t.bigint "conversation_id", null: false
     t.string "author_type", null: false
     t.bigint "author_id", null: false
-    t.string "message_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["author_type", "author_id"], name: "index_posts_on_author"
@@ -214,6 +224,7 @@ ActiveRecord::Schema[7.1].define(version: 2023_09_18_201714) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "applications", "jobs"
   add_foreign_key "applications", "users"
+  add_foreign_key "chats", "users"
   add_foreign_key "conversations", "contacts"
   add_foreign_key "jobs", "companies"
   add_foreign_key "order_items", "orders"

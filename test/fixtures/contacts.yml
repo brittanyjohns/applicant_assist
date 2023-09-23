@@ -11,7 +11,6 @@
 #  updated_at     :datetime         not null
 #  application_id :integer
 #
-
 one:
   name: MyString
   email: MyString

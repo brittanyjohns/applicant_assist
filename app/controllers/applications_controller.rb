@@ -3,11 +3,12 @@ class ApplicationsController < ApplicationController
 
   # GET /applications or /applications.json
   def index
-    @applications = Application.all
+    @applications = current_user.applications.includes(:job).order(created_at: :desc)
   end
 
   # GET /applications/1 or /applications/1.json
   def show
+    @chat = Chat.new(source: @application, user: current_user)
   end
 
   # GET /applications/new
@@ -21,13 +22,29 @@ class ApplicationsController < ApplicationController
   def edit
   end
 
+  def create_chat
+    @chat = Chat.new(source: @application, user: current_user)
+
+    respond_to do |format|
+      if @chat.save
+        format.html { redirect_to chat_url(@chat), notice: "Chat was successfully created." }
+        format.json { render :show, status: :created, location: @chat }
+      else
+        format.html { render :new, status: :unprocessable_entity }
+        format.json { render json: @chat.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
   # POST /applications or /applications.json
   def create
     @application = Application.new(application_params)
     @application.user = current_user
+    
 
     respond_to do |format|
       if @application.save
+        @chat = Chat.create(source: @application, user: current_user)
         format.html { redirect_to application_url(@application), notice: "Application was successfully created." }
         format.json { render :show, status: :created, location: @application }
       else
@@ -61,13 +78,14 @@ class ApplicationsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_application
-      @application = Application.find(params[:id])
-    end
 
-    # Only allow a list of trusted parameters through.
-    def application_params
-      params.require(:application).permit(:user_id, :job_id, :status, :stage, :applied_at, :archived_at, :job_source, :job_link, :company_link, :favorite, :rating, :details, :notes)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_application
+    @application = Application.find(params[:id])
+  end
+
+  # Only allow a list of trusted parameters through.
+  def application_params
+    params.require(:application).permit(:user_id, :job_id, :status, :stage, :applied_at, :archived_at, :job_source, :job_link, :company_link, :favorite, :rating, :details, :notes)
+  end
 end

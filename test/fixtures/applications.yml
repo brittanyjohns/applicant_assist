@@ -29,7 +29,6 @@
 #  fk_rails_...  (job_id => jobs.id)
 #  fk_rails_...  (user_id => users.id)
 #
-
 one:
   user: one
   job: one

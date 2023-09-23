@@ -21,7 +21,6 @@
 #
 #  fk_rails_...  (user_id => users.id)
 #
-
 one:
   subtotal: 9.99
   tax: 9.99

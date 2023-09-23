@@ -1,13 +1,16 @@
-<p style="color: green"><%= notice %></p>
+<div class='row'>
 
-<%= render @job %>
-
-<div>
-  <%= link_to "Edit this job", edit_job_path(@job) %> |
-  <%= link_to "Back to jobs", jobs_path %>
-  <%= link_to "MORE INFO", get_details_job_path(@job), class: "btn btn-info" unless @job.description.length > 1000 %>
-  <%= button_to "Destroy this job", @job, method: :delete %>
+  <div class='col-md-6'>
+    <%= render @job %>
+  </div>
+  <div class='col-md-3'>
+    <%= link_to "Edit this job", edit_job_path(@job) %>
+    <%= unless @job.description.length > 1000
+      link_to "MORE INFO", get_details_job_path(@job), class: "btn btn-info"
+    end %>
+    <%= button_to "Destroy this job", @job, method: :delete %>
+  </div>
+  <div class='col-md-3'>
+    <p class='lead'><%= pluralize(@job.applications.count, "application") %></p>
+  </div>
 </div>
-<% @job.applications.each do |application| %>
-<%= render application %>
-<% end %>

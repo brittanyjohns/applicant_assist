@@ -12,7 +12,7 @@ amazon:
   access_key_id: <%= ENV.fetch("AWS_ACCESS_KEY_ID") %>
   secret_access_key: <%= ENV.fetch("AWS_SECRET_ACCESS_KEY") %>
   region: us-east-1
-  bucket: applicant-assist-<%= ENV.fetch("RAILS_ENV") %>
+  bucket: applicant-assist-<%= ENV.fetch("RAILS_ENV", "development") %>
 # Remember not to checkin your GCS keyfile to a repository
 # google:
 #   service: GCS

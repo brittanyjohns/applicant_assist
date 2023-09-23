@@ -70,8 +70,11 @@ class Indeed
     job_results = result["result"]
     return unless job_results
     jobs = job_results["jobs"]
+    count = 0
     return unless jobs
     jobs.each do |job_info|
+      break if count > 10
+      count += 1
       title = job_info["title"]
       link = job_info["link"]
       web_id = job_info["web_id"]
@@ -82,7 +85,10 @@ class Indeed
       company = Company.find_or_create_by(name: company_name)
       job = company.jobs.find_by(web_id: web_id)
       if job
-        puts "Job already exists - skipping"
+        same_title = title && (title === job.title)
+        puts "Job already exists same_title: #{same_title} \n#{job.inspect}\nresponse: #{job_info}"
+
+        job.update(title: title) unless same_title
       else
         job = company.jobs.new(title: title, web_link: link, web_id: web_id, salary: salary, description: snippet, location: company_location)
         job.save!
@@ -135,7 +141,7 @@ class Indeed
     job = Job.find_by(web_id: @options[:job_web_id])
     job.update!(description: description)
     puts "job_details: #{job_details}\n\n"
-    File.open("job_details.txt", "w") { |f| f.write "#{Time.now} - #{job.id} job_details\n#{job_details}\n" }
+    # File.open("job_details.txt", "w") { |f| f.write "#{Time.now} - #{job.id} job_details\n#{job_details}\n" }
     job_details
   end
 end

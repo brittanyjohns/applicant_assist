@@ -1,0 +1,11 @@
+<div class="col">
+  <%= form_with(model: chat, url: message_prompt_chat_path(chat), method: :post) do |form| %>
+    <div
+      class="btn-group-vertical float-start img-type-btn-group"
+      role="group"
+      aria-label="Vertical button group"
+    >
+      <%= form_links form, chat.remaining_prompt_types %>
+    </div>
+  <% end %>
+</div>

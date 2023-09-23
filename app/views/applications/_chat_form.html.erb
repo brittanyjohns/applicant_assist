@@ -1,0 +1,9 @@
+<%= form_with model: @chat, url: application_chats_path(@application), id: "form" do |f| %>
+  <div class="form-inputs">
+    <%= f.label :title %>
+    <%= f.text_field :title %>
+  </div>
+  <div class="form-actions">
+    <%= f.button :submit %>
+  </div>
+<% end %>

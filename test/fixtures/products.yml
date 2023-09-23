@@ -20,7 +20,6 @@
 #
 #  fk_rails_...  (product_category_id => product_categories.id)
 #
-
 one:
   name: MyString
   price: 9.99

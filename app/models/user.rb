@@ -48,4 +48,12 @@ class User < ApplicationRecord
   def internal_email
     "#{username}@applicant-assist.com"
   end
+
+  def applied_for(job_id)
+    self.job_ids.uniq.include?(job_id)
+  end
+
+  def jobs_not_applied_to
+    Job.includes(:company).where.not(id: self.job_ids.uniq)
+  end
 end
