@@ -1,13 +1,22 @@
-<p style="color: green"><%= notice %></p>
-<%= render 'chat_form', application: @application %>
-<%= render @application %>
+<div class='row'>
+  <%= render @application %>
+  <div class="col-md-6 scrolling-job-details">
+    <%= render @application.job %>
+  </div>
 
-<div>
-  <%= link_to "Edit this application", edit_application_path(@application) %> |
-  <%= link_to "Back to applications", applications_path %>
+  <div class="col-md-4">
 
-  <%= button_to "Destroy this application", @application, method: :delete %>
+    <%= render @application.chats %>
+  </div>
+
+  <div class='col-md-1'>
+    <%= render partial: "chats/prompt_form", locals: { chat: @application.chats.first } %>
+
+  </div>
 </div>
-<%= link_to "VIEW JOB", @application.job %>
-<h2>Chats</h2>
-<%= render @application.chats %>
+<div class='row clearfix'>
+  <%= button_to "Delete",
+  @application,
+  method: :delete,
+  class: "btn btn-danger float-end" %>
+</div>

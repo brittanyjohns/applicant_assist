@@ -1,6 +1,6 @@
 <div id="<%=message.id %>" class="p2">
   <div class="message-content">
     <strong><%= message.role&.upcase || 'USER' %>: <%=message.subject%></strong>
-    <%= message.content.html_safe %>
+    <%= message.displayed_content %>
   </div>
 </div>

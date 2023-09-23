@@ -5,10 +5,5 @@
 <div id="applications">
   <% @applications.each do |application| %>
     <%= render application %>
-    <p>
-      <%= link_to "Show this application", application %>
-    </p>
   <% end %>
 </div>
-
-<%= link_to "New application", new_application_path %>

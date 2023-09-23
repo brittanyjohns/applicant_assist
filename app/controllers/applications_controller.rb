@@ -3,7 +3,7 @@ class ApplicationsController < ApplicationController
 
   # GET /applications or /applications.json
   def index
-    @applications = Application.all
+    @applications = current_user.applications.includes(:job).order(created_at: :desc)
   end
 
   # GET /applications/1 or /applications/1.json
@@ -40,9 +40,11 @@ class ApplicationsController < ApplicationController
   def create
     @application = Application.new(application_params)
     @application.user = current_user
+    
 
     respond_to do |format|
       if @application.save
+        @chat = Chat.create(source: @application, user: current_user)
         format.html { redirect_to application_url(@application), notice: "Application was successfully created." }
         format.json { render :show, status: :created, location: @application }
       else

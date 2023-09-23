@@ -13,7 +13,6 @@
 #  updated_at    :datetime         not null
 #  chat_id       :integer
 #
-
 one:
   date_received: MyString
   from: MyString

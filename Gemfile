@@ -61,8 +61,10 @@ group :development, :test do
 end
 
 group :development do
+  gem "erb-formatter"
   # Use console on exceptions pages [https://github.com/rails/web-console]
   gem "web-console"
+  gem "annotate"
 
   # Add speed badges [https://github.com/MiniProfiler/rack-mini-profiler]
   # gem "rack-mini-profiler"
@@ -85,7 +87,6 @@ gem "google-api-client", "~> 0.9", require: "google/apis/gmail_v1"
 # Config & ENV vars
 gem "figaro"
 gem "bootstrap", "~> 5.3.1"
-gem "annotate"
 gem "simple_form"
 gem "braintree", "~> 4.5"
 

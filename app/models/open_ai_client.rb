@@ -1,7 +1,7 @@
 require "openai"
 
 class OpenAiClient
-  DEFAULT_MODEL = "text-davinci-001"
+  DEFAULT_MODEL = "gpt-4"
   TURBO_MODEL = "gpt-3.5-turbo"
 
   def initialize(opts)
@@ -48,7 +48,7 @@ class OpenAiClient
 
   def create_chat
     opts = {
-      model: TURBO_MODEL, # Required.
+      model: DEFAULT_MODEL, # Required.
       messages: @messages, # Required.
       temperature: 0.7,
     }

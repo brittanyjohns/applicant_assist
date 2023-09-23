@@ -5,10 +5,18 @@
 <div id="jobs">
   <% @jobs.each do |job| %>
     <%= link_to job do %>
-      <div class='job-list-item'>
+      <div class='job-list-item clearfix'>
+      <small><%= job.id %></small>
         <p class='lead'>
-          <strong><%= job.title %> </strong> - <small><%= link_to job.company.name, job.company %></small>
+           <strong><%= job.title %> </strong> - <small><%= link_to job.company.name, job.company %></small> <span class='float-end'><%= time_ago_in_words job.created_at %> ago</span>
         </p>
+       
+        
+         <%= unless current_user.applied_for(job)
+      link_to "Apply",
+      create_application_job_path(job),
+      class: "btn btn-success btn-sm float-end"
+    end %>
       </div>
     <% end %>
   <% end %>

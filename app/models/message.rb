@@ -94,10 +94,10 @@ class Message < ApplicationRecord
   end
 
   def build_interview_tips_prompt
-    "Give me 3 interview tips for applying to a job with the following job posting:\n#{job_posting}\n #{detailed_response} Please format the response as a HTML table. Only include html table with the id of #{interview_tips_table_id} , class name of interview_tips_table, and #{bootstrap_styling} in the response. "
+    "Give me 3 interview tips for applying to this job.\n #{detailed_response} Please format the response as a HTML table. Only include html table with the id of #{interview_tips_table_id} , class name of interview_tips_table, and #{bootstrap_styling} in the response. "
   end
 
   def build_company_info_prompt
-    "Tell me 3 things that would be helpful for someone applying to #{company_name} as a #{job_title} to know about the company. #{detailed_response} Please format the response as a HTML table. Only include html table with the id of #{company_info_table_id} , class name of company_info_table, and #{bootstrap_styling} in the response."
+    "Tell me 3 things that would be helpful for someone applying to #{company_name} as a #{job_title} to know about the company. Include things like mission statement, culture, industry, short summary of what they do, office locations (if applicable) & any other useful information. #{detailed_response} Please format the response as a HTML table. Only include html table with the id of #{company_info_table_id} , class name of company_info_table, and #{bootstrap_styling} in the response."
   end
 end

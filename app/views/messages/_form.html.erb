@@ -1,13 +1,7 @@
-<div class="well">
-
-
-  <%= form_with(model: message, url: chat_messages_path(@chat), id: "form") do |form| %>
+<%= form_with(model: message, url: chat_messages_path(@chat), id: "form") do |form| %>
   <%= form.object.errors[:base].to_sentence if form.object.errors[:base].present? %>
-    <%= form.text_field :role, value: "user", class: "form-control" %>
-    <%= form.label :content %>
-    <%= form.text_field :content, class: "form-control", size: "200x200" %>
+    <%= form.text_area :content, class: "form-control", size: "4x8" %>
     <div class="form-actions">
         <%= form.button :submit %>
     </div>
   <% end %>
-</div>

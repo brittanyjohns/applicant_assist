@@ -1,3 +1,6 @@
+# == Route Map
+#
+
 Rails.application.routes.draw do
   get "users/index"
   get "users/show"
@@ -5,6 +8,7 @@ Rails.application.routes.draw do
   resources :jobs do
     member do
       get "get_details"
+      get "create_application"
     end
   end
   post "job_search" => "jobs#search", as: "job_search"

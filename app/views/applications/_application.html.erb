@@ -1,12 +1,12 @@
 <div id="<%= dom_id application %>">
-<%= link_to application do %>
-  <p>
-    <strong>Job:</strong>
-    <%= link_to application.job.title, application.job %> 
-  </p>
-  <p>
-     <strong>Company:</strong>
-     <%= link_to application.job.company.name, application.job.company %>
-  </p>
-<% end %>
+  <%= link_to application do %>
+    <p class='lead'>
+      <strong><%= application.id %>:</strong>
+      <%= link_to application.job.title, application.job %>
+      <br><small><%= link_to application.job.company.name, application.job.company %></small>
+    </p>
+    <p class='lead'>
+      <%= application.user.name %>
+    </p>
+  <% end %>
 </div>

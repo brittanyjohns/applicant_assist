@@ -1,10 +1,11 @@
 class JobsController < ApplicationController
-  before_action :set_job, only: %i[ show edit update destroy get_details ]
+  before_action :set_job, only: %i[ show edit update destroy get_details create_application ]
   before_action :ensure_details, only: %i[ show ]
 
   # GET /jobs or /jobs.json
   def index
-    @jobs = Job.includes(:company).order(created_at: :desc)
+    # @jobs = Job.includes(:company).order(created_at: :desc).limit(20)
+    @jobs = current_user.jobs_not_applied_to.order(created_at: :desc).limit(20)
   end
 
   # GET /jobs/1 or /jobs/1.json
@@ -18,6 +19,22 @@ class JobsController < ApplicationController
 
   # GET /jobs/1/edit
   def edit
+  end
+
+  def create_application
+    @application = @job.applications.new(user: current_user)
+
+    respond_to do |format|
+      if @application.save
+        @chat = Chat.create(source: @application, user: current_user)
+        ChatWithAiJob.perform_now(@chat)
+        format.html { redirect_to @application, notice: "Application was successfully updated." }
+        format.json { render :show, status: :ok, location: @job }
+      else
+        format.html { render :edit, status: :unprocessable_entity }
+        format.json { render json: @application.errors, status: :unprocessable_entity }
+      end
+    end
   end
 
   # POST /jobs or /jobs.json
@@ -67,7 +84,7 @@ class JobsController < ApplicationController
     search_term = params[:job_search][:q]
     respond_to do |format|
       JobSearchJob.perform_now(search_term)
-      format.html { redirect_to jobs_url, notice: "Jobs were successfully loaded." }
+      format.html { redirect_to jobs_url, notice: "Job Search Complete" }
       format.json { head :no_content }
     end
   end
@@ -75,7 +92,7 @@ class JobsController < ApplicationController
   def get_details
     Indeed.new(nil, nil, nil, @job.web_id).get_details
     respond_to do |format|
-      format.html { redirect_to job_url(@job), notice: "Job was successfully loaded." }
+      format.html { redirect_to job_url(@job), notice: "More info added." }
       format.json { head :no_content }
     end
   end

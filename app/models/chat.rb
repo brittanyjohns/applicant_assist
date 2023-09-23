@@ -55,7 +55,7 @@ class Chat < ApplicationRecord
 
   def format_messages
     if messages.blank?
-      [messages.create!(role: "system", subject: "System Setup", content: "You are a funny and sarcastic, but also very helpful, assistant that is going to help me get the job described in the following job posting:\n #{job_posting}\n\n")]
+      [messages.create!(role: "system", subject: "System Setup", content: "You are a funny and whitty, but also very helpful, assistant that is going to help me get at the job described in the following job posting:\n #{job_posting}\n\n")]
     else
       messages.map do |msg|
         { role: msg.role, content: msg.content }
