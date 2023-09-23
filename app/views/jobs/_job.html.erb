@@ -40,7 +40,7 @@
       <%= job.status %>
     </p>
     <div class='job_description'>
-      <%= job.description.html_safe %>
+      <%= job.description&.html_safe %>
     </div>
     <a href="<%= job.web_link %>" target="_blank" class="btn btn-outline-dark">View on Indeed</a>
   </div>
