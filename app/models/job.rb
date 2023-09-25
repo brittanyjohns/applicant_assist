@@ -30,6 +30,7 @@ class Job < ApplicationRecord
   has_many :applications, dependent: :destroy
   has_many :users, through: :applications
   attr_accessor :company_name
+  broadcasts_to ->(job) { :job_list }, inserts_by: :prepend, target: "jobs"
 
   enum :status, { active: 0, inactive: 1 }
 end

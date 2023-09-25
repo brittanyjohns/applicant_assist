@@ -26,7 +26,7 @@ class MessagesController < ApplicationController
 
     respond_to do |format|
       if @message.save
-        ChatWithAiJob.perform_now(@chat)
+        ChatWithAiJob.perform_async(@chat.id)
         format.turbo_stream { render turbo_stream: turbo_stream.replace("form", partial: "messages/form", locals: { chat: @chat, message: Message.new }) }
         format.html { redirect_to chat_url(@chat), notice: "Message was successfully created." }
         format.json { render :show, status: :created, location: @message }
@@ -62,17 +62,18 @@ class MessagesController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_message
-      @message = Message.find(params[:id])
-    end
 
-    def set_chat
-      @chat = Chat.find(params[:chat_id])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_message
+    @message = Message.find(params[:id])
+  end
 
-    # Only allow a list of trusted parameters through.
-    def message_params
-      params.require(:message).permit(:role, :content, :chat_id)
-    end
+  def set_chat
+    @chat = Chat.find(params[:chat_id])
+  end
+
+  # Only allow a list of trusted parameters through.
+  def message_params
+    params.require(:message).permit(:role, :content, :chat_id)
+  end
 end

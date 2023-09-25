@@ -1,10 +1,13 @@
-class ReplyJob < ApplicationJob
+class ReplyJob
+  include Sidekiq::Job
   queue_as :default
   attr_reader :post
 
   def perform(*args)
     puts "args #{args}"
-    @post = args[0]
+    post_id = args[0]
+    @post = Post.find(post_id)
+
     # @post = args[:post]
     return if post.message_id?
 

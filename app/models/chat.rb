@@ -55,7 +55,7 @@ class Chat < ApplicationRecord
 
   def format_messages
     if messages.blank?
-      [messages.create!(role: "system", subject: "System Setup", content: "You are a funny and whitty, but also very helpful, assistant that is going to help me get at the job described in the following job posting:\n #{job_posting}\n\nAnd here's my resume for future reference:\n #{user_resume}")]
+      [Message.create_initial_setup_prompt_for(self.id)]
     else
       messages.map do |msg|
         { role: msg.role, content: msg.content }
@@ -68,27 +68,27 @@ class Chat < ApplicationRecord
   end
 
   def user_resume
-    user.docs.last&.raw_body
+    user.resume
   end
 
   def interview_tips
-    messages.where(subject: "Interview Tips", role: "assistant").last&.content&.html_safe || "<p>No Interview Tips yet</p>"
+    messages.where(subject: "Interview Tips", role: "assistant").last&.displayed_content || "<p>No Interview Tips yet</p>".html_safe
   end
 
   def resume_rewrite
-    messages.where(subject: "Resume Re-Write", role: "assistant").last&.content&.html_safe || "<p>No Resume Re-Write yet</p>"
+    messages.where(subject: "Resume Re-Write", role: "assistant").last&.displayed_content || "<p>No Resume Re-Write yet</p>".html_safe
   end
 
   def resume_intro
-    messages.where(subject: "Resume Intro", role: "assistant").last&.content&.html_safe || "<p>No Resume Intro yet</p>"
+    messages.where(subject: "Resume Intro", role: "assistant").last&.displayed_content || "<p>No Resume Intro yet</p>".html_safe
   end
 
   def elevator_speech
-    messages.where(subject: "Elevator Speech", role: "assistant").last&.content&.html_safe || "<p>No Elevator Speech yet</p>"
+    messages.where(subject: "Elevator Speech", role: "assistant").last&.displayed_content || "<p>No Elevator Speech yet</p>".html_safe
   end
 
   def company_info
-    messages.where(subject: "Company Info", role: "assistant").last&.content&.html_safe || "<p>No Company Info yet</p>"
+    messages.where(subject: "Company Info", role: "assistant").last&.displayed_content || "<p>No Company Info yet</p>".html_safe
   end
 
   def open_ai_opts

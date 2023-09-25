@@ -50,7 +50,7 @@ class OpenAiClient
     opts = {
       model: DEFAULT_MODEL, # Required.
       messages: @messages, # Required.
-      temperature: 0.7,
+      temperature: 0.9,
     }
     response = openai_client.chat(
       parameters: opts,

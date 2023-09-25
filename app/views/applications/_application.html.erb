@@ -1,12 +1,9 @@
-<div id="<%= dom_id application %>">
+<div id="<%= dom_id application %>" class='application-list-item clearfix'>
   <%= link_to application do %>
     <p class='lead'>
-      <strong><%= application.id %>:</strong>
-      <%= link_to application.job.title, application.job %>
-      <br><small><%= link_to application.job.company.name, application.job.company %></small>
-    </p>
-    <p class='lead'>
-      <%= application.user.name %>
+      <strong><%= application.id %>:
+      <%= application.job.title %></strong>
+      <br><small><%= application.job.company.name %></small>
     </p>
   <% end %>
 </div>

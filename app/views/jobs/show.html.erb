@@ -1,15 +1,62 @@
 <div class='row'>
 
   <div class='col-md-8'>
-    <%= render @job %>
+    <div id="<%= dom_id @job %>">
+      <div class='col'>
+        <p>
+          <strong>Company:</strong>
+          <%= link_to @job.company.name, @job.company %>
+        </p>
+
+        <p>
+          <strong>Title:</strong>
+          <%= link_to @job.title, @job %>
+        </p>
+
+        <p>
+          <strong>Description:</strong>
+
+        </p>
+
+        <p>
+          <strong>Location:</strong>
+          <%= @job.location %>
+        </p>
+
+        <p>
+          <strong>Salary:</strong>
+          <%= @job.salary %>
+        </p>
+
+        <p>
+          <strong>Job type:</strong>
+          <%= @job.job_type %>
+        </p>
+
+        <p>
+          <strong>Experience:</strong>
+          <%= @job.experience %>
+        </p>
+
+        <p>
+          <strong>Status:</strong>
+          <%= @job.status %>
+        </p>
+        <div class='job_description'>
+          <%= @job.description&.html_safe %>
+        </div>
+        <a href="<%= @job.web_link %>" target="_blank" class="btn btn-outline-dark">View on Indeed</a>
+      </div>
+      <hr>
+      <%= link_to "Edit this job", edit_job_path(@job), class: "btn btn-info" %>
+      <%= button_to "Destroy this job", @job, method: :delete, class: "btn btn-danger" %>
+    </div>
   </div>
 
   <div class='col-md-3'>
     <p class='lead'><%= pluralize(@job.applications.count, "application") %></p>
   </div>
   <div class='col-md-1'>
-    <%= link_to "Edit this job", edit_job_path(@job), class: "btn btn-info" %>
     <%= job_info_or_apply_link(@job, "lg") %>
-    <%= button_to "Destroy this job", @job, method: :delete, class: "btn btn-danger" %>
   </div>
 </div>

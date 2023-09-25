@@ -3,7 +3,7 @@
   <%= link_to "Edit this user", edit_user_path(@user) %>
 
 </div>
-<% if @user.resume.attached? %>
+<% if @user.docs.any? %>
   <button
     type="button"
     class="btn btn-primary"
@@ -32,7 +32,7 @@
           ></button>
         </div>
         <div class="modal-body padded-box">
-          <%= @user.docs.last.body.html_safe %>
+          <%= @user.docs.last.displayed_content if @user.docs.any? %>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

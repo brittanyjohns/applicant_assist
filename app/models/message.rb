@@ -18,28 +18,11 @@ class Message < ApplicationRecord
   has_rich_text :displayed_content
   belongs_to :chat
   validates :role, presence: true
-  before_save :save_rich_content, if: :missing_content
   before_save :ensure_role
   broadcasts_to :chat, target: "messages"
 
   def ensure_role
     self.role = "user" if self.role.blank?
-  end
-
-  def save_rich_content
-    if content
-      puts "setting display text"
-      # new_line_regex = /\n/
-      # replaced_text = content.gsub(new_line_regex, "<br>")
-
-      # puts replaced_text
-      self.displayed_content.body = content
-    end
-  end
-
-  def missing_content
-    displayed_content.nil? || displayed_content.body.blank?
-    true
   end
 
   def setup_prompt(prompt_type)
@@ -87,7 +70,7 @@ class Message < ApplicationRecord
   end
 
   def bootstrap_styling
-    "styled using Bootstrap css helpers"
+    " styled using Bootstrap css helpers"
   end
 
   def company_info_table_id
@@ -99,7 +82,7 @@ class Message < ApplicationRecord
   end
 
   def build_resume_rewrite_prompt
-    "Please rewrite the following resume, highlighting things that align with what this job posting is looking for. "
+    "Please rewrite the following resume, highlighting things that align with what this job posting is looking for. Please format as rich text. "
   end
 
   def build_resume_intro_prompt
@@ -107,14 +90,32 @@ class Message < ApplicationRecord
   end
 
   def build_interview_tips_prompt
-    "Give me 3 interview tips for applying to this job.\n #{detailed_response} Please format the response as a HTML table. Only include html table with the id of #{interview_tips_table_id} , class name of interview_tips_table, and #{bootstrap_styling} in the response. "
+    "Give me 3 interview tips for applying to this job.\n #{detailed_response} #{formatted_as_table(interview_tips_table_id)}"
   end
 
   def build_company_info_prompt
-    "Tell me 3 things that would be helpful for someone applying to #{company_name} as a #{job_title} to know about the company. Include things like mission statement, culture, industry, short summary of what they do, office locations (if applicable) & any other useful information. #{detailed_response} Please format the response as a HTML table. Only include html table with the id of #{company_info_table_id} , class name of company_info_table, and #{bootstrap_styling} in the response."
+    "Tell me 3 things that would be helpful for someone applying to #{company_name} as a #{job_title} to know about the company. Include things like mission statement, culture, industry, short summary of what they do, office locations (if applicable) & any other useful information. #{detailed_response}"
   end
 
   def build_elevator_speech_prompt
     "Write me a elevator speech as if I was talking directly to the hiring manager of this job. Keep it short, whiity & light - yet professional & direct. Highlight past experience from my resume if applicable to this job."
+  end
+
+  def build_initial_setup_prompt
+  end
+
+  def self.create_initial_setup_prompts_for(chat_id)
+    sys_msg = create(chat_id: chat_id,
+                     role: "system",
+                     subject: "System Setup",
+                     content: "You are a funny and whitty, but also very helpful, job search assistant.")
+    sys_msg = create(chat_id: chat_id,
+                     role: "user",
+                     subject: "User Setup",
+                     content: "You will help me get at the job described in the following job posting:\n #{job_posting}\nAnd here's my resume for future reference:\n #{chat.user_resume}")
+  end
+
+  def formatted_as_table(table_id)
+    "Please format the response as a HTML table. Only include html table with the id of #{table_id} and #{bootstrap_styling} in the response."
   end
 end

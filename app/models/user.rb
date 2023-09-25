@@ -29,15 +29,20 @@ class User < ApplicationRecord
   has_many :jobs, through: :applications
   has_many :companies, through: :jobs
   has_many :docs, as: :documentable
-  has_one_attached :resume
+  # has_one_attached :resume
   # has_many :contacts, through: :applications
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable, :recoverable, :rememberable, :validatable
+  accepts_nested_attributes_for :docs
 
   # validates :username, uniqueness: true
 
   before_save :set_username
+
+  def resume
+    docs.where(doc_type: "resume").first
+  end
 
   def set_username
     t = email[User::MATCHER, 1]
@@ -69,6 +74,8 @@ class User < ApplicationRecord
   end
 
   def get_attachment_url(attachment_type)
+    puts "IN TEST & DEV: #{ActiveStorage::Blob.service.path_for(attachment_type.key)}"
+    puts "IN PROD: #{Rails.application.routes.url_helpers.rails_blob_url(attachment_type)}"
     if Rails.env.test? || Rails.env.development?
       return ActiveStorage::Blob.service.path_for(attachment_type.key)
     end

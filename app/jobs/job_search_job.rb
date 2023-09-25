@@ -1,4 +1,5 @@
-class JobSearchJob < ApplicationJob
+class JobSearchJob
+  include Sidekiq::Job
   queue_as :default
 
   def perform(search_term)

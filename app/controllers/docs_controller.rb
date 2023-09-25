@@ -25,21 +25,21 @@ class DocsController < ApplicationController
     @doc = Doc.new(doc_params)
     @user = current_user
     @doc.documentable = @user
-    @doc.save
-    path_to_pdf = @user.saved_resume
-    puts "\npath_to_pdf:\n#{path_to_pdf}"
-    # tmp_url = @user.resume.preview(resize_to_limit: [100, 100]).processed.url
-    # puts "key: #{@user.resume.key}path_to_pdf: #{path_to_pdf}"
-    document = Poppler::Document.new(path_to_pdf)
+    # @doc.save
+    # path_to_pdf = @user.saved_resume
+    # puts "\npath_to_pdf:\n#{path_to_pdf}"
+    # # tmp_url = @user.resume.preview(resize_to_limit: [100, 100]).processed.url
+    # # puts "key: #{@user.resume.key}path_to_pdf: #{path_to_pdf}"
+    # document = Poppler::Document.new(path_to_pdf)
 
-    puts "document: #{document.inspect}"
+    # puts "document: #{document.inspect}"
 
-    raw_content = document.map { |page| page.get_text }.join
-    @doc.displayed_content.body = raw_content
-    arry_content = raw_content.split("●")
-    body_content = raw_content.gsub!("●", " ")
-    @doc.raw_body = raw_content
-    @doc.body = arry_content.join("<br>")
+    # raw_content = document.map { |page| page.get_text }.join
+    # @doc.displayed_content.body = raw_content
+    # arry_content = raw_content.split("●")
+    # body_content = raw_content.gsub!("●", " ")
+    # @doc.raw_body = raw_content
+    # @doc.body = arry_content.join("<br>")
 
     respond_to do |format|
       if @doc.save
@@ -84,6 +84,6 @@ class DocsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def doc_params
-    params.require(:doc).permit(:name, :doc_type, :body, :raw_body, :documentable_id, :documentable_type, :current)
+    params.require(:doc).permit(:name, :doc_type, :body, :raw_body, :documentable_id, :documentable_type, :current, :displayed_content)
   end
 end

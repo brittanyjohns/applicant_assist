@@ -20,4 +20,8 @@
 class Doc < ApplicationRecord
   belongs_to :documentable, polymorphic: true
   has_rich_text :displayed_content
+
+  def self.doc_types
+    ["resume"]
+  end
 end

@@ -46,6 +46,6 @@ class UsersController < ApplicationController
   end
 
   def user_params
-    params.require(:user).permit(:name, :resume, documents: [])
+    params.require(:user).permit(:name, docs: [:id, :displayed_content, :doc_type])
   end
 end

@@ -29,7 +29,7 @@ class ChatsController < ApplicationController
 
     respond_to do |format|
       if @chat.save
-        ChatWithAiJob.perform_now(@chat)
+        ChatWithAiJob.perform_async(@chat.id)
         format.html { redirect_to chat_url(@chat), notice: "Chat was successfully created." }
         format.json { render :show, status: :created, location: @chat }
       else
@@ -49,7 +49,7 @@ class ChatsController < ApplicationController
         puts "Before: #{@chat.messages.count}"
         @chat.messages.reload
         puts "After: #{@chat.messages.count}"
-        ChatWithAiJob.perform_now(@chat)
+        ChatWithAiJob.perform_async(@chat.id)
         format.html { redirect_to application_url(@chat.source.id) }
         format.json { render :show, status: :ok, location: @chat }
       else

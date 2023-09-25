@@ -1,5 +1,5 @@
 body {
-  background-color:honeydew
+  background-color:rgb(216, 216, 216)
 }
 a {
   text-decoration: none;
@@ -68,7 +68,7 @@ a {
   }
 
   .job-list-item {
-    background-color: seashell;
+    background-color: rgb(233, 233, 233);
     padding: 10px;
     // margin-bottom: 15px;
     border-bottom: 1px solid black;
@@ -80,4 +80,9 @@ a {
 
   .padded-box {
     padding: 10px;
+  }
+  .application-list-item {
+    background-color: rgb(233, 233, 233);
+    padding: 10px;
+    margin-bottom: 15px;
   }

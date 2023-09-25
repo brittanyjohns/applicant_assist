@@ -11,7 +11,7 @@ class PostsController < ApplicationController
     respond_to do |format|
       if @post.save
         # Send an email
-        ReplyJob.perform_now(@post)
+        ReplyJob.perform_async(@post.id)
         # render partial: "posts/form", locals: { conversation: @conversation, post: Post.new }
         format.turbo_stream { render turbo_stream: turbo_stream.replace("form", partial: "posts/form", locals: { conversation: @conversation, post: Post.new }) }
       else
