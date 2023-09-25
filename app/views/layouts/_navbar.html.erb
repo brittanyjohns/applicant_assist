@@ -1,26 +1,38 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
   <div class="container-fluid clearfix">
     <%= link_to "Applicant Assist", root_path, class: "navbar-brand" %>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto">
-      <li class="nav-item">
-        <%= link_to "Companies", companies_path, class: "nav-link" %>
-      </li>
-      <li class="nav-item">
-        <%= link_to "Jobs", jobs_path, class: "nav-link" %>
-      </li>
-      <li class="nav-item">
-        <%= link_to "Apps", applications_path, class: "nav-link" %>
-      </li>
-      <li class="nav-item">
-        <%= link_to "#{current_user.internal_email}", conversations_path, class: "nav-link" if user_signed_in? %>
-      </li>
+        <li class="nav-item">
+          <%= link_to "Companies", companies_path, class: "nav-link" %>
+        </li>
+        <li class="nav-item">
+          <%= link_to "Jobs", jobs_path, class: "nav-link" %>
+        </li>
+        <li class="nav-item">
+          <%= link_to "Apps", applications_path, class: "nav-link" %>
+        </li>
+        <li class="nav-item">
+          <%= if user_signed_in?
+            link_to "#{current_user.internal_email}",
+            conversations_path,
+            class: "nav-link"
+          end %>
+        </li>
       </ul>
       <% if user_signed_in? %>
-              <%= render "jobs/navbar_search" %>
+        <%= render "jobs/navbar_search" %>
 
         <ul class="navbar-nav ms-auto">
           <li class="nav-item">
@@ -30,15 +42,26 @@
             <%= link_to coins_nav, products_path, class: "nav-link" %>
           </li>
           <li class="nav-item dropdown">
-            <a id="create-nav-dropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <a
+              id="create-nav-dropdown"
+              class="nav-link dropdown-toggle"
+              href="#"
+              role="button"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
               <i class="fa-solid fa-user"></i>
             </a>
             <ul class="dropdown-menu" id="user-nav-dropdown">
+            <li class="nav-item dropdown-item"><%= link_to "Profile", user_path(current_user.id), class: "nav-link" %></li>
               <li class='nav-item dropdown-item'>
-                <span class="badge badge-notification bg-dark"> <%= current_user.internal_email %></span>
+                <span class="badge badge-notification bg-dark">
+                  <%= current_user.display_name %></span>
               </li>
               <li class='nav-item dropdown-item'>
-                <span class="badge rounded-pill badge-notification bg-success"> <%= current_user.coins %> COINS</span>
+                <span class="badge rounded-pill badge-notification bg-success">
+                  <%= current_user.coins %>
+                  COINS</span>
               </li>
               <li class="nav-item dropdown-item"><%= link_to "Orders", orders_path, class: "nav-link" %></li>
               <%= render "devise/menu/login_items", class_to_add: "dropdown-item" %>

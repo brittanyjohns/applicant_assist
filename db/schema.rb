@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2023_09_21_203759) do
+ActiveRecord::Schema[7.1].define(version: 2023_09_24_204234) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -118,6 +118,19 @@ ActiveRecord::Schema[7.1].define(version: 2023_09_21_203759) do
     t.datetime "updated_at", null: false
     t.integer "user_id"
     t.index ["contact_id"], name: "index_conversations_on_contact_id"
+  end
+
+  create_table "docs", force: :cascade do |t|
+    t.string "name"
+    t.string "doc_type"
+    t.text "body"
+    t.text "raw_body"
+    t.string "documentable_type", null: false
+    t.bigint "documentable_id", null: false
+    t.boolean "current"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["documentable_type", "documentable_id"], name: "index_docs_on_documentable"
   end
 
   create_table "jobs", force: :cascade do |t|

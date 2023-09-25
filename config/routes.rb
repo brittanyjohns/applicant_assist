@@ -2,8 +2,8 @@
 #
 
 Rails.application.routes.draw do
-  get "users/index"
-  get "users/show"
+  resources :docs
+  resources :users
   get "welcome_email", to: "users#welcome_email"
   resources :jobs do
     member do

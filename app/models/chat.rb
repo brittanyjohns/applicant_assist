@@ -37,7 +37,7 @@ class Chat < ApplicationRecord
   end
 
   def message_types
-    ["Interview Tips", "Company Info"]
+    ["Interview Tips", "Company Info", "Resume Re-Write", "Resume Intro", "Elevator Speech"]
   end
 
   def remaining_prompt_types
@@ -55,7 +55,7 @@ class Chat < ApplicationRecord
 
   def format_messages
     if messages.blank?
-      [messages.create!(role: "system", subject: "System Setup", content: "You are a funny and whitty, but also very helpful, assistant that is going to help me get at the job described in the following job posting:\n #{job_posting}\n\n")]
+      [messages.create!(role: "system", subject: "System Setup", content: "You are a funny and whitty, but also very helpful, assistant that is going to help me get at the job described in the following job posting:\n #{job_posting}\n\nAnd here's my resume for future reference:\n #{user_resume}")]
     else
       messages.map do |msg|
         { role: msg.role, content: msg.content }
@@ -67,8 +67,24 @@ class Chat < ApplicationRecord
     messages.last&.content || title || "Hello there AI dude."
   end
 
+  def user_resume
+    user.docs.last&.raw_body
+  end
+
   def interview_tips
     messages.where(subject: "Interview Tips", role: "assistant").last&.content&.html_safe || "<p>No Interview Tips yet</p>"
+  end
+
+  def resume_rewrite
+    messages.where(subject: "Resume Re-Write", role: "assistant").last&.content&.html_safe || "<p>No Resume Re-Write yet</p>"
+  end
+
+  def resume_intro
+    messages.where(subject: "Resume Intro", role: "assistant").last&.content&.html_safe || "<p>No Resume Intro yet</p>"
+  end
+
+  def elevator_speech
+    messages.where(subject: "Elevator Speech", role: "assistant").last&.content&.html_safe || "<p>No Elevator Speech yet</p>"
   end
 
   def company_info

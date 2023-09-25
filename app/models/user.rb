@@ -28,6 +28,8 @@ class User < ApplicationRecord
   has_many :conversations
   has_many :jobs, through: :applications
   has_many :companies, through: :jobs
+  has_many :docs, as: :documentable
+  has_one_attached :resume
   # has_many :contacts, through: :applications
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
@@ -39,7 +41,6 @@ class User < ApplicationRecord
 
   def set_username
     t = email[User::MATCHER, 1]
-    puts "email[User::MATCHER, 1]: #{t}"
     if User::MATCHER.match?(email)
       self.username = email[User::MATCHER, 1]
     end
@@ -55,5 +56,29 @@ class User < ApplicationRecord
 
   def jobs_not_applied_to
     Job.includes(:company).where.not(id: self.job_ids.uniq)
+  end
+
+  def display_name
+    name || username
+  end
+
+  def saved_resume
+    return unless resume.attached?
+    get_attachment_url(resume)
+    # Rails.application.routes.url_helpers.rails_blob_path(resume, only_path: true)
+  end
+
+  def get_attachment_url(attachment_type)
+    if Rails.env.test? || Rails.env.development?
+      return ActiveStorage::Blob.service.path_for(attachment_type.key)
+    end
+    Rails.application.routes.url_helpers.rails_blob_url(attachment_type)
+  end
+
+  def parse_resume
+    return unless resume.attached?
+    document = Poppler::Document.new(saved_resume)
+    parse_resume = document.map { |page| page.get_text }.join
+    File.open("parse_resume.txt", "w") { |f| f.write "#{Time.now} - parse_resume\n#{parse_resume}\n" }
   end
 end
