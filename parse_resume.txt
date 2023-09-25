@@ -1,0 +1,53 @@
+2023-09-24 18:06:15 -0400 - parse_resume
+Brittany Johns
+Lagrange, OH 44050
+(440) 225-2432
+bhannajohns@gmail.com
+brittanyjohns.com
+About Me
+Tenacious, full stack software developer with an unstoppable desire to learn and a passion for
+problem solving. Over the last six years, I’ve moved around from product to product, based on the
+needs of the company. With an innate ability to learn on the fly, I’m able to jump to where I’m needed
+& welcome every opportunity. I'm self taught, starting my career from Ruby on Rails tutorials back in
+2015, so I'll never shy away from a challenge or opportunity to learn something new.
+Experience
+Mindful (acquired by Medallia), Akron, Ohio
+Software Engineer II - October 2021 - PRESENT
+●
+Build & deploy multiple production applications to new environments that meet FedRamp
+security standards using Ruby & Typescript.
+●
+Develop features & fix bugs within the callback application which is composed of multiple
+Ruby on Rails applications.
+●
+Rearchitected the data lake & pipeline using AWS CDK reducing the time & complexity
+needed to configure & deploy a new service using Typescript.
+●
+Established event based routing & communication between multiple applications using AWS
+CDK & Event Bridge using Ruby & Typescript.
+●
+Designed data migration strategy to move enterprise client data between production
+environments using AWS S3, SQS, & Lambda, along with CircleCI integration & basic scripting.
+●
+Use Jira & other tools to track & prioritize ongoing projects.
+Software Developer - June 2018 - October 2021
+●
+Develop, deploy & maintain multiple production applications using primarily Ruby on Rails,
+Angular & React.
+●
+Assisted with rearchitecting the authentication/authorization platform using the Serverless
+framework & AWS services such as Cognito, Lambda & CloudFormation.
+●Built APIs using GraphQL & DynamoDB. Backend features using Node.js, Typescript & Ruby.
+●Frontend UI work using ReactJS. Implement CI workflows using CircleCI.
+Associate Software Developer - April 2017 - June 2018
+●
+Developed new features & fixed bugs for a production application using Ruby on Rails &
+Sinatra frameworks.2
+●
+Developed web applications that controlled and monitored client & internal test
+environments to create a more user friendly experience.
+●
+Learned & successfully used APEX to implement a new Salesforce solution that enabled VHT's
+Support Team to work more effectively.
+●Worked as development support for customer escalations & internal troubleshooting.
+●Implemented feature enhancements written in C++ & Erlang legacy code.

@@ -1,0 +1,37 @@
+# == Schema Information
+#
+# Table name: docs
+#
+#  id                :bigint           not null, primary key
+#  body              :text
+#  current           :boolean
+#  doc_type          :string
+#  documentable_type :string           not null
+#  name              :string
+#  raw_body          :text
+#  created_at        :datetime         not null
+#  updated_at        :datetime         not null
+#  documentable_id   :bigint           not null
+#
+# Indexes
+#
+#  index_docs_on_documentable  (documentable_type,documentable_id)
+#
+
+one:
+  name: MyString
+  doc_type: MyString
+  body: MyText
+  raw_body: MyText
+  documentable: one
+  documentable_type: Documentable
+  current: false
+
+two:
+  name: MyString
+  doc_type: MyString
+  body: MyText
+  raw_body: MyText
+  documentable: two
+  documentable_type: Documentable
+  current: false

@@ -1,21 +1,21 @@
 <div class='row'>
   <%= render @application %>
-  <div class="col-md-6 scrolling-job-details">
-    <%= render @application.job %>
+  <div class='col-md-1'>
+    <%= render partial: "chats/prompt_form", locals: { chat: @application.chats.first } %>
   </div>
 
-  <div class="col-md-4">
+  <div class="col-md-12">
 
     <%= render @application.chats %>
   </div>
 
-  <div class='col-md-1'>
-    <%= render partial: "chats/prompt_form", locals: { chat: @application.chats.first } %>
+</div>
 
-  </div>
+<div class="col-md-8 scrolling-job-details">
+  <%= render @application.job %>
 </div>
 <div class='row clearfix'>
-  <%= button_to "Delete",
+  <%= button_to "Delete Application",
   @application,
   method: :delete,
   class: "btn btn-danger float-end" %>

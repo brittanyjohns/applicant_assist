@@ -45,11 +45,7 @@
     <a href="<%= job.web_link %>" target="_blank" class="btn btn-outline-dark">View on Indeed</a>
   </div>
   <div class='col'>
-    <%= unless current_user.applied_for(job)
-      link_to "Apply",
-      create_application_job_path(job),
-      class: "btn btn-success btn-sm float-end"
-    end %>
+    <%= job_info_or_apply_link(@job) %>
   </div>
 
 </div>
