@@ -98,3 +98,5 @@ gem "jsbundling-rails", "~> 1.2"
 
 gem "httparty", "~> 0.21.0"
 gem "postmark-rails"
+
+gem "gobject-introspection", "~> 4.1"

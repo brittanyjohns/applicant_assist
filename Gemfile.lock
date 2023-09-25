@@ -443,6 +443,7 @@ DEPENDENCIES
   erb-formatter
   error_highlight (>= 0.4.0)
   figaro
+  gobject-introspection (~> 4.1)
   google-api-client (~> 0.9)
   hotwire-rails
   httparty (~> 0.21.0)
