@@ -2,9 +2,11 @@
 #
 
 Rails.application.routes.draw do
-  resources :docs
+  root "main#index"
+  devise_for :users
   resources :users
   get "welcome_email", to: "users#welcome_email"
+  resources :docs
   resources :jobs do
     member do
       get "get_details"
@@ -36,8 +38,7 @@ Rails.application.routes.draw do
   resources :products
   resources :checkouts, only: [:new, :create, :show]
   resources :orders, only: [:index, :show]
-  devise_for :users
-  root "main#index"
+
   get "gmail_redirect" => "gmail#redirect", as: "gmail_redirect"
   get "callback" => "gmail#callback", as: "callback"
   get "search_gmail" => "gmail#search", as: "search_gmail"

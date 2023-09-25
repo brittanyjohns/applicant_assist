@@ -52,6 +52,9 @@ gem "gobject-introspection", "~> 4.1"
 gem "image_processing", "~> 1.2"
 # PDF Processing
 gem "poppler"
+# NOTE - After adding poppler I had to install the following packages manually before I could deploy to prod via Hatchbox
+# sudo apt-get install -V -y libpoppler-glib-dev
+# sudo apt-get install -V -y libgirepository1.0-dev
 
 # AWS - ActiveStorage in production
 gem "aws-sdk-s3", require: false
