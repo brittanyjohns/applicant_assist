@@ -10,6 +10,8 @@
 #  remember_created_at    :datetime
 #  reset_password_sent_at :datetime
 #  reset_password_token   :string
+#  total_app_tokens_spent :integer          default(0)
+#  total_gpt_tokens_spent :integer          default(0)
 #  username               :string
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
@@ -38,17 +40,18 @@ class User < ApplicationRecord
 
   # validates :username, uniqueness: true
 
-  before_save :set_username
+  before_save :set_defaults
 
   def resume
     docs.where(doc_type: "resume").first
   end
 
-  def set_username
+  def set_defaults
     t = email[User::MATCHER, 1]
     if User::MATCHER.match?(email)
       self.username = email[User::MATCHER, 1]
     end
+    self.total_gpt_tokens_spent = chats.sum(:total_token_cost)
   end
 
   def internal_email

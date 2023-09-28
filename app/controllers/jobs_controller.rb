@@ -5,7 +5,8 @@ class JobsController < ApplicationController
   # GET /jobs or /jobs.json
   def index
     # @jobs = Job.includes(:company).order(created_at: :desc).limit(20)
-    @jobs = current_user.jobs_not_applied_to.order(created_at: :desc).limit(20)
+    # @jobs = Job.order(:title).page params[:page]
+    @jobs = Job.includes(:company).order(created_at: :desc).page params[:page]
   end
 
   # GET /jobs/1 or /jobs/1.json
@@ -90,9 +91,10 @@ class JobsController < ApplicationController
   end
 
   def get_details
-    Indeed.new(nil, nil, nil, @job.web_id).get_details
+    jid = JobDetailsJob.perform_async(@job.web_id) unless @job.has_all_details?
+
     respond_to do |format|
-      format.html { redirect_to job_url(@job), notice: "More info added." }
+      format.html { redirect_to job_url(@job), notice: "#{jid ? "Adding some more details..." : "Details already loaded."}" }
       format.json { head :no_content }
     end
   end

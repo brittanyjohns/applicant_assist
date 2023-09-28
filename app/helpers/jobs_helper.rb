@@ -1,7 +1,7 @@
 module JobsHelper
   def job_info_or_apply_link(job, size = "sm")
     return unless job
-    if job.description&.length && job.description&.length > 500
+    if job.has_all_details?
       link_to "Apply",
               create_application_job_path(job),
               class: "btn btn-success btn-#{size} float-end"

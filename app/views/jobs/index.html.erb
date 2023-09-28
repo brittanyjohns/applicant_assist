@@ -1,6 +1,9 @@
 
 <h1>Jobs <%= @jobs.count %> total jobs</h1>
+  <%= paginate @jobs %>
+
 <%= turbo_stream_from :job_list %>
 <div id="jobs">
   <%= render partial: "jobs/job", collection: @jobs %>
 </div>
+

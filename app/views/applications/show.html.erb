@@ -1,22 +1,29 @@
+
+<%= turbo_stream_from :message_list %>
 <div class='row'>
-  <%= render @application %>
+  <div class='col'>
+    <%= render @application %>
+  </div>
   <div class='col-md-1'>
-    <%= render partial: "chats/prompt_form", locals: { chat: @application.chats.first } %>
+    <%= render partial: "chats/prompt_form", locals: { chat: @app_chat } %>
   </div>
-
-  <div class="col-md-6">
-
-    <%= render @application.chats %>
+   
+  
+  <div class="">
+    <p>message count: <%= @app_chat.messages.count %></p>
+    <%= print_grid(@app_chat.messages) %>
   </div>
+  
 
-</div>
 
-<div class="col-md-8 scrolling-job-details">
-  <%= render @application.job %>
-</div>
 <div class='row clearfix'>
+  <div class="col-md-8 scrolling-details">
+    <div class='job_description'>
+      <%= @application.job.description&.html_safe %>
+    </div>
+  </div>
   <%= button_to "Delete Application",
-  @application,
-  method: :delete,
-  class: "btn btn-danger float-end" %>
+                @application,
+                method: :delete,
+                class: "btn btn-danger float-end" %>
 </div>

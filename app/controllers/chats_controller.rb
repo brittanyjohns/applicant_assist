@@ -26,6 +26,7 @@ class ChatsController < ApplicationController
     @chat = Chat.new(chat_params)
     @chat.user = current_user
     @chat.source = @application
+    # Message.create_initial_setup_prompt_for(@chat.id)
 
     respond_to do |format|
       if @chat.save
@@ -42,7 +43,8 @@ class ChatsController < ApplicationController
   def message_prompt
     prompt_type = params["commit"]
     message = @chat.messages.find_or_initialize_by(role: "user", subject: prompt_type)
-    message.setup_prompt(prompt_type)
+    # Message.create_initial_setup_prompt_for(@chat.id) if message.new_record?
+    message.setup_user_prompt(prompt_type)
     puts "Saving MESAGE: #{message.inspect}"
     respond_to do |format|
       if message.save

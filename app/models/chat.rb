@@ -2,13 +2,14 @@
 #
 # Table name: chats
 #
-#  id          :bigint           not null, primary key
-#  source_type :string           not null
-#  title       :string
-#  created_at  :datetime         not null
-#  updated_at  :datetime         not null
-#  source_id   :bigint           not null
-#  user_id     :bigint           not null
+#  id               :bigint           not null, primary key
+#  source_type      :string           not null
+#  title            :string
+#  total_token_cost :integer          default(0)
+#  created_at       :datetime         not null
+#  updated_at       :datetime         not null
+#  source_id        :bigint           not null
+#  user_id          :bigint           not null
 #
 # Indexes
 #
@@ -37,7 +38,7 @@ class Chat < ApplicationRecord
   end
 
   def message_types
-    ["Interview Tips", "Company Info", "Resume Re-Write", "Resume Intro", "Elevator Speech"]
+    Prompt.active.pluck(:subject).sort
   end
 
   def remaining_prompt_types
@@ -54,12 +55,13 @@ class Chat < ApplicationRecord
   end
 
   def format_messages
-    if messages.blank?
-      [Message.create_initial_setup_prompt_for(self.id)]
-    else
-      messages.map do |msg|
-        { role: msg.role, content: msg.content }
-      end
+    messages_to_format = messages
+    if messages_to_format.blank?
+      @new_chat = true
+      messages_to_format = Message.create_initial_setup_prompt_for(self.id)
+    end
+    messages_to_format.map do |msg|
+      { role: msg.role, content: msg.content }
     end
   end
 
@@ -71,24 +73,8 @@ class Chat < ApplicationRecord
     user.resume
   end
 
-  def interview_tips
-    messages.where(subject: "Interview Tips", role: "assistant").last&.displayed_content || "<p>No Interview Tips yet</p>".html_safe
-  end
-
-  def resume_rewrite
-    messages.where(subject: "Resume Re-Write", role: "assistant").last&.displayed_content || "<p>No Resume Re-Write yet</p>".html_safe
-  end
-
-  def resume_intro
-    messages.where(subject: "Resume Intro", role: "assistant").last&.displayed_content || "<p>No Resume Intro yet</p>".html_safe
-  end
-
-  def elevator_speech
-    messages.where(subject: "Elevator Speech", role: "assistant").last&.displayed_content || "<p>No Elevator Speech yet</p>".html_safe
-  end
-
-  def company_info
-    messages.where(subject: "Company Info", role: "assistant").last&.displayed_content || "<p>No Company Info yet</p>".html_safe
+  def message_for(subject)
+    messages.where(subject: subject.titleize).last&.displayed_content || "<p>No #{subject.titleize} yet</p>".html_safe
   end
 
   def open_ai_opts
@@ -114,10 +100,8 @@ class Chat < ApplicationRecord
   end
 
   def chat_with_ai!
-    puts "Chatting with AI with parmas: #{open_ai_opts}"
-
     response = OpenAiClient.new(open_ai_opts).create_chat
-    puts "Totals response: #{response.inspect}\n\n"
+    puts "RESPONSE: #{response.inspect}"
     if response && response[:role]
       role = response[:role] || "assistant"
       content = response[:content]
@@ -128,19 +112,17 @@ class Chat < ApplicationRecord
       last_user_msg = messages.where(role: "user").last
       subject = last_user_msg ? last_user_msg.subject : "Hello Human"
 
-      msg = messages.find_or_initialize_by(role: role, subject: subject)
+      msg = messages.new(role: role, subject: subject)
       msg.content = content
-      # new_line_regex = /\n/
-      # replaced_text = content.gsub(new_line_regex, "<br>") if content
+      new_line_regex = /\n/
+      replaced_text = content.gsub(new_line_regex, "<br>") if content
 
-      # puts replaced_text
-      msg.displayed_content.body = content
-      puts msg.inspect
-
-      msg.save!
+      puts replaced_text
+      msg.displayed_content.body = replaced_text
+      puts "SAVING MESSAGE: #{msg.inspect}"
+      msg.update_token_stats!(response)
     else
       puts "**** ERROR **** \nDid not receive valid response.\n"
     end
-    self
   end
 end

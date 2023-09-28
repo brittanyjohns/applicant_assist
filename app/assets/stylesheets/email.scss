@@ -1,24 +1,28 @@
 .email-content {
-    padding: 20px;
-    border: 5px solid black;
+  padding: 20px;
+  border: 5px solid black;
 }
 
 .scrolling-chatbox {
-    height: 400px;
-    overflow: scroll;
-    border: 1px solid black;
-    padding-left: 25px;
-    padding-top: 10px;
-    background-color: rgb(255, 255, 255);
-    margin-bottom: 15px;
+  height: 400px;
+  overflow: scroll;
+  border: 1px solid black;
+  padding-left: 25px;
+  padding-top: 10px;
+  background-color: rgb(255, 255, 255);
+  margin-bottom: 15px;
 }
 
-.scrolling-job-details {
-    max-height: 800px;
-    overflow: scroll;
-    border: 1px solid black;
-    padding-left: 25px;
-    padding-top: 10px;
-    background-color: rgb(255, 255, 255);
-    margin-bottom: 15px;
+.scrolling-details {
+  max-height: 800px;
+  overflow: scroll;
+  border: 1px solid black;
+  padding: 25px;
+  background-color: rgb(255, 255, 255);
+  margin-bottom: 15px;
+}
+
+.turbo-replaced-details {
+  padding: 25px;
+  background-color: rgb(185, 236, 183);
 }
