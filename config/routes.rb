@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   get "welcome_email", to: "users#welcome_email"
   resources :docs
   resources :jobs do
+    get "/page/:page", action: :index, on: :collection
     member do
       get "get_details"
       get "create_application"
@@ -30,6 +31,7 @@ Rails.application.routes.draw do
       post "message_prompt" => "chats#message_prompt", as: "message_prompt"
     end
   end
+  resources :prompts
   resources :contacts
   get "charges/new"
   get "charges/create"

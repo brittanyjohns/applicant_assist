@@ -139,13 +139,8 @@ class Indeed
     job_details = result["result"]
     description = job_details["description"] if job_details
     will_retry = true
-    unless description && description.length > 500
-      raise "No details found! Retry? #{will_retry}"
-    end
-    job = Job.find_by(web_id: @options[:job_web_id])
-    job.update!(description: description)
-    puts "job_details: #{job_details}\n\n"
+    
     # File.open("job_details.txt", "w") { |f| f.write "#{Time.now} - #{job.id} job_details\n#{job_details}\n" }
-    job_details
+    description
   end
 end

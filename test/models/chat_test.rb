@@ -2,13 +2,14 @@
 #
 # Table name: chats
 #
-#  id          :bigint           not null, primary key
-#  source_type :string           not null
-#  title       :string
-#  created_at  :datetime         not null
-#  updated_at  :datetime         not null
-#  source_id   :bigint           not null
-#  user_id     :bigint           not null
+#  id               :bigint           not null, primary key
+#  source_type      :string           not null
+#  title            :string
+#  total_token_cost :integer          default(0)
+#  created_at       :datetime         not null
+#  updated_at       :datetime         not null
+#  source_id        :bigint           not null
+#  user_id          :bigint           not null
 #
 # Indexes
 #

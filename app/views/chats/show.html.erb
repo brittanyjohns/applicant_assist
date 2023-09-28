@@ -3,6 +3,7 @@
   <h2>Application</h2>
   <%= link_to @chat.job_title, @chat.application %> 
   <hr>
+
   </div>
   
     <div class="col-md-8">
@@ -19,7 +20,7 @@
       <div class="float-end">
         <%= render partial: "prompt_form", locals: { chat: @chat } %>
 
-        <%= button_to "Delete", @chat, method: :delete, class: 'btn btn-danger btn-sm' %>
+        <%= button_to "Delete", @chat, method: :delete, class: "btn btn-danger btn-sm" %>
       </div>
     </div>
 </div>

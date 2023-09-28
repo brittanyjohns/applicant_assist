@@ -1,88 +1,93 @@
+$font-stack: Helvetica, sans-serif;
+$primary-color: #333;
+$body-background-color: rgb(216, 216, 216);
+
 body {
-  background-color:rgb(216, 216, 216)
+  background-color: $body-background-color;
+  font: 100% $font-stack;
+  color: $primary-color;
 }
 a {
   text-decoration: none;
   color: black;
 }
 .product-container {
-    font-family: arial;
-    font-size: 24px;
-    margin: 25px;
-    // width: 350px;
-    // height: 200px;
-    outline: dashed 1px black;
-    /* Center child horizontally*/
-    display: flex;
-    justify-content: center;
-  }
+  font-family: arial;
+  font-size: 24px;
+  margin: 25px;
+  // width: 350px;
+  // height: 200px;
+  outline: dashed 1px black;
+  /* Center child horizontally*/
+  display: flex;
+  justify-content: center;
+}
 
 .new_product {
   font-family: arial;
-    font-size: 24px;
-    margin: 15px;
-    padding: 10px;
-    // width: 350px;
-    // height: 200px;
-    outline: dashed 1px black;
-    /* Center child horizontally*/
-    display: flex;
-    justify-content: center;
+  font-size: 24px;
+  margin: 15px;
+  padding: 10px;
+  // width: 350px;
+  // height: 200px;
+  outline: dashed 1px black;
+  /* Center child horizontally*/
+  display: flex;
+  justify-content: center;
+}
+.cart-total {
+  margin: 20px;
+}
 
-  }
-  .cart-total {
-    margin: 20px
-  }
+.cart-row {
+  // outline: auto;
+  padding-top: 10px;
+  background-color: beige;
+}
 
-  .cart-row {
-    // outline: auto;
-    padding-top: 10px;
-    background-color: beige;
-  }
+.product-img-top {
+  width: 200px;
+  margin: auto;
+}
+.shopping-cart {
+  padding: 15px;
+}
 
-  .product-img-top {
-    width: 200px;
-    margin: auto;
-  }
-  .shopping-cart {
-    padding: 15px;
-  }
+.order {
+  padding: 30px;
+  margin: 5px;
+}
 
-  .order {
-    padding: 30px;
-    margin: 5px;
-  }
+.welcome-headline {
+  // font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+  font-size: 3.5rem;
+  color: darkslategray;
+}
+.headline {
+  padding-bottom: 10px;
+}
+.icon {
+  margin-right: 10px;
+  display: inline;
+}
 
-  .welcome-headline {
-    // font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-    font-size: 3.5rem;
-    color: darkslategray;
-  }
-  .headline {
-    padding-bottom: 10px;
-  }
-  .icon {
-    margin-right: 10px;
-    display: inline;
-  }
+.job-list-item {
+  background-color: rgb(233, 233, 233);
+  padding: 10px;
+  // margin-bottom: 15px;
+  border-bottom: 1px solid black;
+}
+.job-list-item:hover {
+  background-color: rgba(246, 227, 213, 0.915);
+  font-weight: bolder;
+}
 
-  .job-list-item {
-    background-color: rgb(233, 233, 233);
-    padding: 10px;
-    // margin-bottom: 15px;
-    border-bottom: 1px solid black;
-  }
-  .job-list-item:hover {
-    background-color: rgba(246, 227, 213, 0.915);
-    font-weight: bolder;
-  }
-
-  .padded-box {
-    padding: 10px;
-  }
-  .application-list-item {
-    background-color: rgb(233, 233, 233);
-    padding: 10px;
-    margin-bottom: 15px;
-  }
+.padded-box {
+  padding: 10px;
+}
+.application-list-item {
+  background-color: rgb(233, 233, 233);
+  padding: 10px;
+  margin-bottom: 15px;
+}

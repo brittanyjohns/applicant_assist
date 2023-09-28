@@ -33,4 +33,8 @@ class Job < ApplicationRecord
   broadcasts_to ->(job) { :job_list }, inserts_by: :prepend, target: "jobs"
 
   enum :status, { active: 0, inactive: 1 }
+
+  def has_all_details?
+    description&.length && description&.length > 500
+  end
 end

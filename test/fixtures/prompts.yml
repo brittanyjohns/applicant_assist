@@ -1,0 +1,21 @@
+# == Schema Information
+#
+# Table name: prompts
+#
+#  id         :bigint           not null, primary key
+#  active     :boolean
+#  body       :text
+#  subject    :string
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#
+
+one:
+  subject: MyString
+  body: MyText
+  active: false
+
+two:
+  subject: MyString
+  body: MyText
+  active: false

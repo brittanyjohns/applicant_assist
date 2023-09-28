@@ -3,7 +3,7 @@ class CompaniesController < ApplicationController
 
   # GET /companies or /companies.json
   def index
-    @companies = Company.includes(:jobs).order(name: :asc)
+    @companies = Company.includes(:jobs).order(name: :asc).page params[:page]
   end
 
   # GET /companies/1 or /companies/1.json

@@ -1,15 +1,11 @@
 <div id="<%= dom_id company %>">
   <p>
     <strong>Name:</strong>
-    <%= company.name %>
-  </p>
-
-  <p>
+    <%= link_to company.name, company %>
+    <br>
     <strong>Website:</strong>
     <%= company.website %>
-  </p>
 
-  <p>
     <strong>Industry:</strong>
     <%= company.industry %>
   </p>

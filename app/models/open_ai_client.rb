@@ -1,8 +1,7 @@
 require "openai"
 
 class OpenAiClient
-  DEFAULT_MODEL = "gpt-4"
-  TURBO_MODEL = "gpt-3.5-turbo"
+  DEFAULT_MODEL = "gpt-3.5-turbo"
 
   def initialize(opts)
     @messages = opts["messages"] || opts[:messages] || []
@@ -57,13 +56,15 @@ class OpenAiClient
     )
 
     if response
-      puts "AI Response: #{response.inspect}"
       @role = response.dig("choices", 0, "message", "role")
       @content = response.dig("choices", 0, "message", "content")
+      @prompt_tokens = response.dig("usage", "prompt_tokens")
+      @completion_tokens = response.dig("usage", "completion_tokens")
+      @total_tokens = response.dig("usage", "total_tokens")
     else
       puts "**** ERROR **** \nDid not receive valid response.\n"
     end
-    { role: @role, content: @content }
+    { role: @role, content: @content, prompt_tokens: @prompt_tokens, completion_tokens: @completion_tokens, total_tokens: @total_tokens }
   end
 
   def self.ai_models

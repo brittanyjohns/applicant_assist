@@ -1,44 +1,9 @@
 <div id="<%= dom_id chat %>">
   <p>
-    <strong><%= link_to "#{chat.title.blank? ? "ASK AI" : chat.title}", chat %>:</strong>
-
+    <strong><%= link_to "#{chat.title.blank? ? "<>" : chat.title}", chat %>:</strong>
   </p>
 
-  <div class='company_info scrolling-job-details'>
-    <h3>
-      Company Info
-    </h3>
-    <%= chat.company_info %>
+  <div class='row'>
+    <%= display_message_for(chat) %>
   </div>
-  <hr>
-  <div class='interview_tips scrolling-job-details'>
-    <h3>
-      Intervie Tips
-    </h3>
-    <%= chat.interview_tips %>
-  </div>
-  <hr>
-  <div class='resume_rewrite scrolling-job-details'>
-    <h3>
-      Resume Re-Write
-    </h3>
-    <%= chat.resume_rewrite %>
-  </div>
-  <hr>
-
-  <div class='resume_intro scrolling-job-details'>
-    <h3>
-      Resume Intro
-    </h3>
-    <%= chat.resume_intro %>
-  </div>
-  <hr>
-
-  <div class='elevator_speech scrolling-job-details'>
-    <h3>
-      Elevator Speech
-    </h3>
-    <%= chat.elevator_speech %>
-  </div>
-
 </div>

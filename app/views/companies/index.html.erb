@@ -2,12 +2,11 @@
 
 <h1>Companies</h1>
 
+<h3> <%= @companies.count %> total companies</h3>
+  <%= paginate @companies %>
+
+<%= turbo_stream_from :company_list %>
 <div id="companies">
-  <% @companies.each do |company| %>
-    <p class='clearfix'>
-      <%= link_to company.name, company %> <span class='float-end'><%= company.jobs.count %></span>
-    </p>
-  <% end %>
+  <%= render partial: "companies/company", collection: @companies %>  
 </div>
 
-<%= link_to "New company", new_company_path %>
