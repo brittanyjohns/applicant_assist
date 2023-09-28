@@ -9,6 +9,8 @@ class JobDetailsJob
       raise "Job description not found for #{web_id} - \n #{description}\n"
     end
     job = Job.find_by(web_id: web_id)
-    job.update!(description: description)
+    job.description = description
+    job.displayed_job_description.body = description
+    job.save!
   end
 end

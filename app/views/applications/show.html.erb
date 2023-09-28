@@ -19,7 +19,7 @@
 <div class='row clearfix'>
   <div class="col-md-8 scrolling-details">
     <div class='job_description'>
-      <%= @application.job.description&.html_safe %>
+      <%= @application.job.displayed_job_description %>
     </div>
   </div>
   <%= button_to "Delete Application",

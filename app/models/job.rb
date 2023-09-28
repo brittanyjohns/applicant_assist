@@ -29,6 +29,7 @@ class Job < ApplicationRecord
   belongs_to :company
   has_many :applications, dependent: :destroy
   has_many :users, through: :applications
+  has_rich_text :displayed_job_description
   attr_accessor :company_name
   broadcasts_to ->(job) { :job_list }, inserts_by: :prepend, target: "jobs"
 
