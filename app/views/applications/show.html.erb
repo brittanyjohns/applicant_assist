@@ -1,18 +1,45 @@
 
 <%= turbo_stream_from :message_list %>
 <div class='row'>
-  <div class='col'>
-    <%= render @application %>
+  <div class='col-md-12'>
+    <h2 class='headline'>
+      <strong><%= @application.id %>:
+      <%= @application.job.title %></strong>
+      <br><small><%= @application.job.company.name %></small>
+    </h2>
   </div>
-  <div class='col-md-1'>
-    <%= render partial: "chats/prompt_form", locals: { chat: @app_chat } %>
+  <div class="col-md-6 bg-light">
+     <h1>Welcome</h1>
+     <div class='scrolling-details'>
+      <%= @app_chat.messages.chat_bot_welcome %>
+      </div>
   </div>
+  <div class='col-md-6 bg-light'>
+    <%= link_to "New Chat", new_application_chat_path(@application), class: "btn btn-info" %>
+   <h3><%= @app_chat.total_token_usd_cost %></h3>
+   <h3><%= @app_chat.messages.pluck(:total_token_cost) %></h3>
+   <hr>
+    <div class='scrolling-details'>
+      <% @app_chat.messages.assistant_messages.each do |message| %>
+        <%= render message %>
+      <% end %>
+     </div>
+  </div>
+  
    
   
-  <div class="">
+  <div class="col-md-6 bg-light">
+     <%= render partial: "chats/prompt_form", locals: { chat: @app_chat } %>
     <p>message count: <%= @app_chat.messages.count %></p>
-    <%= print_grid(@app_chat.messages) %>
+    <div class='accordion' id='accordionExample'>
+    <% @app_chat.messages.each do |message| %>
+      <%= render partial: "messages/accordion_item", locals: { message: message } %>
+    <% end %>
+    </div>
   </div>
+
+  
+
   
 
 

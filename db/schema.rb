@@ -88,7 +88,7 @@ ActiveRecord::Schema[7.1].define(version: 2023_09_28_183828) do
     t.string "title"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "total_token_cost", default: 0
+    t.decimal "total_token_usd_cost", default: "0.0"
     t.index ["source_type", "source_id"], name: "index_chats_on_source"
     t.index ["user_id"], name: "index_chats_on_user_id"
   end
@@ -161,9 +161,9 @@ ActiveRecord::Schema[7.1].define(version: 2023_09_28_183828) do
     t.datetime "updated_at", null: false
     t.integer "chat_id"
     t.string "role"
-    t.integer "prompt_token_cost", default: 0
-    t.integer "completion_token_cost", default: 0
-    t.integer "total_token_cost", default: 0
+    t.decimal "prompt_tokens_cost", default: "0.0"
+    t.decimal "completion_tokens_cost", default: "0.0"
+    t.decimal "total_token_cost", default: "0.0"
     t.integer "in_reply_to"
   end
 
@@ -242,8 +242,8 @@ ActiveRecord::Schema[7.1].define(version: 2023_09_28_183828) do
     t.datetime "updated_at", null: false
     t.integer "coins", default: 0
     t.string "username"
-    t.integer "total_gpt_tokens_spent", default: 0
-    t.integer "total_app_tokens_spent", default: 0
+    t.decimal "total_gpt_tokens_spent", default: "0.0"
+    t.decimal "total_app_tokens_spent", default: "0.0"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end

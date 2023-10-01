@@ -11,8 +11,9 @@ Rails.application.routes.draw do
     get "/page/:page", action: :index, on: :collection
     member do
       get "get_details"
-      get "create_application"
+      # get "create_application"
     end
+    resources :applications
   end
   post "job_search" => "jobs#search", as: "job_search"
   resources :conversations do

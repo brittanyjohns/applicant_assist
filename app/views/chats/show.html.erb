@@ -1,7 +1,7 @@
   <div class='row'>
   <div class="col-md-12">
-  <h2>Application</h2>
-  <%= link_to @chat.job_title, @chat.application %> 
+  <h2><%= link_to @chat.job_title, @chat.application %>   <small><%= @chat.company_name %></small></h2>
+  
   <hr>
 
   </div>
@@ -10,7 +10,7 @@
       <%= turbo_stream_from @chat %>
 
       <div id="messages" class="scrolling-chatbox">
-        <%= render @chat.messages_to_display %>
+        <%= render @chat.chat_room_messages %>
       </div>
       <div class=''>
         <%= render partial: "messages/form", locals: { chat: @chat, message: Message.new } %>

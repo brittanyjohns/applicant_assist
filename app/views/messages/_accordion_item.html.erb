@@ -1,0 +1,19 @@
+<div id='accordion_item_<%= message.id_name %>' class='accordion-item'>
+    <h2 class='accordion-header'>
+        <button class='accordion-button' type='button' data-bs-toggle='collapse' data-bs-target='#collapse<%= message.id_name %>' aria-expanded='true' aria-controls='collapse<%= message.id_name %>'>
+          <%= message.id_name %> - <%= message.role %>: <strong><%= message.subject %> </strong>
+        </button>
+    </h2>
+    <div id='collapse<%= message.id_name %>' class='accordion-collapse collapse' aria-labelledby='heading<%= message.id_name %>' data-bs-parent='#accordionExample'>
+        <div id='accordion_body_<%= message.id_name %>' class='accordion-body'>
+            <%= message.displayed_content.body || message.content %>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+     

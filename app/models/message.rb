@@ -2,36 +2,44 @@
 #
 # Table name: messages
 #
-#  id                    :bigint           not null, primary key
-#  completion_token_cost :integer          default(0)
-#  content               :text
-#  date_received         :string
-#  from                  :string
-#  in_reply_to           :integer
-#  prompt_token_cost     :integer          default(0)
-#  role                  :string
-#  subject               :string
-#  to                    :string
-#  total_token_cost      :integer          default(0)
-#  created_at            :datetime         not null
-#  updated_at            :datetime         not null
-#  chat_id               :integer
+#  id                     :bigint           not null, primary key
+#  completion_tokens_cost :decimal(, )      default(0.0)
+#  content                :text
+#  date_received          :string
+#  from                   :string
+#  in_reply_to            :integer
+#  prompt_tokens_cost     :decimal(, )      default(0.0)
+#  role                   :string
+#  subject                :string
+#  to                     :string
+#  total_token_cost       :decimal(, )      default(0.0)
+#  created_at             :datetime         not null
+#  updated_at             :datetime         not null
+#  chat_id                :integer
 #
 class Message < ApplicationRecord
   attr_accessor :resume_sent
   has_rich_text :displayed_content
   belongs_to :chat
   validates :role, presence: true
-  before_save :ensure_role
   after_save :update_chat_total_tokens
+  before_validation :ensure_role
   # broadcasts_to :chat, target: "messages"
   # broadcasts_to ->(message) { :message_list }, inserts_by: :prepend, target: message
+
+  scope :user_messages, -> { where(role: "user") }
+  scope :assistant_messages, -> { where(role: "assistant") }
+  scope :system_messages, -> { where(role: "system") }
 
   after_create_commit :update_message_content
 
   def update_chat_total_tokens
     puts "Updating chat total tokens"
-    chat.update(total_token_cost: chat.messages.sum(:total_token_cost))
+    chat.update(total_token_usd_cost: chat.messages.sum(:total_token_cost))
+  end
+
+  def self.chat_bot_welcome
+    self.where(role: "assistant", subject: "Initial User Setup").first&.displayed_content&.body || "Welcome to the chat bot! I will be your assistant for this application."
   end
 
   def ensure_role
@@ -91,10 +99,8 @@ class Message < ApplicationRecord
   end
 
   def replace_prompt_text(prompt_text)
-    puts "prompt_text: #{prompt_text}"
     Message.keys_to_replace.each do |key|
       prompt_text.gsub!(key, send(key.downcase.to_sym))
-      puts "REPLACING #{key} with #{send(key.downcase.to_sym)}"
     end
     self.content = prompt_text
   end
@@ -108,7 +114,6 @@ class Message < ApplicationRecord
                   role: "system",
                   subject: "Initial System Setup")
     sys_msg.replace_prompt_text(sys_msg.initial_system_setup)
-    puts "Saving SYS MESAGE: #{sys_msg.inspect}"
     sys_msg.save!
     usr_msg = new(chat_id: chat_id,
                   role: "user",
@@ -116,6 +121,55 @@ class Message < ApplicationRecord
     usr_msg.build_prompt
     usr_msg.save!
     [sys_msg, usr_msg]
+  end
+
+  def self.find_setup_prompts_for(chat_id)
+    sys_msg = Message.where(chat_id: chat_id, role: "system", subject: "Initial System Setup")
+    usr_msg = Message.where(chat_id: chat_id, role: "user", subject: "Initial User Setup")
+    if sys_msg.blank? || usr_msg.blank?
+      sys_msg, usr_msg = create_initial_setup_prompt_for(chat_id)
+    end
+    [sys_msg, usr_msg].flatten
+  end
+
+  def self.find_or_create_initial_setup_prompt_for(chat_id)
+    find_setup_prompts_for(chat_id).first || create_initial_setup_prompt_for(chat_id).first
+  end
+
+  def self.find_or_create_user_setup_prompt_for(chat_id)
+    find_user_setup_prompts_for(chat_id).first || create_initial_setup_prompt_for(chat_id).last
+  end
+
+  def self.find_or_create_initial_setup_prompts_for(chat_id)
+    find_setup_prompts_for(chat_id) || create_initial_setup_prompt_for(chat_id)
+  end
+
+  def self.find_or_create_user_setup_prompts_for(chat_id)
+    find_user_setup_prompts_for(chat_id) || create_initial_setup_prompt_for(chat_id)
+  end
+
+  def self.find_or_create_initial_setup_prompts_for(chat_id)
+    find_setup_prompts_for(chat_id) || create_initial_setup_prompt_for(chat_id)
+  end
+
+  def self.find_or_create_user_setup_prompts_for(chat_id)
+    find_user_setup_prompts_for(chat_id) || create_initial_setup_prompt_for(chat_id)
+  end
+
+  def self.find_or_create_initial_setup_prompt_for(chat_id)
+    find_setup_prompts_for(chat_id).first || create_initial_setup_prompt_for(chat_id).first
+  end
+
+  def self.find_or_create_user_setup_prompt_for(chat_id)
+    find_user_setup_prompts_for(chat_id).first || create_initial_setup_prompt_for(chat_id).last
+  end
+
+  def self.find_or_create_initial_setup_prompts_for(chat_id)
+    find_setup_prompts_for(chat_id) || create_initial_setup_prompt_for(chat_id)
+  end
+
+  def self.find_or_create_user_setup_prompts_for(chat_id)
+    find_user_setup_prompts_for(chat_id) || create_initial_setup_prompt_for(chat_id)
   end
 
   def initial_system_setup
@@ -126,18 +180,41 @@ class Message < ApplicationRecord
     "Please format the response as a HTML table. Only include html table with the id of #{table_id} and #{bootstrap_styling} in the response."
   end
 
+  def id_name
+    if self.subject
+      "#{self.subject.downcase.split.join("_")}_#{self.id}"
+    else
+      "#{self.role}_message_#{self.id}"
+    end
+  end
+
   def update_message_content
     puts "Updating message content for #{self.subject}"
-    broadcast_update_to(:message_list, inserts_by: :replace, target: self.subject.downcase.split.join("_"), html: "<div id='#{self.subject.downcase.split.join("_")}' class='turbo-replaced-details'><h3>#{self.subject}</h3>#{self.displayed_content.body}</div>")
+    # broadcast_update_to(:message_list, inserts_by: :replace, target: "accordion_body_#{id_name}", html: "#{self.displayed_content.body}")
+    # render partial: "messages/accordion_item", locals: { id_name: "chat_bot_welcome", subject: "Welcome", chat: @app_chat }
+    broadcast_update_to(:message_list, inserts_by: :append, target: "accordionExample", partial: "messages/accordion_item", locals: { message: self }) if self.role == "assistant"
+    # format.turbo_stream { render turbo_stream: turbo_stream.replace("form", partial: "posts/form", locals: { conversation: @conversation, post: Post.new }) }
+
     # return if self.role == "user" && self.chat.message_types.include?(self.subject.titleize)
     # broadcast_update_to(self.chat, :messages, target: self.subject.downcase.split.join("_"), html: "<div id='#{self.subject.downcase.split.join("_")}' class='scrolling-details'><h3>#{self.subject}</h3>#{self.displayed_content.body}</div>")
   end
 
+  def caluculate_token_cost(model = DEFAULT_MODEL)
+    puts "model: #{model}"
+    prices = OpenAiClient.get_model_prices(model)
+    puts "prices: #{prices}"
+    total_output_cost = prices[:output] * self.completion_tokens_cost
+    total_input_cost = prices[:input] * self.prompt_tokens_cost
+    total_output_cost + total_input_cost
+  end
+
   def update_token_stats!(response)
     puts "Updating token stats for #{self.subject}"
-    self.prompt_token_cost = response[:prompt_tokens]
-    self.completion_token_cost = response[:completion_tokens]
-    self.total_token_cost = response[:total_tokens]
+    self.prompt_tokens_cost = response[:prompt_tokens]
+    self.completion_tokens_cost = response[:completion_tokens]
+
+    self.total_token_cost = caluculate_token_cost(response[:model])
+    puts "TOTAL TOKEN COST: #{self.total_token_cost}"
     self.save!
   end
 end

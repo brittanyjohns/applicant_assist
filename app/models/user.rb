@@ -10,8 +10,8 @@
 #  remember_created_at    :datetime
 #  reset_password_sent_at :datetime
 #  reset_password_token   :string
-#  total_app_tokens_spent :integer          default(0)
-#  total_gpt_tokens_spent :integer          default(0)
+#  total_app_tokens_spent :decimal(, )      default(0.0)
+#  total_gpt_tokens_spent :decimal(, )      default(0.0)
 #  username               :string
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
@@ -31,6 +31,7 @@ class User < ApplicationRecord
   has_many :jobs, through: :applications
   has_many :companies, through: :jobs
   has_many :docs, as: :documentable
+  has_many :chats
   # has_one_attached :resume
   # has_many :contacts, through: :applications
   # Include default devise modules. Others available are:
@@ -51,7 +52,7 @@ class User < ApplicationRecord
     if User::MATCHER.match?(email)
       self.username = email[User::MATCHER, 1]
     end
-    self.total_gpt_tokens_spent = chats.sum(:total_token_cost)
+    self.total_gpt_tokens_spent = chats.sum(:total_token_usd_cost)
   end
 
   def internal_email

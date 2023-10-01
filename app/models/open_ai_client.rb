@@ -2,6 +2,10 @@ require "openai"
 
 class OpenAiClient
   DEFAULT_MODEL = "gpt-3.5-turbo"
+  MODEL_PRICES = {
+    "gpt-3.5-turbo": { "input": 0.0015, "output": 0.002 },
+    "gtp-4": { "input": 0.03, "output": 0.06 },
+  }
 
   def initialize(opts)
     @messages = opts["messages"] || opts[:messages] || []
@@ -55,19 +59,30 @@ class OpenAiClient
       parameters: opts,
     )
 
+    message_tokens = num_tokens_from_messages
+
+    puts "Sent to OpenAI -- message count: #{@messages&.count} - num_tokens: #{message_tokens}"
+
     if response
+      @model = response.dig("model")
       @role = response.dig("choices", 0, "message", "role")
       @content = response.dig("choices", 0, "message", "content")
       @prompt_tokens = response.dig("usage", "prompt_tokens")
       @completion_tokens = response.dig("usage", "completion_tokens")
       @total_tokens = response.dig("usage", "total_tokens")
+      @message_tokens = message_tokens
     else
       puts "**** ERROR **** \nDid not receive valid response.\n"
     end
-    { role: @role, content: @content, prompt_tokens: @prompt_tokens, completion_tokens: @completion_tokens, total_tokens: @total_tokens }
+    { role: @role, content: @content, prompt_tokens: @prompt_tokens, completion_tokens: @completion_tokens, total_tokens: @total_tokens, message_tokens: @message_tokens, model: @model }
   end
 
   def self.ai_models
     @models = openai_client.models.list
+  end
+
+  def self.get_model_prices(model = DEFAULT_MODEL)
+    model = DEFAULT_MODEL unless MODEL_PRICES.keys.include?(model.to_sym)
+    MODEL_PRICES[model.to_sym]
   end
 end

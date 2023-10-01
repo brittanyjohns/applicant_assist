@@ -2,14 +2,14 @@
 #
 # Table name: chats
 #
-#  id               :bigint           not null, primary key
-#  source_type      :string           not null
-#  title            :string
-#  total_token_cost :integer          default(0)
-#  created_at       :datetime         not null
-#  updated_at       :datetime         not null
-#  source_id        :bigint           not null
-#  user_id          :bigint           not null
+#  id                   :bigint           not null, primary key
+#  source_type          :string           not null
+#  title                :string
+#  total_token_usd_cost :decimal(, )      default(0.0)
+#  created_at           :datetime         not null
+#  updated_at           :datetime         not null
+#  source_id            :bigint           not null
+#  user_id              :bigint           not null
 #
 # Indexes
 #
@@ -33,12 +33,19 @@ class Chat < ApplicationRecord
   end
 
   def messages_to_display
-    subjects_to_filter = message_types << "System Setup"
     messages.where.not(subject: subjects_to_filter)
+  end
+
+  def subjects_to_filter
+    inactive_message_types << "System Setup"
   end
 
   def message_types
     Prompt.active.pluck(:subject).sort
+  end
+
+  def inactive_message_types
+    Prompt.inactive.pluck(:subject).sort
   end
 
   def remaining_prompt_types
@@ -54,12 +61,22 @@ class Chat < ApplicationRecord
     "You keep all of your responses short & to the point."
   end
 
+  def chat_room_messages
+    messages.where(subject: nil)
+  end
+
   def format_messages
     messages_to_format = messages
     if messages_to_format.blank?
       @new_chat = true
-      messages_to_format = Message.create_initial_setup_prompt_for(self.id)
+      puts "NEW CHAT"
+      # messages_to_format = Message.create_initial_setup_prompt_for(self.id)
     end
+    messages_to_format = Message.find_setup_prompts_for(self.id)
+    last_user_msg = self.messages.last
+    puts "LAST USER MSG: #{last_user_msg.inspect}"
+    messages_to_format << last_user_msg if last_user_msg
+    puts "messages_to_format: #{messages_to_format.count}"
     messages_to_format.map do |msg|
       { role: msg.role, content: msg.content }
     end
@@ -74,7 +91,7 @@ class Chat < ApplicationRecord
   end
 
   def message_for(subject)
-    messages.where(subject: subject.titleize).last&.displayed_content || "<p>No #{subject.titleize} yet</p>".html_safe
+    messages.where(subject: subject.titleize).last&.displayed_content || "<p>***No #{subject.titleize} yet</p>".html_safe
   end
 
   def open_ai_opts
@@ -99,9 +116,17 @@ class Chat < ApplicationRecord
     company_name
   end
 
+  def over_token_limit?
+    puts "total_token_usd_cost: #{total_token_usd_cost} - prompt.length: #{prompt.length} - MAX_TOKEN_LENGTH: #{MAX_TOKEN_LENGTH}"
+    total_token_usd_cost > MAX_TOKEN_LENGTH || prompt.length > MAX_TOKEN_LENGTH
+  end
+
   def chat_with_ai!
-    response = OpenAiClient.new(open_ai_opts).create_chat
-    puts "RESPONSE: #{response.inspect}"
+    ai_client = OpenAiClient.new(open_ai_opts)
+    token_cost = ai_client.num_tokens_from_messages
+    puts "token_cost: #{token_cost}"
+    response = ai_client.create_chat
+    puts "\nchat_with_ai\nRESPONSE: #{response.inspect}"
     if response && response[:role]
       role = response[:role] || "assistant"
       content = response[:content]
@@ -111,6 +136,8 @@ class Chat < ApplicationRecord
       # new_line_regex = /\n/
       last_user_msg = messages.where(role: "user").last
       subject = last_user_msg ? last_user_msg.subject : "Hello Human"
+
+      puts "\n\ncreating new message with role: #{role} and subject: #{subject}\n\n"
 
       msg = messages.new(role: role, subject: subject)
       msg.content = content

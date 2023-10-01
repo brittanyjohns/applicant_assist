@@ -7,5 +7,8 @@ class ChatWithAiJob
     chat = Chat.find(chat_id)
     response = chat.chat_with_ai!
     puts "RESPONSE from Job: #{response.inspect}"
+    if response.nil?
+      raise "No response from OpenAI"
+    end
   end
 end
