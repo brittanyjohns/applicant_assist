@@ -124,7 +124,6 @@ class Chat < ApplicationRecord
   def chat_with_ai!
     ai_client = OpenAiClient.new(open_ai_opts)
     response = ai_client.create_chat
-    puts "\nchat_with_ai\nRESPONSE: #{response.inspect}"
     if response && response[:role]
       role = response[:role] || "assistant"
       content = response[:content]
@@ -144,7 +143,6 @@ class Chat < ApplicationRecord
 
       puts replaced_text
       msg.displayed_content.body = replaced_text
-      puts "SAVING MESSAGE: #{msg.inspect}"
       msg.update_token_stats!(response)
     else
       puts "**** ERROR **** \nDid not receive valid response.\n"
