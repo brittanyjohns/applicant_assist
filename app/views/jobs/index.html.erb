@@ -1,6 +1,8 @@
 
 <h1>Jobs <%= @jobs.count %> total jobs</h1>
-  <%= paginate @jobs %>
+<div class="col-md-12 bg-light">
+   <%= paginate @jobs %>
+</div>
 
 <%= turbo_stream_from :job_list %>
 <div id="jobs">

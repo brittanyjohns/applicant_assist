@@ -1,6 +1,9 @@
-<div id="<%=message.id %>" class="p2">
+<div id="<%= message.id %>" class="p2">
   <div class="message-content">
-    <strong><%= message.role&.upcase || 'USER' %>: <%=message.subject%></strong>
-    <%= message.displayed_content %>
+    
+   <div class='email-content'>
+    <p class='lead'><strong><%= message.role&.upcase || "USER" %>: <%= message.subject %></strong></p>
+     <%= message.displayed_content.body || message.content %>
+  </div>
   </div>
 </div>

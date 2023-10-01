@@ -1,6 +1,6 @@
 class ChatsController < ApplicationController
   before_action :set_chat, only: %i[ show edit update destroy message_prompt ]
-  before_action :set_application, only: %i[ create ]
+  before_action :set_application, only: %i[ new create ]
   # GET /chats or /chats.json
   def index
     @chats = Chat.all
@@ -23,15 +23,17 @@ class ChatsController < ApplicationController
 
   # POST /chats or /chats.json
   def create
-    @chat = Chat.new(chat_params)
-    @chat.user = current_user
-    @chat.source = @application
+    # @chat = Chat.new(chat_params)
+    # @chat.user = current_user
+    # @chat.source = @application
+    @chat = Chat.create(source: @application, user: @application.user)
     # Message.create_initial_setup_prompt_for(@chat.id)
 
     respond_to do |format|
       if @chat.save
-        ChatWithAiJob.perform_async(@chat.id)
-        format.html { redirect_to chat_url(@chat), notice: "Chat was successfully created." }
+        # ChatWithAiJob.perform(@chat.id)
+        @chat.chat_with_ai!
+        format.html { redirect_to application_chat_path(@application, @chat), notice: "Chat was successfully created." }
         format.json { render :show, status: :created, location: @chat }
       else
         format.html { render :new, status: :unprocessable_entity }

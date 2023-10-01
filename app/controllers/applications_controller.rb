@@ -1,5 +1,6 @@
 class ApplicationsController < ApplicationController
   before_action :set_application, only: %i[ show edit update destroy ]
+  before_action :set_job, only: %i[ create create_chat ]
 
   # GET /applications or /applications.json
   def index
@@ -8,13 +9,12 @@ class ApplicationsController < ApplicationController
 
   # GET /applications/1 or /applications/1.json
   def show
-    @app_chat = @application.chats.first
     @chat = Chat.new(source: @application, user: current_user)
   end
 
   # GET /applications/new
   def new
-    @jobs = Job.active
+    @job = Job.find(params[:job_id])
     @application = Application.new
     @application.user = current_user
   end
@@ -40,13 +40,14 @@ class ApplicationsController < ApplicationController
 
   # POST /applications or /applications.json
   def create
+    puts "Creating an application! PARAMS: #{application_params}"
     @application = Application.new(application_params)
     @application.user = current_user
 
     respond_to do |format|
       if @application.save
         @chat = Chat.create(source: @application, user: @application.user)
-        ChatWithAiJob.perform_async(@chat.id)
+        @chat.chat_with_ai!
         format.html { redirect_to application_url(@application), notice: "Application was successfully created." }
         format.json { render :show, status: :created, location: @application }
       else
@@ -84,6 +85,11 @@ class ApplicationsController < ApplicationController
   # Use callbacks to share common setup or constraints between actions.
   def set_application
     @application = Application.includes(:chats).find(params[:id])
+    @app_chat = @application.chats.first
+  end
+
+  def set_job
+    @job = Job.find(application_params[:job_id])
   end
 
   # Only allow a list of trusted parameters through.

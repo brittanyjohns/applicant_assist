@@ -21,8 +21,28 @@
   background-color: rgb(255, 255, 255);
   margin-bottom: 15px;
 }
+.child {
+  background: orange;
+  width: 50%;
+  // height: 100px;
+  // position: absolute;
+  // top: 50%;
+  // left: 50%;
+  // margin: -50px 0 0 -50px;
+}
 
 .turbo-replaced-details {
   padding: 25px;
   background-color: rgb(185, 236, 183);
+}
+.parent {
+  background: gray;
+  height: 300px;
+  // width: 300px;
+  width: 100%;
+  position: relative;
+}
+
+.bg-dark {
+  color: white;
 }

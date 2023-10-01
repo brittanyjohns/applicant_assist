@@ -1,5 +1,5 @@
 # ProductCategory.delete_all
-# coins = ProductCategory.find_or_create_by name: "coins"
+coins = ProductCategory.find_or_create_by name: "coins"
 # ebikes = ProductCategory.create! name: "e-bikes"
 # ProductCategory.create! name: "kids bikes & accessories"
 # ProductCategory.create! name: "parts"
@@ -7,12 +7,12 @@
 # ProductCategory.create! name: "clothing & shoes"
 
 # Product.delete_all
-# Product.create! name: "10 coins", price: 1, coin_value: 10, active: true, product_category: coins
-# Product.create! name: "100 coins", price: 10, coin_value: 100, active: true, product_category: coins
-# Product.create! name: "200 coins", price: 15, coin_value: 200, active: true, product_category: coins
-# Product.create! name: "500 coins", price: 20, coin_value: 500, active: true, product_category: coins
+Product.create! name: "10 coins", price: 1, coin_value: 10, active: true, product_category: coins
+Product.create! name: "100 coins", price: 10, coin_value: 100, active: true, product_category: coins
+Product.create! name: "200 coins", price: 15, coin_value: 200, active: true, product_category: coins
+Product.create! name: "500 coins", price: 20, coin_value: 500, active: true, product_category: coins
 
-Prompt.delete_all
+# Prompt.delete_all
 Prompt.create! subject: "Initial System Setup", body: "You are a helpful assistant that is great at helping job applicants land their dream jobs! You will use their resume information to reference past work experiences, skills, education, and other information about the applicant. Do not make up facts about the applicant. Ask for clarification if unsure how to proceed.  Your responses are formatted as rich text format.", active: false
 Prompt.create! subject: "Initial User Setup", body: "Please help me get the job listed in the following job posting:</br>JOB_POSTING</br>Please use my current resume & other information given to help me get this job. Here is my current resume:<br> USER_RESUME<br>Please format all of your responses as rich text format.", active: false
 Prompt.create! subject: "Job Posting", body: "JOB_POSTING", active: false

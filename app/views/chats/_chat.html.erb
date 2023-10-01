@@ -1,6 +1,6 @@
 <div id="<%= dom_id chat %>">
   <p>
-    <strong><%= link_to "#{chat.title.blank? ? "<>" : chat.title}", chat %>:</strong>
+    <strong><%= chat.id %><%= link_to "#{chat.title.blank? ? "<>" : chat.title}", chat %>:</strong>
   </p>
 
   <div class='row'>
