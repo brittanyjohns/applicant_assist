@@ -145,7 +145,7 @@ class Chat < ApplicationRecord
       msg.displayed_content.body = replaced_text
       msg.update_token_stats!(response)
     else
-      puts "**** ERROR **** \nDid not receive valid response.\n"
+      puts "*** ERROR *** \nDid not receive valid response.\n"
     end
   end
 end
