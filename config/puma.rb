@@ -15,6 +15,7 @@ threads min_threads_count, max_threads_count
 if ENV["RAILS_ENV"] == "production"
   # worker_count = Integer(ENV.fetch("WEB_CONCURRENCY") { Concurrent.physical_processor_count })
   workers Integer(ENV["WEB_CONCURRENCY"] || 2)
+  worker_timeout 3600
 end
 
 # Specifies the `worker_timeout` threshold that Puma will use to wait before

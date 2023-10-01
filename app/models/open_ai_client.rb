@@ -59,7 +59,7 @@ class OpenAiClient
       parameters: opts,
     )
 
-    message_tokens = num_tokens_from_messages
+    message_tokens = @messages&.map { |m| m["content"]&.split(" ")&.count }&.sum
 
     puts "Sent to OpenAI -- message count: #{@messages&.count} - num_tokens: #{message_tokens}"
 

@@ -123,8 +123,6 @@ class Chat < ApplicationRecord
 
   def chat_with_ai!
     ai_client = OpenAiClient.new(open_ai_opts)
-    token_cost = ai_client.num_tokens_from_messages
-    puts "token_cost: #{token_cost}"
     response = ai_client.create_chat
     puts "\nchat_with_ai\nRESPONSE: #{response.inspect}"
     if response && response[:role]
