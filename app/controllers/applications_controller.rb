@@ -28,6 +28,7 @@ class ApplicationsController < ApplicationController
 
     respond_to do |format|
       if @chat.save
+        puts "App create_chat - Chat created! ID: #{chat.id}"
         ChatWithAiJob.perform_async(@chat.id)
         format.html { redirect_to chat_url(@chat), notice: "Chat was successfully created." }
         format.json { render :show, status: :created, location: @chat }

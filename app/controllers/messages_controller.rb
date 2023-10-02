@@ -26,6 +26,7 @@ class MessagesController < ApplicationController
 
     respond_to do |format|
       if @message.save
+        puts "from UI -- Message saved!"
         ChatWithAiJob.perform_async(@chat.id)
         format.turbo_stream { render turbo_stream: turbo_stream.replace("form", partial: "messages/form", locals: { chat: @chat, message: Message.new }) }
         format.html { redirect_to chat_url(@chat), notice: "Message was successfully created." }

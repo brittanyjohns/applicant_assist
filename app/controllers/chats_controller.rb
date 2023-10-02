@@ -50,9 +50,7 @@ class ChatsController < ApplicationController
     puts "Saving MESAGE: #{message.inspect}"
     respond_to do |format|
       if message.save
-        puts "Before: #{@chat.messages.count}"
-        @chat.messages.reload
-        puts "After: #{@chat.messages.count}"
+        puts "Message saved!"
         ChatWithAiJob.perform_async(@chat.id)
         format.html { redirect_to application_url(@chat.source.id) }
         format.json { render :show, status: :ok, location: @chat }
