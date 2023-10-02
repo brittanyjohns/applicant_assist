@@ -59,10 +59,6 @@ class OpenAiClient
       parameters: opts,
     )
 
-    message_tokens = @messages&.map { |m| m["content"]&.split(" ")&.count }&.sum
-
-    puts "Sent to OpenAI -- message count: #{@messages&.count} - num_tokens: #{message_tokens}"
-
     if response
       @model = response.dig("model")
       @role = response.dig("choices", 0, "message", "role")
@@ -70,11 +66,10 @@ class OpenAiClient
       @prompt_tokens = response.dig("usage", "prompt_tokens")
       @completion_tokens = response.dig("usage", "completion_tokens")
       @total_tokens = response.dig("usage", "total_tokens")
-      @message_tokens = message_tokens
     else
       puts "**** ERROR **** \nDid not receive valid response.\n"
     end
-    { role: @role, content: @content, prompt_tokens: @prompt_tokens, completion_tokens: @completion_tokens, total_tokens: @total_tokens, message_tokens: @message_tokens, model: @model }
+    { role: @role, content: @content, prompt_tokens: @prompt_tokens, completion_tokens: @completion_tokens, total_tokens: @total_tokens, model: @model }
   end
 
   def self.ai_models

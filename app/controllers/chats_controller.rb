@@ -30,8 +30,7 @@ class ChatsController < ApplicationController
     # Message.create_initial_setup_prompt_for(@chat.id)
 
     respond_to do |format|
-      if @chat.save
-        # ChatWithAiJob.perform(@chat.id)
+      if @chat.persisted?
         @chat.chat_with_ai!
         format.html { redirect_to application_chat_path(@application, @chat), notice: "Chat was successfully created." }
         format.json { render :show, status: :created, location: @chat }
@@ -51,7 +50,7 @@ class ChatsController < ApplicationController
     respond_to do |format|
       if message.save
         puts "Message saved!"
-        ChatWithAiJob.perform_async(@chat.id)
+        # ChatWithAiJob.perform_async(@chat.id)
         format.html { redirect_to application_url(@chat.source.id) }
         format.json { render :show, status: :ok, location: @chat }
       else

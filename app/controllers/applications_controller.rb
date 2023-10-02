@@ -24,12 +24,12 @@ class ApplicationsController < ApplicationController
   end
 
   def create_chat
-    @chat = Chat.new(source: @application, user: @application.user)
+    @chat = Chat.create(source: @application, user: @application.user)
 
     respond_to do |format|
-      if @chat.save
+      if @chat.persisted?
         puts "App create_chat - Chat created! ID: #{chat.id}"
-        ChatWithAiJob.perform_async(@chat.id)
+        # ChatWithAiJob.perform_async(@chat.id)
         format.html { redirect_to chat_url(@chat), notice: "Chat was successfully created." }
         format.json { render :show, status: :created, location: @chat }
       else

@@ -29,7 +29,7 @@ class JobsController < ApplicationController
       if @application.save
         @chat = Chat.create(source: @application, user: current_user)
         puts "Jobs create_application - Chat created! ID: #{chat.id}"
-        ChatWithAiJob.perform_async(@chat.id)
+        # ChatWithAiJob.perform_async(@chat.id)
         format.html { redirect_to @application, notice: "Application was successfully updated." }
         format.json { render :show, status: :ok, location: @job }
       else

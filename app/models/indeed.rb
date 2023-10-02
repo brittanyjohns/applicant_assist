@@ -73,7 +73,7 @@ class Indeed
     count = 0
     return unless jobs
     jobs.each do |job_info|
-      break if count > 10
+      break if count > 50
       count += 1
       title = job_info["title"]
       link = job_info["link"]
