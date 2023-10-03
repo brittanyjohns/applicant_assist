@@ -34,7 +34,7 @@ class Message < ApplicationRecord
   after_create_commit :update_message_content
 
   def update_chat_total_tokens
-    puts "Updating chat total tokens"
+    Rails.logger.debug "Updating chat total tokens"
     chat.update(total_token_usd_cost: chat.messages.sum(:total_token_cost))
   end
 
@@ -55,19 +55,19 @@ class Message < ApplicationRecord
 
   def job_posting
     job_posting_details = chat.job_posting
-    puts "MISSING JOB DESCRIPTION" unless job_posting_details
+    Rails.logger.debug "MISSING JOB DESCRIPTION" unless job_posting_details
     job_posting_details
   end
 
   def job_title
     title = chat.job_title
-    puts "MISSING JOB TITLE" unless title
+    Rails.logger.debug "MISSING JOB TITLE" unless title
     title
   end
 
   def company_name
     company_name = chat.company_name
-    puts "MISSING COMPANY NAME" unless company_name
+    Rails.logger.debug "MISSING COMPANY NAME" unless company_name
     company_name
   end
 
@@ -189,7 +189,7 @@ class Message < ApplicationRecord
   end
 
   def update_message_content
-    puts "Updating message content for #{self.subject}"
+    Rails.logger.debug "Updating message content for #{self.subject}"
     # broadcast_update_to(:message_list, inserts_by: :replace, target: "accordion_body_#{id_name}", html: "#{self.displayed_content.body}")
     # render partial: "messages/accordion_item", locals: { id_name: "chat_bot_welcome", subject: "Welcome", chat: @app_chat }
     broadcast_update_to(:message_list, inserts_by: :append, target: "accordionExample", partial: "messages/accordion_item", locals: { message: self }) if self.role == "assistant"
@@ -200,21 +200,25 @@ class Message < ApplicationRecord
   end
 
   def caluculate_token_cost(model = DEFAULT_MODEL)
-    puts "model: #{model}"
+    Rails.logger.debug "model: #{model}"
     prices = OpenAiClient.get_model_prices(model)
-    puts "prices: #{prices}"
-    total_output_cost = prices[:output] * self.completion_tokens_cost
-    total_input_cost = prices[:input] * self.prompt_tokens_cost
+    Rails.logger.debug "prices: #{prices}"
+    Rails.logger.debug "self.completion_tokens_cost: #{self.completion_tokens_cost}"
+    Rails.logger.debug "self.prompt_tokens_cost: #{self.prompt_tokens_cost}"
+    total_output_cost = prices[:output] * (self.completion_tokens_cost / 1000)
+    total_input_cost = prices[:input] * (self.prompt_tokens_cost / 1000)
+    Rails.logger.debug "total_output_cost: #{total_output_cost}"
+    Rails.logger.debug "total_input_cost: #{total_input_cost}"
     total_output_cost + total_input_cost
   end
 
   def update_token_stats!(response)
-    puts "Updating token stats for #{self.subject}"
+    Rails.logger.debug "Updating token stats for #{self.subject}"
     self.prompt_tokens_cost = response[:prompt_tokens]
     self.completion_tokens_cost = response[:completion_tokens]
 
     self.total_token_cost = caluculate_token_cost(response[:model])
-    puts "TOTAL TOKEN COST: #{self.total_token_cost}"
+    Rails.logger.debug "TOTAL TOKEN COST: #{self.total_token_cost}"
     self.save!
   end
 end

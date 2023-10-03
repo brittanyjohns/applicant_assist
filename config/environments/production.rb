@@ -59,7 +59,7 @@ Rails.application.configure do
   #   .then { |logger| ActiveSupport::TaggedLogging.new(logger) }
 
   # if ENV["RAILS_LOG_TO_STDOUT"].present?
-  logger = ActiveSupport::Logger.new($stdout)
+  logger = ActiveSupport::Logger.new("log/#{Rails.env}.log")
   logger.formatter = config.log_formatter
   config.logger = ActiveSupport::TaggedLogging.new(logger)
   # end

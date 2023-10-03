@@ -11,7 +11,9 @@ class UsersController < ApplicationController
   end
 
   def update
+    puts "doc_params: #{doc_params}"
     @user.resume.attach(user_params[:resume]) if user_params[:resume]
+    @user.docs.create(doc_type: "resume", displayed_content: doc_params[:displayed_content]) if doc_params[:displayed_content]
 
     respond_to do |format|
       if @user.update(name: user_params[:name])
@@ -46,6 +48,10 @@ class UsersController < ApplicationController
   end
 
   def user_params
-    params.require(:user).permit(:name, docs: [:id, :displayed_content, :doc_type])
+    params.require(:user).permit(:name, doc: [:id, :displayed_content, :doc_type])
+  end
+
+  def doc_params
+    user_params.require(:doc).permit(:id, :displayed_content, :doc_type)
   end
 end

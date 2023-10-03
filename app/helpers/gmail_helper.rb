@@ -25,8 +25,6 @@ module GmailHelper
   end
 
   def save_email_message(gmail, user_id, email_message_id)
-    old_logger = ActiveRecord::Base.logger
-    ActiveRecord::Base.logger = nil
     result = gmail.get_user_message("me", email_message_id, format: "full")
     return unless result
     payload = result.payload
@@ -44,7 +42,6 @@ module GmailHelper
       body = payload.parts.map { |part| part.body.data }.join
     end
     new_msg = create(user_id: user_id, message_id: email_message_id, date_received: date, to: to, from: from, subject: subject, body: body)
-    ActiveRecord::Base.logger = old_logger
 
     puts "id: #{result.id}"
     puts "date: #{date}"

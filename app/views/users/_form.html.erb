@@ -1,11 +1,11 @@
 <%= simple_form_for(@user) do |f| %>
   <%= f.error_notification %>
   <%= if f.object.errors[:base].present?
-    f.error_notification message: f.object.errors[:base].to_sentence
-  end %>
+        f.error_notification message: f.object.errors[:base].to_sentence
+      end %>
       <%= f.input :name %>
   <div class="form-inputs">
-    <%= f.fields_for :docs do |doc_form| %>
+    <%= f.fields_for [@user.docs.new] do |doc_form| %>
     <%= doc_form.input :doc_type, collection: Doc.doc_types %>
 
     <%= doc_form.rich_text_area :displayed_content %>
