@@ -7,7 +7,7 @@ class UserMailbox < ApplicationMailbox
     conversation.posts.create(
       author: contact,
       body: body,
-      message_id: mail.message_id,
+      email_message_id: mail.message_id,
     )
   end
 end

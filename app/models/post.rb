@@ -2,12 +2,13 @@
 #
 # Table name: posts
 #
-#  id              :bigint           not null, primary key
-#  author_type     :string           not null
-#  created_at      :datetime         not null
-#  updated_at      :datetime         not null
-#  author_id       :bigint           not null
-#  conversation_id :bigint           not null
+#  id               :bigint           not null, primary key
+#  author_type      :string           not null
+#  created_at       :datetime         not null
+#  updated_at       :datetime         not null
+#  author_id        :bigint           not null
+#  conversation_id  :bigint           not null
+#  email_message_id :string
 #
 # Indexes
 #

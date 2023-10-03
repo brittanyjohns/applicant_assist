@@ -5,7 +5,7 @@ class ReplyMailbox < ApplicationMailbox
     conversation.posts.create(
       author: author,
       body: body,
-      message_id: mail.message_id,
+      email_message_id: mail.message_id,
     )
   end
 

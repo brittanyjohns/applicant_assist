@@ -9,7 +9,7 @@ class ReplyJob
     @post = Post.find(post_id)
 
     # @post = args[:post]
-    return if post.message_id?
+    return if post.email_message_id?
 
     mail = ConversationMailer.with(
       to: "bhannajohns@gmail.com",
@@ -21,7 +21,7 @@ class ReplyJob
       references: previous_message_ids,
     ).new_post.deliver_now
 
-    post.update!(message_id: mail.message_id)
+    post.update!(email_message_id: mail.message_id)
   end
 
   def conversation
@@ -33,6 +33,6 @@ class ReplyJob
   end
 
   def previous_message_ids
-    @previous_message_ids ||= conversation.posts.where.not(id: post.id).pluck(:message_id).compact
+    @previous_message_ids ||= conversation.posts.where.not(id: post.id).pluck(:email_message_id).compact
   end
 end
