@@ -69,14 +69,14 @@ class Chat < ApplicationRecord
     messages_to_format = messages
     if messages_to_format.blank?
       @new_chat = true
-      puts "NEW CHAT"
+      Rails.logger.debug "NEW CHAT"
       # messages_to_format = Message.create_initial_setup_prompt_for(self.id)
     end
     messages_to_format = Message.find_setup_prompts_for(self.id)
     last_user_msg = self.messages.last
-    puts "LAST USER MSG: #{last_user_msg.inspect}"
+    Rails.logger.debug "LAST USER MSG: #{last_user_msg.inspect}"
     messages_to_format << last_user_msg if last_user_msg
-    puts "messages_to_format: #{messages_to_format.count}"
+    Rails.logger.debug "messages_to_format: #{messages_to_format.count}"
     messages_to_format.map do |msg|
       { role: msg.role, content: msg.content }
     end
@@ -100,24 +100,24 @@ class Chat < ApplicationRecord
 
   def job_posting
     job_posting_details = source.job.description
-    puts "MISSING JOB DESCRIPTION" unless job_posting_details
+    Rails.logger.debug "MISSING JOB DESCRIPTION" unless job_posting_details
     job_posting_details
   end
 
   def job_title
     title = source.job.title
-    puts "MISSING JOB TITLE" unless title
+    Rails.logger.debug "MISSING JOB TITLE" unless title
     title
   end
 
   def company_name
     company_name = source.job.company.name
-    puts "MISSING COMPANY NAME" unless company_name
+    Rails.logger.debug "MISSING COMPANY NAME" unless company_name
     company_name
   end
 
   def over_token_limit?
-    puts "total_token_usd_cost: #{total_token_usd_cost} - prompt.length: #{prompt.length} - MAX_TOKEN_LENGTH: #{MAX_TOKEN_LENGTH}"
+    Rails.logger.debug "total_token_usd_cost: #{total_token_usd_cost} - prompt.length: #{prompt.length} - MAX_TOKEN_LENGTH: #{MAX_TOKEN_LENGTH}"
     total_token_usd_cost > MAX_TOKEN_LENGTH || prompt.length > MAX_TOKEN_LENGTH
   end
 
@@ -134,18 +134,18 @@ class Chat < ApplicationRecord
       last_user_msg = messages.where(role: "user").last
       subject = last_user_msg ? last_user_msg.subject : "Hello Human"
 
-      puts "\n\ncreating new message with role: #{role} and subject: #{subject}\n\n"
+      Rails.logger.debug "\n\ncreating new message with role: #{role} and subject: #{subject}\n\n"
 
       msg = messages.new(role: role, subject: subject)
       msg.content = content
       new_line_regex = /\n/
       replaced_text = content.gsub(new_line_regex, "<br>") if content
 
-      puts replaced_text
+      Rails.logger.debug replaced_text
       msg.displayed_content.body = replaced_text
       msg.update_token_stats!(response)
     else
-      puts "*** ERROR *** \nDid not receive valid response.\n"
+      Rails.logger.debug "*** ERROR *** \nDid not receive valid response.\n"
     end
   end
 end

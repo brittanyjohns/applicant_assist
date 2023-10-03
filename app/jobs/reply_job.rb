@@ -4,7 +4,7 @@ class ReplyJob
   attr_reader :post
 
   def perform(*args)
-    puts "args #{args}"
+    Rails.logger.debug "args #{args}"
     post_id = args[0]
     @post = Post.find(post_id)
 

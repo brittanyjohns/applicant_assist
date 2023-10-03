@@ -1,8 +1,12 @@
 require "active_support/core_ext/integer/time"
-
+require "logger"
 Rails.application.configure do
+  Rails.logger = Logger.new(STDOUT)
+  # config.logger = ActiveSupport::Logger.new("log/#{Rails.env}.log")
+  logger = ActiveSupport::Logger.new($stdout)
+  logger.formatter = config.log_formatter
+  config.logger = ActiveSupport::TaggedLogging.new(logger)
   # Settings specified here will take precedence over those in config/application.rb.
-
   # In the development environment your application's code is reloaded any time
   # it changes. This slows down response time but is perfect for development
   # since you don't have to restart the web server when you make code changes.

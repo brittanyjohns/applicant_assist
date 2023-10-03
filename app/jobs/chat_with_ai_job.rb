@@ -1,22 +1,22 @@
 class ChatWithAiJob
   include Sidekiq::Job
-  sidekiq_options queue: "default", retry: 5
+  sidekiq_options queue: "default", retry: 2, backtrace: true
   # queue_as :default
 
   def perform(chat_id)
     logger.info "Things are happening."
-    logger.debug { "My args: #{chat_id}" }
-    puts "\n*** Running the Chat with AI job!! CHAT ID: #{chat_id}\n"
+    Rails.logger.debug { "My args: #{chat_id}" }
+    Rails.logger.debug "\n*** Running the Chat with AI job!! CHAT ID: #{chat_id}\n"
     begin
       chat = Chat.find(chat_id)
       response = chat.chat_with_ai!
-      puts "RESPONSE from Job: #{response.inspect}"
+      Rails.logger.debug "RESPONSE from Job: #{response.inspect}"
       if response.nil?
         raise "No response from OpenAI"
       end
     rescue => e
-      puts "ERROR: #{e.message}"
-      puts e.backtrace
+      Rails.logger.debug "ERROR: #{e.message}"
+      Rails.logger.debug e.backtrace
     end
   end
 end
