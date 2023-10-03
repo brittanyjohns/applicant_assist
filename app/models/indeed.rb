@@ -63,9 +63,11 @@ class Indeed
   end
 
   def search
+    Rails.logger.debug "Indeed search payload: #{payload}"
     response = HTTParty.post(api_url, body: payload.to_json, headers: { "Content-Type" => "application/json" }).body
 
     result = JSON.parse(response)
+    Rails.logger.debug "Indeed search result: #{result}"
 
     job_results = result["result"]
     return unless job_results
@@ -139,7 +141,7 @@ class Indeed
     job_details = result["result"]
     description = job_details["description"] if job_details
     will_retry = true
-    
+
     # File.open("job_details.txt", "w") { |f| f.write "#{Time.now} - #{job.id} job_details\n#{job_details}\n" }
     description
   end

@@ -28,7 +28,7 @@ class JobsController < ApplicationController
     respond_to do |format|
       if @application.save
         @chat = Chat.create(source: @application, user: current_user)
-        puts "Jobs create_application - Chat created! ID: #{chat.id}"
+        Rails.logger.debug "Jobs create_application - Chat created! ID: #{chat.id}"
         # ChatWithAiJob.perform_async(@chat.id)
         format.html { redirect_to @application, notice: "Application was successfully updated." }
         format.json { render :show, status: :ok, location: @job }
@@ -85,8 +85,9 @@ class JobsController < ApplicationController
   def search
     search_term = params[:job_search][:q]
     respond_to do |format|
-      jid = JobSearchJob.perform_async(search_term)
-      format.html { redirect_to jobs_url, notice: "Job Searching...#{jid}" }
+      Indeed.new(search_term).search
+      # jid = JobSearchJob.perform_async(search_term)
+      format.html { redirect_to jobs_url, notice: "Jobs loaded -- " }
       format.json { head :no_content }
     end
   end
