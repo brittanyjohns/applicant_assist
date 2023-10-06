@@ -1,7 +1,13 @@
-<div class="email-content col-md-6">
-  <%= @message.content %>
-</div>
 <div class='row'>
-  <%= link_to "Edit this message", edit_message_path(@message) %> |
-  <%= button_to "Destroy this message", @message, method: :delete %>
+  <h1><%= @message.subject %></h1>
+  <hr>
+  <p><%= @message.print_token_info %></p>
+  <div class="bg-light padded col-md-8">
+    <%= @message.content_to_display %>
+  </div>
+  <div class='padded col-md-2'>
+    <%= link_to "Edit this message", edit_chat_message_path(@chat, @message), class: "btn btn-info" %> 
+    <%= link_to "Chat", chat_path(@chat), class: "btn btn-default" %> 
+    <%= button_to "Destroy this message", chat_message_path(@chat, @message), method: :delete, class: "btn btn-info" %>
+  </div>
 </div>

@@ -4,6 +4,7 @@
         f.error_notification message: f.object.errors[:base].to_sentence
       end %>
       <%= f.input :name %>
+      <%= f.input :uploaded_resume %>
   <div class="form-inputs">
     <%= f.fields_for [@user.docs.new] do |doc_form| %>
     <%= doc_form.input :doc_type, collection: Doc.doc_types %>

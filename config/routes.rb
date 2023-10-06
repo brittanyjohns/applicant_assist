@@ -4,7 +4,11 @@
 Rails.application.routes.draw do
   root "main#index"
   devise_for :users
-  resources :users
+  resources :users do
+    member do
+      get "parse_resume_pdf"
+    end
+  end
   get "welcome_email", to: "users#welcome_email"
   resources :docs
   resources :jobs do

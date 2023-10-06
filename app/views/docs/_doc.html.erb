@@ -1,7 +1,7 @@
 <div id="<%= dom_id doc %>">
   <h1>
     <strong>Name:</strong>
-    <%= doc.name.upcase %>
+    <%= doc.name&.upcase || doc.doc_type&.upcase %>
   </h1>
 
   <hr>

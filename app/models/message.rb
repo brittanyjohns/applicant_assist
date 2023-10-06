@@ -18,18 +18,21 @@
 #  chat_id                :integer
 #
 class Message < ApplicationRecord
-  attr_accessor :resume_sent
   has_rich_text :displayed_content
   belongs_to :chat
   validates :role, presence: true
   after_save :update_chat_total_tokens
   before_validation :ensure_role
   # broadcasts_to :chat, target: "messages"
-  # broadcasts_to ->(message) { :message_list }, inserts_by: :prepend, target: message
+  broadcasts_to ->(message) { :message_list }, inserts_by: :append, target: "messages"
+
+  INITIAL_SYSTEM_SETUP = "Initial System Setup"
+  INITIAL_USER_SETUP = "Initial User Setup"
 
   scope :user_messages, -> { where(role: "user") }
   scope :assistant_messages, -> { where(role: "assistant") }
   scope :system_messages, -> { where(role: "system") }
+  scope :display_to_user, -> { assistant_messages.where.not(subject: [INITIAL_USER_SETUP, INITIAL_SYSTEM_SETUP]) }
 
   after_create_commit :update_message_content
 
@@ -39,7 +42,7 @@ class Message < ApplicationRecord
   end
 
   def self.chat_bot_welcome
-    self.where(role: "assistant", subject: "Initial User Setup").first&.displayed_content&.body || "Welcome to the chat bot! I will be your assistant for this application."
+    self.where(role: "assistant", subject: INITIAL_USER_SETUP).first&.displayed_content&.body || "Welcome to the chat bot! I will be your assistant for this application."
   end
 
   def ensure_role
@@ -112,68 +115,28 @@ class Message < ApplicationRecord
   def self.create_initial_setup_prompt_for(chat_id)
     sys_msg = new(chat_id: chat_id,
                   role: "system",
-                  subject: "Initial System Setup")
+                  subject: INITIAL_SYSTEM_SETUP)
     sys_msg.replace_prompt_text(sys_msg.initial_system_setup)
     sys_msg.save!
     usr_msg = new(chat_id: chat_id,
                   role: "user",
-                  subject: "Initial User Setup")
+                  subject: INITIAL_USER_SETUP)
     usr_msg.build_prompt
     usr_msg.save!
     [sys_msg, usr_msg]
   end
 
-  def self.find_setup_prompts_for(chat_id)
-    sys_msg = Message.where(chat_id: chat_id, role: "system", subject: "Initial System Setup")
-    usr_msg = Message.where(chat_id: chat_id, role: "user", subject: "Initial User Setup")
+  def self.find_or_create_setup_prompts_for(chat_id)
+    sys_msg = Message.where(chat_id: chat_id, role: "system", subject: INITIAL_SYSTEM_SETUP)
+    usr_msg = Message.where(chat_id: chat_id, role: "user", subject: INITIAL_USER_SETUP)
     if sys_msg.blank? || usr_msg.blank?
       sys_msg, usr_msg = create_initial_setup_prompt_for(chat_id)
     end
     [sys_msg, usr_msg].flatten
   end
 
-  def self.find_or_create_initial_setup_prompt_for(chat_id)
-    find_setup_prompts_for(chat_id).first || create_initial_setup_prompt_for(chat_id).first
-  end
-
-  def self.find_or_create_user_setup_prompt_for(chat_id)
-    find_user_setup_prompts_for(chat_id).first || create_initial_setup_prompt_for(chat_id).last
-  end
-
-  def self.find_or_create_initial_setup_prompts_for(chat_id)
-    find_setup_prompts_for(chat_id) || create_initial_setup_prompt_for(chat_id)
-  end
-
-  def self.find_or_create_user_setup_prompts_for(chat_id)
-    find_user_setup_prompts_for(chat_id) || create_initial_setup_prompt_for(chat_id)
-  end
-
-  def self.find_or_create_initial_setup_prompts_for(chat_id)
-    find_setup_prompts_for(chat_id) || create_initial_setup_prompt_for(chat_id)
-  end
-
-  def self.find_or_create_user_setup_prompts_for(chat_id)
-    find_user_setup_prompts_for(chat_id) || create_initial_setup_prompt_for(chat_id)
-  end
-
-  def self.find_or_create_initial_setup_prompt_for(chat_id)
-    find_setup_prompts_for(chat_id).first || create_initial_setup_prompt_for(chat_id).first
-  end
-
-  def self.find_or_create_user_setup_prompt_for(chat_id)
-    find_user_setup_prompts_for(chat_id).first || create_initial_setup_prompt_for(chat_id).last
-  end
-
-  def self.find_or_create_initial_setup_prompts_for(chat_id)
-    find_setup_prompts_for(chat_id) || create_initial_setup_prompt_for(chat_id)
-  end
-
-  def self.find_or_create_user_setup_prompts_for(chat_id)
-    find_user_setup_prompts_for(chat_id) || create_initial_setup_prompt_for(chat_id)
-  end
-
   def initial_system_setup
-    Prompt.where(subject: "Initial System Setup").first&.body || "I will help you get at the job described in the following job posting:\n JOB_POSTING\nAnd here's your resume I will use for future reference:\n USER_RESUME"
+    Prompt.where(subject: INITIAL_SYSTEM_SETUP).first&.body || "I will help you get at the job described in the following job posting:\n JOB_POSTING\nAnd here's your resume I will use for future reference:\n USER_RESUME"
   end
 
   def formatted_as_table(table_id)
@@ -186,6 +149,14 @@ class Message < ApplicationRecord
     else
       "#{self.role}_message_#{self.id}"
     end
+  end
+
+  def content_to_display
+    self.displayed_content&.body&.html_safe || self.content&.html_safe || "No content to display"
+  end
+
+  def print_token_info
+    "Completion Tokens Cost: #{self.completion_tokens_cost} - Prompt Tokens Cost: #{self.prompt_tokens_cost} - Total Token Cost: #{self.total_token_cost}"
   end
 
   def update_message_content

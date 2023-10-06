@@ -66,14 +66,8 @@ class Chat < ApplicationRecord
   end
 
   def format_messages
-    messages_to_format = messages
-    if messages_to_format.blank?
-      @new_chat = true
-      Rails.logger.debug "NEW CHAT"
-      # messages_to_format = Message.create_initial_setup_prompt_for(self.id)
-    end
-    messages_to_format = Message.find_setup_prompts_for(self.id)
-    last_user_msg = self.messages.last
+    messages_to_format = Message.find_or_create_setup_prompts_for(self.id)
+    last_user_msg = self.messages.user_messages.last
     Rails.logger.debug "LAST USER MSG: #{last_user_msg.inspect}"
     messages_to_format << last_user_msg if last_user_msg
     Rails.logger.debug "messages_to_format: #{messages_to_format.count}"

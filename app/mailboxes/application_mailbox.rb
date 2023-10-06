@@ -19,7 +19,6 @@ class ApplicationMailbox < ActionMailbox::Base
   end
 
   def contact
-    puts "from.address: #{from.address}"
     @contact ||= Contact.where(email: from.address).first_or_initialize
     if @contact.name.blank?
       @contact.name = from.display_name unless from.display_name.blank?
@@ -38,15 +37,20 @@ class ApplicationMailbox < ActionMailbox::Base
 
   def body
     if mail.multipart? && mail.html_part
+      puts "multi part - html"
       mail.html_part.body.decoded
     elsif mail.multipart? && mail.text_part
+      puts "multi part - text"
       mail.text_part.decoded
     else
+      puts "single part"
       mail.decoded
     end
+    # mail.body.parts[1].body.decoded
   end
 
   def conversation
+    puts "finding or creating conversation by contact_id: #{contact.id} and subject: #{mail.subject}"
     @conversation ||= user.conversations.find_or_create_by(contact_id: contact.id, subject: mail.subject)
   end
 
@@ -54,7 +58,11 @@ class ApplicationMailbox < ActionMailbox::Base
     puts "\nSTART INBOUND MAIL:\n"
     puts "to: #{mail.to}"
     puts "from: #{mail.from}"
+    puts "recipients: #{mail.recipients}"
     puts "message_id: #{mail.message_id}"
+    puts "subject: #{mail.subject}"
+    puts "\n\nnot decoded body: #{mail.body.parts[1].body}\n\n"
+    puts "\n\ndecoded body: #{mail.body.parts[1].body.decoded}\n\n"
     puts "\nEND INBOUND MAIL:\n"
     if user
       puts "USER FOUND: #{username}"

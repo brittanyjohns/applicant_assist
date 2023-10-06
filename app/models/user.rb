@@ -32,7 +32,7 @@ class User < ApplicationRecord
   has_many :companies, through: :jobs
   has_many :docs, as: :documentable
   has_many :chats
-  # has_one_attached :resume
+  has_one_attached :uploaded_resume
   # has_many :contacts, through: :applications
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
@@ -72,8 +72,8 @@ class User < ApplicationRecord
   end
 
   def saved_resume
-    return unless resume.attached?
-    get_attachment_url(resume)
+    return unless uploaded_resume.attached?
+    get_attachment_url(uploaded_resume)
     # Rails.application.routes.url_helpers.rails_blob_path(resume, only_path: true)
   end
 
@@ -86,10 +86,12 @@ class User < ApplicationRecord
     Rails.application.routes.url_helpers.rails_blob_url(attachment_type)
   end
 
-  def parse_resume
-    return unless resume.attached?
+  def parse_and_save_resume
+    return unless uploaded_resume.attached?
     document = Poppler::Document.new(saved_resume)
     parse_resume = document.map { |page| page.get_text }.join
+    self.docs.create(name: "uploaded_resume_#{Time.now.strftime("%m_%d_%Y-%H%M")}", doc_type: "uploaded_resume", displayed_content: parse_resume) unless parse_resume.blank?
+
     File.open("parse_resume.txt", "w") { |f| f.write "#{Time.now} - parse_resume\n#{parse_resume}\n" }
   end
 end

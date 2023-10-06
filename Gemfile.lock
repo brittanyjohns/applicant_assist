@@ -464,6 +464,7 @@ DEPENDENCIES
   jbuilder
   jsbundling-rails (~> 1.2)
   kaminari
+  nokogiri
   pg (~> 1.1)
   poppler
   postmark-rails

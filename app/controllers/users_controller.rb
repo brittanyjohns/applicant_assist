@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: %i[ show edit update destroy ]
+  before_action :set_user, only: %i[ show edit update destroy parse_resume_pdf ]
 
   def index
   end
@@ -10,10 +10,15 @@ class UsersController < ApplicationController
   def edit
   end
 
+  def parse_resume_pdf
+    @user.parse_and_save_resume if @user.uploaded_resume.attached?
+    redirect_to user_url(@user), notice: "Resume parsed."
+  end
+
   def update
     puts "doc_params: #{doc_params}"
-    @user.resume.attach(user_params[:resume]) if user_params[:resume]
-    @user.docs.create(doc_type: "resume", displayed_content: doc_params[:displayed_content]) if doc_params[:displayed_content]
+    @user.uploaded_resume.attach(user_params[:uploaded_resume]) if user_params[:uploaded_resume]
+    @user.docs.create(doc_type: "resume", displayed_content: doc_params[:displayed_content]) unless doc_params[:displayed_content].blank?
 
     respond_to do |format|
       if @user.update(name: user_params[:name])
@@ -48,7 +53,7 @@ class UsersController < ApplicationController
   end
 
   def user_params
-    params.require(:user).permit(:name, doc: [:id, :displayed_content, :doc_type])
+    params.require(:user).permit(:name, :uploaded_resume, doc: [:id, :displayed_content, :doc_type])
   end
 
   def doc_params

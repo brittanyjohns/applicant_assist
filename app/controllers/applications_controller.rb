@@ -86,7 +86,7 @@ class ApplicationsController < ApplicationController
   # Use callbacks to share common setup or constraints between actions.
   def set_application
     @application = Application.includes(:chats).find(params[:id])
-    @app_chat = @application.chats.first
+    @app_chat = @application.initial_chat
   end
 
   def set_job

@@ -4,8 +4,6 @@ class ChatWithAiJob
   # queue_as :default
 
   def perform(chat_id)
-    logger.info "Things are happening."
-    Rails.logger.debug { "My args: #{chat_id}" }
     Rails.logger.debug "\n*** Running the Chat with AI job!! CHAT ID: #{chat_id}\n"
     begin
       chat = Chat.find(chat_id)

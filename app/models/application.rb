@@ -42,4 +42,12 @@ class Application < ApplicationRecord
   def company_name
     job.company_name
   end
+
+  def initial_chat
+    chats.first
+  end
+
+  def additional_chats
+    chats.where.not(id: initial_chat.id)
+  end
 end

@@ -2,8 +2,9 @@
   <div class="message-content">
     
    <div class='email-content'>
+    <%= link_to "View", chat_message_path(message.chat, message), class: "btn" %>
     <p class='lead'><strong><%= message.role&.upcase || "USER" %>: <%= message.subject %></strong></p>
-     <%= message.displayed_content.body || message.content %>
+     <%= message.displayed_content.body&.html_safe || message.content&.html_safe %>
   </div>
   </div>
 </div>

@@ -1,9 +1,14 @@
 <h1><%= @user.display_name %></h1>
 <div class=''>
-  <%= link_to "Edit this user", edit_user_path(@user) %>
+  <%= link_to "Edit this user", edit_user_path(@user), class: "btn btn-primary" %>
+  <%= link_to "Parse Resume", parse_resume_pdf_user_path(@user), class: "btn btn-info" %>
 
 </div>
 <% if @user.docs.any? %>
+<p>Docs attached:</p>
+<% @user.docs.each do |doc| %>
+  <p><%= link_to "#{doc.name || doc.doc_type}", doc %></p>
+<% end %>
   <button
     type="button"
     class="btn btn-primary"
@@ -33,6 +38,8 @@
         </div>
         <div class="modal-body padded-box">
           <%= @user.docs.last.displayed_content if @user.docs.any? %>
+          <%= image_tag @user.uploaded_resume.preview(resize_to_limit: [800, 800]) %>
+    
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

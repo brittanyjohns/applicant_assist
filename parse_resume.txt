@@ -1,4 +1,4 @@
-2023-09-24 18:06:15 -0400 - parse_resume
+2023-10-06 09:01:50 -0400 - parse_resume
 Brittany Johns
 Lagrange, OH 44050
 (440) 225-2432
