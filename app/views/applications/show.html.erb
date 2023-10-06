@@ -1,5 +1,4 @@
 
-<%= turbo_stream_from :message_list %>
 <div class='row'>
   <div class='col-md-12 clearfix'>
     <h2 class='headline'>
@@ -11,27 +10,24 @@
     <%= link_to "New Chat", new_application_chat_path(@application), class: "btn btn-info float-end" %>
    <h3 class="float-end">$<%= @app_chat.total_token_usd_cost %></h3>
   </div>
-  <div class='col-md-6 bg-light'>
-    <div class='scrolling-details'>
-      <%= @app_chat.messages.chat_bot_welcome %>
-     </div>
-  </div>
-  
-   
-  
   <div class="col-md-6 bg-light">
-    <div class='messages' id='message_list'>
-    <% @app_chat.messages.display_to_user.each do |message| %>
-      <%= render partial: "messages/message", locals: { message: message } %>
-    <% end %>
+    <%= turbo_stream_from :messages %>
+    <div id="messages">
+      <%= render @app_messages_to_display %>
     </div>
+    <hr>
   </div>
   <div class="col-md-6 bg-light">
     <h2>additional_chats</h2>
-    <div class='messages' id='message_list'>
+    <div class='chats' id='chat_list'>
     <% @application.additional_chats.each do |chat| %>
       <%= render chat %>
     <% end %>
+    </div>
+  </div>
+  <div class='col-md-6 bg-light'>
+    <div class='scrolling-details'>
+      <%= @app_chat.messages.chat_bot_welcome %>
     </div>
   </div>
 

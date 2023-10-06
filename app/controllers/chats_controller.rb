@@ -8,7 +8,6 @@ class ChatsController < ApplicationController
 
   # GET /chats/1 or /chats/1.json
   def show
-    @message = @chat.messages.new
     @messages = @chat.messages_to_display
   end
 
@@ -42,15 +41,16 @@ class ChatsController < ApplicationController
   end
 
   def message_prompt
-    prompt_type = params["commit"]
+    prompt_type = chat_params["prompt_type"] || params["commit"]
+    puts "PROMPT TYPE: #{prompt_type}"
     message = @chat.messages.find_or_initialize_by(role: "user", subject: prompt_type)
-    # Message.create_initial_setup_prompt_for(@chat.id) if message.new_record?
     message.setup_user_prompt(prompt_type)
     puts "Saving MESAGE: #{message.inspect}"
     respond_to do |format|
       if message.save
         puts "Message saved!"
         ChatWithAiJob.perform_async(@chat.id)
+        # format.turbo_stream { render turbo_stream: turbo_stream.append("message_placeholder", partial: "messages/message", locals: { message: message }) }
         format.html { redirect_to application_url(@chat.source.id) }
         format.json { render :show, status: :ok, location: @chat }
       else
@@ -97,6 +97,6 @@ class ChatsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def chat_params
-    params.require(:chat).permit(:user_id, :source_id, :source_type, :title)
+    params.require(:chat).permit(:user_id, :source_id, :source_type, :title, :prompt_type)
   end
 end

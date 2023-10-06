@@ -10,6 +10,7 @@ class ApplicationsController < ApplicationController
   # GET /applications/1 or /applications/1.json
   def show
     @chat = Chat.new(source: @application, user: current_user)
+    @app_messages_to_display = @app_chat.messages.display_to_user
   end
 
   # GET /applications/new

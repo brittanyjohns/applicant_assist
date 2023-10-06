@@ -4,6 +4,6 @@
   </p>
 
   <div class='row'>
-    <%= display_message_for(chat) %>
+    <%= display_message_for(chat) if chat.persisted? %>
   </div>
 </div>

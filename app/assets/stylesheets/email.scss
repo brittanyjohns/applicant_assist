@@ -46,3 +46,11 @@
 .bg-dark {
   color: white;
 }
+.sm-scrolling-details {
+  max-height: 300px;
+  overflow: scroll;
+  border: 1px solid black;
+  padding: 25px;
+  background-color: rgb(255, 255, 255);
+  margin-bottom: 15px;
+}

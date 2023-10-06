@@ -44,6 +44,9 @@ class Application < ApplicationRecord
   end
 
   def initial_chat
+    if chats.empty?
+      self.chats.create!(user: self.user)
+    end
     chats.first
   end
 

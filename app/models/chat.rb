@@ -40,15 +40,12 @@ class Chat < ApplicationRecord
     inactive_message_types << "System Setup"
   end
 
-  def message_types
-    Prompt.active.pluck(:subject).sort
-  end
-
   def inactive_message_types
     Prompt.inactive.pluck(:subject).sort
   end
 
   def remaining_prompt_types
+    message_types = Prompt.prompt_subject_list
     completed_prompts = messages.where(subject: message_types).pluck(:subject)
     message_types - completed_prompts
   end

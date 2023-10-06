@@ -7,10 +7,10 @@
   </div>
   
     <div class="col-md-8">
-      <%= turbo_stream_from @chat %>
+      <%= turbo_stream_from :chat_message %>
 
-      <div id="messages" class="scrolling-chatbox">
-        <%= render @chat.chat_room_messages %>
+      <div id="chat_messages" class="scrolling-chatbox">
+        <%= render @chat.messages.order(id: :asc) %>
       </div>
       <div class=''>
         <%= render partial: "messages/form", locals: { chat: @chat, message: Message.new } %>

@@ -85,9 +85,8 @@ class JobsController < ApplicationController
   def search
     search_term = params[:job_search][:q]
     respond_to do |format|
-      Indeed.new(search_term).search
-      # jid = JobSearchJob.perform_async(search_term)
-      format.html { redirect_to jobs_url, notice: "Jobs loaded -- " }
+      jid = JobSearchJob.perform_async(search_term)
+      format.html { redirect_to jobs_url, notice: "Searching for #{search_term}...please wait." }
       format.json { head :no_content }
     end
   end

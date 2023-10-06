@@ -1,11 +1,15 @@
 <div class="col">
   <%= form_with(model: chat, url: message_prompt_chat_path(chat), method: :post) do |form| %>
-    <div
-      class="btn-group-vertical float-start img-type-btn-group"
-      role="group"
-      aria-label="Vertical button group"
-    >
-      <%= form_links form, chat.remaining_prompt_types %>
+  <div class="row g-3 align-items-center">
+    <div class="col-auto">
+      <label for="askAi" class="col-form-label">Ask AI:</label>
     </div>
+    <div class="col-auto">
+      <%= form.select :prompt_type, chat.remaining_prompt_types, {}, { class: "form-control" } %>
+    </div>
+    <div class="col-auto">
+       <%= form.submit "Submit", class: "btn btn-primary btn-sm" %>
+    </div>
+  </div>
   <% end %>
 </div>

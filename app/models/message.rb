@@ -24,7 +24,7 @@ class Message < ApplicationRecord
   after_save :update_chat_total_tokens
   before_validation :ensure_role
   # broadcasts_to :chat, target: "messages"
-  broadcasts_to ->(message) { :message_list }, inserts_by: :append, target: "messages"
+  broadcasts_to ->(message) { :chat_message }, inserts_by: :prepend, target: "chat_messages"
 
   INITIAL_SYSTEM_SETUP = "Initial System Setup"
   INITIAL_USER_SETUP = "Initial User Setup"
@@ -32,7 +32,10 @@ class Message < ApplicationRecord
   scope :user_messages, -> { where(role: "user") }
   scope :assistant_messages, -> { where(role: "assistant") }
   scope :system_messages, -> { where(role: "system") }
-  scope :display_to_user, -> { assistant_messages.where.not(subject: [INITIAL_USER_SETUP, INITIAL_SYSTEM_SETUP]) }
+  scope :without_intial_setup_messages, -> { where.not(subject: [INITIAL_SYSTEM_SETUP, INITIAL_USER_SETUP]) }
+  scope :without_prompt_messages, -> { where.not(subject: Prompt.prompt_subject_list) }
+  scope :display_to_user, -> { assistant_messages.without_intial_setup_messages }
+  scope :chat_room_messages, -> { without_intial_setup_messages.without_prompt_messages }
 
   after_create_commit :update_message_content
 
@@ -151,6 +154,14 @@ class Message < ApplicationRecord
     end
   end
 
+  def subject_title
+    if self.subject
+      self.subject.downcase.split.join("_")
+    else
+      "#{self.role}_message_#{self.id}"
+    end
+  end
+
   def content_to_display
     self.displayed_content&.body&.html_safe || self.content&.html_safe || "No content to display"
   end
@@ -160,10 +171,11 @@ class Message < ApplicationRecord
   end
 
   def update_message_content
-    Rails.logger.debug "Updating message content for #{self.subject}"
+    Rails.logger.debug "Updating message content for #{self.subject} - #{subject_title}"
+    broadcast_append_to "messages"
     # broadcast_update_to(:message_list, inserts_by: :replace, target: "accordion_body_#{id_name}", html: "#{self.displayed_content.body}")
     # render partial: "messages/accordion_item", locals: { id_name: "chat_bot_welcome", subject: "Welcome", chat: @app_chat }
-    broadcast_update_to(:message_list, inserts_by: :append, target: "accordionExample", partial: "messages/accordion_item", locals: { message: self }) if self.role == "assistant"
+    # broadcast_update_to(:message_list, inserts_by: :prepend, target: "messages", partial: "messages/message", locals: { message: self }) if self.role == "assistant"
     # format.turbo_stream { render turbo_stream: turbo_stream.replace("form", partial: "posts/form", locals: { conversation: @conversation, post: Post.new }) }
 
     # return if self.role == "user" && self.chat.message_types.include?(self.subject.titleize)
